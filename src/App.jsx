@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import ScrollToTop from './components/ScrollToTop'
 import Ticker     from './components/Ticker'
 import Navbar     from './components/Navbar'
@@ -30,36 +29,18 @@ function NotFound() {
 }
 
 function Layout({ children }) {
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
   return (
     <>
-      {/* Ticker — fixed at very top, slides up when scrolled */}
-      <div style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 301,
-        transform: scrolled ? `translateY(-${TICKER_H}px)` : 'translateY(0)',
-        transition: 'transform 0.25s ease',
-      }}>
-        <Ticker />
-      </div>
+      {/* Ticker scrolls away naturally - NOT fixed */}
+      <Ticker />
 
-      {/* Navbar — fixed below ticker, stays visible always */}
-      <div style={{
-        position: 'fixed', left: 0, right: 0, zIndex: 300,
-        top: scrolled ? 0 : TICKER_H,
-        transition: 'top 0.25s ease',
-      }}>
+      {/* Navbar fixed at top always */}
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300 }}>
         <Navbar />
       </div>
 
-      {/* Page content — paddingTop accounts for ticker + navbar when at top */}
-      <main style={{ paddingTop: TICKER_H + 62 }}>
+      {/* Content below navbar */}
+      <main style={{ paddingTop: 62 }}>
         {children}
       </main>
 
