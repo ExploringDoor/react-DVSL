@@ -40,10 +40,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1400, margin:'0 auto', padding:'40px 48px 60px', display:'grid', gridTemplateColumns:'1fr 360px', gap:40 }}>
+      <div style={{ maxWidth:1400, margin:'0 auto', padding:'40px 48px 60px', display:'grid', gridTemplateColumns:'1fr 400px', gap:48 }}>
         {/* LEFT */}
         <div style={{ minWidth:0 }}>
-          {/* SCORES — finals first, then upcoming */}
+          {/* SCORES */}
           <div style={{ marginBottom:52 }}>
             <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:16 }}>
               <div>
@@ -53,7 +53,6 @@ export default function Home() {
               <Link to="/scores" style={{ color:'var(--gold)', fontWeight:700, fontSize:15, textDecoration:'none' }}>Full Schedule →</Link>
             </div>
 
-            {/* Finals */}
             {recentGames.length > 0 && (
               <div style={{ marginBottom:24 }}>
                 <div style={{ fontSize:12, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:10 }}>Recent Results</div>
@@ -63,20 +62,15 @@ export default function Home() {
               </div>
             )}
 
-            {/* Upcoming */}
             {upcomingGames.length > 0 && (
               <div>
                 <div style={{ fontSize:12, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:10 }}>
                   {recentGames.length > 0 ? 'Upcoming' : 'Schedule'}
                 </div>
                 <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                  {upcomingGames.map((g, i) => <GameCard key={g.id} game={g} isNext={i===0 && recentGames.length===0} />)}
+                  {upcomingGames.map((g,i) => <GameCard key={g.id} game={g} isNext={i===0 && recentGames.length===0} />)}
                 </div>
               </div>
-            )}
-
-            {recentGames.length === 0 && upcomingGames.length === 0 && (
-              <div style={{ padding:40, textAlign:'center', color:'var(--muted)' }}>Season schedule coming soon.</div>
             )}
           </div>
 
@@ -99,30 +93,32 @@ export default function Home() {
 
         {/* RIGHT SIDEBAR */}
         <div style={{ display:'flex', flexDirection:'column', gap:24 }}>
-          {/* Standings */}
+
+          {/* Standings — bigger records */}
           <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden' }}>
-            <div style={{ padding:'14px 20px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:20, textTransform:'uppercase', color:'var(--white)' }}>Standings</span>
+            <div style={{ padding:'16px 24px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, textTransform:'uppercase', color:'var(--white)', letterSpacing:'.02em' }}>Standings</span>
               <Link to="/standings" style={{ color:'var(--gold)', fontSize:13, textDecoration:'none', fontWeight:600 }}>Full →</Link>
             </div>
             {topStandings.map((row,i) => (
-              <div key={row.team} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 20px', borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
-                <span style={{ fontSize:12, color:'var(--muted2)', width:16, textAlign:'center', flexShrink:0 }}>{i+1}</span>
-                <span style={{ width:9, height:9, borderRadius:'50%', background:row.color, flexShrink:0 }} />
-                <Link to={`/teams/${row.id}`} style={{ flex:1, fontSize:13, color:'var(--white)', textDecoration:'none', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{row.name}</Link>
-                <span style={{ fontSize:13, color:'var(--muted)', fontFamily:"'Barlow Condensed',sans-serif", flexShrink:0, minWidth:32, textAlign:'center' }}>{row.w}-{row.l}</span>
-                <span style={{ fontSize:13, color:'var(--gold)', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, minWidth:36, textAlign:'right', flexShrink:0 }}>{fmtPct(row.pct)}</span>
+              <div key={row.team} style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 24px', borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
+                <span style={{ fontSize:13, color:'var(--muted2)', width:18, textAlign:'center', flexShrink:0 }}>{i+1}</span>
+                <span style={{ width:10, height:10, borderRadius:'50%', background:row.color, flexShrink:0 }} />
+                <Link to={`/teams/${row.id}`} style={{ flex:1, fontSize:15, color:'var(--white)', textDecoration:'none', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{row.name}</Link>
+                {/* Bigger record */}
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700, color:'var(--white)', flexShrink:0, minWidth:48, textAlign:'center' }}>{row.w}-{row.l}</span>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'var(--gold)', fontWeight:700, minWidth:42, textAlign:'right', flexShrink:0 }}>{fmtPct(row.pct)}</span>
               </div>
             ))}
           </div>
 
-          {/* Upcoming sidebar */}
+          {/* Upcoming — full names */}
           <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden' }}>
-            <div style={{ padding:'14px 20px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:20, textTransform:'uppercase', color:'var(--white)' }}>Upcoming</span>
+            <div style={{ padding:'16px 24px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, textTransform:'uppercase', color:'var(--white)', letterSpacing:'.02em' }}>Upcoming</span>
               <Link to="/schedule" style={{ color:'var(--gold)', fontSize:13, textDecoration:'none', fontWeight:600 }}>Schedule →</Link>
             </div>
-            <div style={{ padding:'14px 20px', display:'flex', flexDirection:'column', gap:14 }}>
+            <div style={{ padding:'16px 24px', display:'flex', flexDirection:'column', gap:18 }}>
               {getUpcomingGames().slice(0,4).map((g,i) => {
                 const away = getTeamByShort(g.away)
                 const home = getTeamByShort(g.home)
@@ -130,19 +126,21 @@ export default function Home() {
                 const tMatch = g.field?.match(/([\d:]+)\s*(pm|am)/i)
                 const time = tMatch ? `${tMatch[1]}${tMatch[1].includes(':') ? '' : ':00'} ${tMatch[2].toUpperCase()}` : '7:30 PM'
                 return (
-                  <div key={g.id} style={{ borderBottom:i<3?'1px solid rgba(255,255,255,0.05)':'none', paddingBottom:i<3?14:0 }}>
+                  <div key={g.id} style={{ borderBottom:i<3?'1px solid rgba(255,255,255,0.05)':'none', paddingBottom:i<3?18:0 }}>
                     {i===0 && <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)', marginBottom:8 }}>NEXT</div>}
-                    <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
-                      {[{t:g.away,team:away},{t:g.home,team:home}].map(side=>(
-                        <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
-                          <div style={{ width:28, height:28, borderRadius:5, border:`1.5px solid ${side.team?.color||'#6b7280'}`, background:`${side.team?.color||'#6b7280'}18`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:7, color:side.team?.color||'#6b7280', flexShrink:0 }}>{side.t?.slice(0,4)}</div>
-                          <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:16, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>{side.t}</span>
-                          <span style={{ fontSize:11, color:'var(--muted2)' }}>({side.team?.w}-{side.team?.l})</span>
+                    <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                      {[{t:g.away, team:away},{t:g.home, team:home}].map(side=>(
+                        <div key={side.t} style={{ display:'flex', alignItems:'center', gap:10 }}>
+                          <span style={{ width:10, height:10, borderRadius:'50%', background:side.team?.color||'#6b7280', flexShrink:0 }} />
+                          <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontWeight:600, fontSize:15, color:'var(--white)', textDecoration:'none', flex:1 }}>
+                            {side.team?.name || side.t}
+                          </Link>
+                          <span style={{ fontSize:13, color:'var(--muted2)' }}>{side.team?.w}-{side.team?.l}</span>
                         </div>
                       ))}
-                      <div style={{ fontSize:11, color:'var(--muted2)', marginTop:2 }}>
+                      <div style={{ fontSize:12, color:'var(--muted2)', marginTop:2, paddingLeft:20 }}>
                         <span style={{ color:'var(--white)', fontWeight:500 }}>{field}</span>
-                        <span style={{ margin:'0 5px' }}>·</span>
+                        <span style={{ margin:'0 6px' }}>·</span>
                         <span style={{ color:'var(--gold)', fontWeight:700 }}>{time}</span>
                       </div>
                     </div>

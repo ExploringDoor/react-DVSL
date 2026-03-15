@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import ScrollToTop from './components/ScrollToTop'
 import Ticker     from './components/Ticker'
 import Navbar     from './components/Navbar'
 import Footer     from './components/Footer'
@@ -28,12 +29,12 @@ function NotFound() {
 export default function App() {
   return (
     <BrowserRouter>
-      {/* Ticker sits above everything, fixed at very top */}
+      <ScrollToTop />
       <div style={{ position:'fixed', top:0, left:0, right:0, zIndex:300 }}>
         <Ticker />
         <Navbar />
       </div>
-      <main style={{ paddingTop: 114 }}>
+      <main style={{ paddingTop:114 }}>
         <Routes>
           <Route path="/"              element={<Home />} />
           <Route path="/scores"        element={<Scores />} />
@@ -45,7 +46,6 @@ export default function App() {
           <Route path="/playoffs"      element={<Playoffs />} />
           <Route path="/rules"         element={<Rules />} />
           <Route path="/photos"        element={<Photos />} />
-          {/* Legacy redirects */}
           <Route path="/index.html"        element={<Navigate to="/" replace />} />
           <Route path="/schedule.html"     element={<Navigate to="/schedule" replace />} />
           <Route path="/standings-history.html" element={<Navigate to="/standings" replace />} />
