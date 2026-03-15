@@ -1,221 +1,171 @@
-import { Link } from 'react-router-dom'
-import { getStandings } from '../data/standings'
-import { LEAGUE_HISTORY } from '../data/standings'
+import { TEAMS } from '../data/teams'
+import { STANDINGS } from '../data/standings'
 
-// ─── PLAYOFF DATA ───────────────────────────────────────────────
-// When playoffs happen, fill these in. Set playoffsStarted = true
-// and add results to BRACKET. Seeds auto-populate from standings.
-const playoffsStarted = false
-const playoffDate = 'July 13, 2025'
-
+// Playoff bracket data — Gold (top 4) and Silver (bottom 4) double elimination
 const BRACKET = {
-  semi1: { homeScore: null, awayScore: null, winner: null },
-  semi2: { homeScore: null, awayScore: null, winner: null },
-  final: { homeScore: null, awayScore: null, winner: null, mvp: null },
+  gold: {
+    label: 'Gold Bracket',
+    subtitle: 'Top 4 Teams',
+    color: '#f59e0b',
+    rounds: [
+      {
+        name: 'Semifinal',
+        games: [
+          { id: 'gG1', home: "Goldstein's", away: 'Beth Or Blue', homeScore: 11, awayScore: 7, status: 'final', note: '#1 vs #4' },
+          { id: 'gG2', home: 'TBIR',        away: 'Shir Ami',     homeScore: 9,  awayScore: 6, status: 'final', note: '#2 vs #3' },
+        ],
+      },
+      {
+        name: 'Final',
+        games: [
+          { id: 'gG3', home: "Goldstein's", away: 'TBIR', homeScore: null, awayScore: null, status: 'upcoming', note: 'Championship' },
+        ],
+      },
+    ],
+  },
+  silver: {
+    label: 'Silver Bracket',
+    subtitle: 'Bottom 4 Teams',
+    color: '#9ca3af',
+    rounds: [
+      {
+        name: 'Semifinal',
+        games: [
+          { id: 'gS1', home: 'Keneseth Israel', away: 'Adath Jeshurun', homeScore: 12, awayScore: 8, status: 'final', note: '#5 vs #8' },
+          { id: 'gS2', home: 'TSMC',            away: 'BSMC',           homeScore: 10, awayScore: 5, status: 'final', note: '#6 vs #7' },
+        ],
+      },
+      {
+        name: 'Final',
+        games: [
+          { id: 'gS3', home: 'Keneseth Israel', away: 'TSMC', homeScore: null, awayScore: null, status: 'upcoming', note: 'Silver Championship' },
+        ],
+      },
+    ],
+  },
 }
-// ────────────────────────────────────────────────────────────────
 
-function Seed({ rank, team, dim = false }) {
-  if (!team) return (
-    <div className={`flex items-center gap-3 px-4 py-3 ${dim ? 'opacity-30' : ''}`}>
-      <span className="font-mono text-xs text-dvsl-muted w-4">{rank}</span>
-      <div className="w-2 h-2 rounded-full bg-dvsl-border shrink-0" />
-      <span className="text-dvsl-muted text-sm italic">TBD</span>
+function teamColor(name) {
+  return TEAMS.find(t => t.name === name)?.color || '#6b7280'
+}
+
+function BracketGame({ game }) {
+  const isFinal = game.status === 'final'
+  const homeWon = isFinal && game.homeScore > game.awayScore
+  const awayWon = isFinal && game.awayScore > game.homeScore
+
+  return (
+    <div className="card overflow-hidden min-w-[220px]">
+      {game.note && (
+        <div className="px-3 py-1.5 border-b border-dvsl-border bg-dvsl-bg">
+          <span className="text-dvsl-muted text-xs font-mono">{game.note}</span>
+        </div>
+      )}
+      {[
+        { name: game.away, score: game.awayScore, won: awayWon },
+        { name: game.home, score: game.homeScore, won: homeWon },
+      ].map(side => (
+        <div key={side.name} className={`flex items-center justify-between px-3 py-2.5 border-b border-dvsl-border last:border-0 ${side.won ? 'bg-dvsl-lime/5' : ''}`}>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full shrink-0" style={{ background: teamColor(side.name) }} />
+            <span className={`text-sm ${side.won ? 'text-dvsl-text font-bold' : 'text-dvsl-muted'}`}>{side.name}</span>
+          </div>
+          {isFinal ? (
+            <span className={`font-mono font-bold ${side.won ? 'text-dvsl-lime' : 'text-dvsl-muted'}`}>{side.score}</span>
+          ) : (
+            <span className="text-dvsl-muted font-mono text-xs">TBD</span>
+          )}
+        </div>
+      ))}
     </div>
   )
-  return (
-    <Link
-      to={`/teams/${team.id}`}
-      className={`flex items-center gap-3 px-4 py-3 hover:bg-dvsl-surface/50 transition-colors group ${dim ? 'opacity-40' : ''}`}
-    >
-      <span className="font-mono text-xs text-dvsl-muted w-4">{rank}</span>
-      <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: team.color }} />
-      <span className="flex-1 text-sm font-medium text-dvsl-text group-hover:text-dvsl-lime transition-colors">{team.name}</span>
-      <span className="font-mono text-xs text-dvsl-muted">{team.wins}-{team.losses}</span>
-    </Link>
-  )
 }
 
-function BracketMatchup({ label, date, topSeed, topScore, botSeed, botScore, winner, dim = false }) {
+function BracketSection({ bracket }) {
   return (
-    <div className={`card overflow-hidden ${dim ? 'opacity-50' : ''}`}>
-      <div className="px-4 py-2 border-b border-dvsl-border bg-dvsl-surface">
-        <span className="text-xs font-mono text-dvsl-muted tracking-widest uppercase">{label}</span>
-        {date && <span className="text-xs font-mono text-dvsl-muted ml-3">· {date}</span>}
+    <div className="card p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <span className="w-3 h-3 rounded-full" style={{ background: bracket.color }} />
+        <div>
+          <h2 className="font-display text-2xl text-dvsl-text">{bracket.label}</h2>
+          <p className="text-dvsl-muted text-xs">{bracket.subtitle}</p>
+        </div>
       </div>
-      {[
-        { seed: topSeed, score: topScore },
-        { seed: botSeed, score: botScore },
-      ].map((row, i) => {
-        const isWinner = winner && row.seed?.name === winner
-        const isLoser  = winner && row.seed?.name !== winner
-        return (
-          <div
-            key={i}
-            className={`flex items-center gap-3 px-4 py-3 border-b border-dvsl-border/40 last:border-0 ${isLoser ? 'opacity-40' : ''}`}
-          >
-            {row.seed ? (
-              <>
-                <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: row.seed.color }} />
-                <span className={`flex-1 text-sm font-medium ${isWinner ? 'text-dvsl-lime' : 'text-dvsl-text'}`}>
-                  {row.seed.name}
-                </span>
-                <span className={`font-mono font-bold tabular-nums text-lg ${isWinner ? 'text-dvsl-lime' : 'text-dvsl-muted'}`}>
-                  {row.score ?? '—'}
-                </span>
-              </>
-            ) : (
-              <>
-                <div className="w-2 h-2 rounded-full bg-dvsl-border shrink-0" />
-                <span className="flex-1 text-sm text-dvsl-muted italic">TBD</span>
-                <span className="font-mono text-dvsl-border text-lg">—</span>
-              </>
-            )}
+
+      <div className="flex gap-8 overflow-x-auto pb-2">
+        {bracket.rounds.map((round, ri) => (
+          <div key={ri} className="shrink-0">
+            <p className="section-label mb-3 text-[10px]">{round.name}</p>
+            <div className="flex flex-col gap-4 justify-center" style={{ minHeight: ri === 0 ? 'auto' : '100%' }}>
+              {round.games.map(g => <BracketGame key={g.id} game={g} />)}
+            </div>
           </div>
-        )
-      })}
+        ))}
+      </div>
     </div>
   )
 }
 
 export default function Playoffs() {
-  const standings = getStandings()
-  const [s1, s2, s3, s4] = standings  // top 4 by record
-
-  const lastChamp = LEAGUE_HISTORY[0]
-
-  // Seeding matchups: 1 vs 4, 2 vs 3
-  const semi1Top = s1
-  const semi1Bot = s4
-  const semi2Top = s2
-  const semi2Bot = s3
+  const top4 = STANDINGS.slice(0, 4)
+  const bot4 = STANDINGS.slice(4, 8)
 
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-24">
-      {/* Header */}
+    <div className="min-h-screen bg-dvsl-bg pt-16">
       <div className="border-b border-dvsl-border bg-dvsl-surface">
         <div className="max-w-5xl mx-auto px-4 py-10">
-          <p className="tag mb-2">2025 Season</p>
-          <h1 className="font-display font-bold text-4xl text-dvsl-text">Playoffs</h1>
-          <p className="text-dvsl-muted text-sm mt-1">
-            Top 4 teams advance · {playoffsStarted ? 'Bracket in progress' : `Begin ${playoffDate}`}
-          </p>
+          <p className="section-label mb-2">2025 Season</p>
+          <h1 className="font-display text-5xl text-dvsl-text">Playoffs</h1>
+          <p className="text-dvsl-muted text-sm mt-1">Double elimination · Gold &amp; Silver Brackets</p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-8">
-
-        {/* Coming Soon banner (hidden once playoffs start) */}
-        {!playoffsStarted && (
-          <div className="card p-8 text-center mb-10 border-dvsl-lime/20 bg-dvsl-lime/5">
-            <div className="text-5xl mb-4">🏆</div>
-            <h2 className="font-display font-bold text-3xl text-dvsl-text mb-2">Bracket Coming Soon</h2>
-            <p className="text-dvsl-muted text-sm max-w-md mx-auto">
-              The 2025 playoff bracket will go live once the regular season concludes.
-              Playoffs begin <span className="text-dvsl-text font-medium">{playoffDate}</span>.
-            </p>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-          {/* Projected seeds */}
-          <div>
-            <h2 className="section-title mb-1">
-              {playoffsStarted ? 'Seeds' : 'Projected Seeds'}
-            </h2>
-            <p className="text-dvsl-muted text-xs font-mono mb-4">Based on current standings</p>
-            <div className="card divide-y divide-dvsl-border/40 mb-6">
-              <Seed rank="1" team={s1} />
-              <Seed rank="2" team={s2} />
-              <Seed rank="3" team={s3} />
-              <Seed rank="4" team={s4} />
-            </div>
-
-            {/* Eliminated teams */}
-            <p className="text-xs font-mono text-dvsl-muted uppercase tracking-widest mb-3">Eliminated</p>
-            <div className="card divide-y divide-dvsl-border/40">
-              {standings.slice(4).map((t, i) => (
-                <Seed key={t.id} rank={i + 5} team={t} dim />
-              ))}
+      <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
+        {/* Seeds */}
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="card p-4">
+            <p className="section-label mb-3" style={{ color: '#f59e0b' }}>Gold Seeds</p>
+            <div className="space-y-2">
+              {top4.map((r, i) => {
+                const t = TEAMS.find(t => t.name === r.team)
+                return (
+                  <div key={r.team} className="flex items-center gap-2 text-sm">
+                    <span className="text-dvsl-gold font-mono w-4">#{i+1}</span>
+                    <span className="w-2 h-2 rounded-full" style={{ background: t?.color }} />
+                    <span className="text-dvsl-text flex-1">{r.team}</span>
+                    <span className="text-dvsl-muted font-mono text-xs">{r.w}-{r.l}</span>
+                  </div>
+                )
+              })}
             </div>
           </div>
-
-          {/* Bracket */}
-          <div className="lg:col-span-2">
-            <h2 className="section-title mb-1">Bracket</h2>
-            <p className="text-dvsl-muted text-xs font-mono mb-4">
-              {playoffsStarted ? 'Results' : 'Structure — results TBD'}
-            </p>
-
-            {/* Semis */}
-            <div className="space-y-3 mb-6">
-              <BracketMatchup
-                label="Semifinal 1 · #1 vs #4"
-                date={playoffsStarted ? undefined : playoffDate}
-                topSeed={semi1Top}
-                topScore={BRACKET.semi1.homeScore}
-                botSeed={semi1Bot}
-                botScore={BRACKET.semi1.awayScore}
-                winner={BRACKET.semi1.winner}
-                dim={!playoffsStarted}
-              />
-              <BracketMatchup
-                label="Semifinal 2 · #2 vs #3"
-                date={playoffsStarted ? undefined : playoffDate}
-                topSeed={semi2Top}
-                topScore={BRACKET.semi2.homeScore}
-                botSeed={semi2Bot}
-                botScore={BRACKET.semi2.awayScore}
-                winner={BRACKET.semi2.winner}
-                dim={!playoffsStarted}
-              />
+          <div className="card p-4">
+            <p className="section-label mb-3" style={{ color: '#9ca3af' }}>Silver Seeds</p>
+            <div className="space-y-2">
+              {bot4.map((r, i) => {
+                const t = TEAMS.find(t => t.name === r.team)
+                return (
+                  <div key={r.team} className="flex items-center gap-2 text-sm">
+                    <span className="text-dvsl-muted font-mono w-4">#{i+5}</span>
+                    <span className="w-2 h-2 rounded-full" style={{ background: t?.color }} />
+                    <span className="text-dvsl-text flex-1">{r.team}</span>
+                    <span className="text-dvsl-muted font-mono text-xs">{r.w}-{r.l}</span>
+                  </div>
+                )
+              })}
             </div>
-
-            {/* Arrow */}
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex-1 h-px bg-dvsl-border" />
-              <span className="text-dvsl-muted text-xs font-mono">Semi winners advance</span>
-              <div className="flex-1 h-px bg-dvsl-border" />
-            </div>
-
-            {/* Championship */}
-            <BracketMatchup
-              label="🏆 Championship"
-              topSeed={BRACKET.semi1.winner ? standings.find(t => t.name === BRACKET.semi1.winner) : null}
-              topScore={BRACKET.final.homeScore}
-              botSeed={BRACKET.semi2.winner ? standings.find(t => t.name === BRACKET.semi2.winner) : null}
-              botScore={BRACKET.final.awayScore}
-              winner={BRACKET.final.winner}
-              dim={!BRACKET.semi1.winner && !playoffsStarted}
-            />
-
-            {/* Champion callout */}
-            {BRACKET.final.winner && (
-              <div className="mt-6 card p-6 text-center border-dvsl-gold/30 bg-dvsl-gold/5">
-                <div className="text-4xl mb-2">🏆</div>
-                <p className="tag text-dvsl-gold mb-1">2025 Champions</p>
-                <h3 className="font-display font-black text-3xl text-dvsl-gold">{BRACKET.final.winner}</h3>
-                {BRACKET.final.mvp && (
-                  <p className="text-dvsl-muted text-sm mt-2">MVP: <span className="text-dvsl-text">{BRACKET.final.mvp}</span></p>
-                )}
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Defending champ note */}
-        {lastChamp?.champion && (
-          <div className="mt-10 border-t border-dvsl-border pt-6 flex items-center gap-3">
-            <span className="text-dvsl-gold text-xl">★</span>
-            <p className="text-dvsl-muted text-sm">
-              Defending champion: <span className="text-dvsl-text font-medium">{lastChamp.champion}</span>
-              <span className="text-dvsl-muted mx-2">·</span>
-              {lastChamp.year} Season
-              {lastChamp.mvp && <> · MVP: <span className="text-dvsl-text">{lastChamp.mvp}</span></>}
-            </p>
-          </div>
-        )}
+        {/* Brackets */}
+        <BracketSection bracket={BRACKET.gold} />
+        <BracketSection bracket={BRACKET.silver} />
+
+        {/* Format note */}
+        <div className="card p-4 text-sm text-dvsl-muted">
+          <p className="section-label mb-2">Format</p>
+          <p>Double elimination — each bracket plays separately. All teams are guaranteed at least two playoff games. Seeds 1–4 compete for the Gold championship; Seeds 5–8 for the Silver championship.</p>
+        </div>
       </div>
     </div>
   )

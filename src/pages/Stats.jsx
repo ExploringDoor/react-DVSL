@@ -1,132 +1,163 @@
 import { useState } from 'react'
-import { PLAYERS, STAT_COLS, getLeaders } from '../data/stats'
+import { Link } from 'react-router-dom'
+import { STATS, getStatLeaders, fmtAvg } from '../data/stats'
+import { TEAMS } from '../data/teams'
 
-const LEADER_STATS = [
-  { key: 'avg', label: 'Batting Avg', emoji: '🎯' },
-  { key: 'hr',  label: 'Home Runs',   emoji: '💥' },
-  { key: 'rbi', label: 'RBI',         emoji: '🏃' },
-  { key: 'h',   label: 'Hits',        emoji: '⚾' },
-  { key: 'sb',  label: 'Stolen Bases',emoji: '💨' },
-  { key: 'obp', label: 'On-Base %',   emoji: '📈' },
+const COLS = [
+  { key: 'name',    label: 'Player',   fmt: v => v,       align: 'left' },
+  { key: 'team',    label: 'Team',     fmt: v => v,       align: 'left' },
+  { key: 'gp',     label: 'GP',       fmt: v => v,       align: 'center' },
+  { key: 'ab',     label: 'AB',       fmt: v => v,       align: 'center' },
+  { key: 'h',      label: 'H',        fmt: v => v,       align: 'center' },
+  { key: 'doubles',label: '2B',       fmt: v => v,       align: 'center' },
+  { key: 'triples',label: '3B',       fmt: v => v,       align: 'center' },
+  { key: 'hr',     label: 'HR',       fmt: v => v,       align: 'center' },
+  { key: 'r',      label: 'R',        fmt: v => v,       align: 'center' },
+  { key: 'rbi',    label: 'RBI',      fmt: v => v,       align: 'center' },
+  { key: 'bb',     label: 'BB',       fmt: v => v,       align: 'center' },
+  { key: 'so',     label: 'SO',       fmt: v => v,       align: 'center' },
+  { key: 'sb',     label: 'SB',       fmt: v => v,       align: 'center' },
+  { key: 'avg',    label: 'AVG',      fmt: fmtAvg,       align: 'center' },
+  { key: 'obp',    label: 'OBP',      fmt: fmtAvg,       align: 'center' },
+  { key: 'slg',    label: 'SLG',      fmt: fmtAvg,       align: 'center' },
 ]
 
+const LEADER_CATS = [
+  { key: 'avg', label: 'Batting Average', fmt: fmtAvg },
+  { key: 'hr',  label: 'Home Runs',       fmt: v => v },
+  { key: 'rbi', label: 'RBI',             fmt: v => v },
+  { key: 'h',   label: 'Hits',            fmt: v => v },
+  { key: 'sb',  label: 'Stolen Bases',    fmt: v => v },
+  { key: 'obp', label: 'On-Base Pct',     fmt: fmtAvg },
+]
+
+function teamColor(name) {
+  return TEAMS.find(t => t.name === name)?.color || '#6b7280'
+}
+function teamId(name) {
+  return TEAMS.find(t => t.name === name)?.id || name
+}
+
 export default function Stats() {
-  const [sortKey, setSortKey]   = useState('avg')
-  const [sortDir, setSortDir]   = useState('desc')
+  const [sortKey, setSortKey] = useState('avg')
+  const [sortDir, setSortDir] = useState('desc')
   const [teamFilter, setTeamFilter] = useState('All')
+  const leaders = getStatLeaders()
 
-  const teams = ['All', ...new Set(PLAYERS.map(p => p.team))]
-
-  const sorted = [...PLAYERS]
-    .filter(p => teamFilter === 'All' || p.team === teamFilter)
-    .sort((a, b) => {
-      const va = parseFloat(a[sortKey]) || a[sortKey] || 0
-      const vb = parseFloat(b[sortKey]) || b[sortKey] || 0
-      return sortDir === 'desc' ? vb - va : va - vb
-    })
-
-  const handleSort = key => {
-    if (key === sortKey) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
+  function handleSort(key) {
+    if (sortKey === key) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
     else { setSortKey(key); setSortDir('desc') }
   }
 
+  const sorted = [...STATS]
+    .filter(p => teamFilter === 'All' || p.team === teamFilter)
+    .sort((a, b) => {
+      const av = a[sortKey] ?? 0
+      const bv = b[sortKey] ?? 0
+      return sortDir === 'desc' ? bv - av : av - bv
+    })
+
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-24">
-      {/* Header */}
+    <div className="min-h-screen bg-dvsl-bg pt-16">
       <div className="border-b border-dvsl-border bg-dvsl-surface">
         <div className="max-w-6xl mx-auto px-4 py-10">
-          <p className="tag mb-2">2025 Season</p>
-          <h1 className="font-display font-bold text-4xl text-dvsl-text">Statistics</h1>
-          <p className="text-dvsl-muted text-sm mt-1">{PLAYERS.length} players · Through Week 5</p>
+          <p className="section-label mb-2">2025 Season</p>
+          <h1 className="font-display text-5xl text-dvsl-text">Stats</h1>
+          <p className="text-dvsl-muted text-sm mt-1">{STATS.length} players · Through Week 6</p>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Leaders */}
-        <h2 className="section-title mb-4">Category Leaders</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-12">
-          {LEADER_STATS.map(({ key, label, emoji }) => {
-            const top = getLeaders(key)[0]
+        {/* Leader cards */}
+        <p className="section-label mb-4">Leaders</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 mb-12">
+          {LEADER_CATS.map(({ key, label, fmt }) => {
+            const p = leaders[key]?.[0]
+            if (!p) return null
+            const color = teamColor(p.team)
             return (
-              <div key={key} className="card p-4">
-                <div className="text-xl mb-1">{emoji}</div>
-                <p className="text-xs font-mono text-dvsl-muted uppercase tracking-wide mb-2">{label}</p>
-                <p className="font-display font-black text-2xl text-dvsl-lime tabular-nums">{top[key]}</p>
-                <p className="text-dvsl-text text-xs font-medium mt-1 truncate">{top.name}</p>
-                <p className="text-dvsl-muted text-xs truncate">{top.team}</p>
+              <div key={key} className="card p-4 hover:border-dvsl-lime/30 transition-colors">
+                <p className="text-dvsl-muted text-xs font-mono uppercase tracking-wider mb-2">{label}</p>
+                <p className="font-display text-3xl text-dvsl-lime mb-1">{fmt(p[key])}</p>
+                <p className="text-dvsl-text text-sm font-semibold leading-tight">{p.name}</p>
+                <Link to={`/teams/${teamId(p.team)}`}>
+                  <p className="text-xs mt-0.5 hover:opacity-80" style={{ color }}>{p.team}</p>
+                </Link>
               </div>
             )
           })}
         </div>
 
-        {/* Full stat table */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-          <h2 className="section-title">Full Stats</h2>
-          {/* Team filter */}
+        {/* Full table */}
+        <div className="flex items-center justify-between mb-4">
+          <p className="section-label">Full Stats</p>
           <div className="flex flex-wrap gap-2">
-            {teams.map(t => (
+            {['All', ...TEAMS.map(t => t.name)].map(name => (
               <button
-                key={t}
-                onClick={() => setTeamFilter(t)}
-                className={`text-xs font-mono px-3 py-1.5 rounded-full border transition-all ${
-                  teamFilter === t
-                    ? 'bg-dvsl-lime text-dvsl-bg border-dvsl-lime font-semibold'
-                    : 'border-dvsl-border text-dvsl-muted hover:border-dvsl-lime hover:text-dvsl-lime'
-                }`}
+                key={name}
+                onClick={() => setTeamFilter(name)}
+                className={teamFilter === name ? 'pill-active' : 'pill-inactive'}
               >
-                {t}
+                {name === 'All' ? 'All Teams' : TEAMS.find(t => t.name === name)?.shortName || name}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="card overflow-x-auto">
-          <table className="w-full text-sm min-w-[700px]">
-            <thead>
-              <tr className="border-b border-dvsl-border">
-                <th className="text-left text-xs font-mono text-dvsl-muted py-3 px-4 font-medium sticky left-0 bg-dvsl-card">PLAYER</th>
-                <th className="text-left text-xs font-mono text-dvsl-muted py-3 px-3 font-medium">TEAM</th>
-                {STAT_COLS.map(col => (
-                  <th
-                    key={col.key}
-                    onClick={() => handleSort(col.key)}
-                    title={col.tip}
-                    className={`text-center text-xs font-mono py-3 px-2 font-medium cursor-pointer hover:text-dvsl-lime transition-colors ${
-                      sortKey === col.key ? 'text-dvsl-lime' : 'text-dvsl-muted'
-                    }`}
-                  >
-                    {col.label}
-                    {sortKey === col.key && <span className="ml-0.5">{sortDir === 'desc' ? '↓' : '↑'}</span>}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {sorted.map((p, i) => (
-                <tr key={p.name} className="border-b border-dvsl-border/40 hover:bg-dvsl-surface/50 transition-colors">
-                  <td className="py-3 px-4 font-medium text-dvsl-text sticky left-0 bg-dvsl-card">
-                    <span className="text-dvsl-muted font-mono text-xs mr-2">{i+1}</span>
-                    {p.name}
-                  </td>
-                  <td className="py-3 px-3 text-dvsl-muted text-xs font-mono whitespace-nowrap">{p.team}</td>
-                  {STAT_COLS.map(col => (
-                    <td
+        <div className="card overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full stat-table text-sm">
+              <thead>
+                <tr className="border-b border-dvsl-border">
+                  {COLS.map(col => (
+                    <th
                       key={col.key}
-                      className={`py-3 px-2 text-center font-mono tabular-nums text-xs ${
-                        sortKey === col.key ? 'text-dvsl-lime font-semibold' : 'text-dvsl-muted'
-                      }`}
+                      onClick={() => col.key !== 'name' && col.key !== 'team' && handleSort(col.key)}
+                      className={`px-3 py-3 text-xs font-mono text-dvsl-muted uppercase tracking-wider whitespace-nowrap select-none
+                        ${col.align === 'center' ? 'text-center' : 'text-left'}
+                        ${col.key !== 'name' && col.key !== 'team' ? 'cursor-pointer hover:text-dvsl-lime transition-colors' : ''}
+                        ${sortKey === col.key ? 'text-dvsl-lime' : ''}
+                      `}
                     >
-                      {p[col.key] ?? '—'}
-                    </td>
+                      {col.label}
+                      {sortKey === col.key && <span className="ml-1">{sortDir === 'desc' ? '↓' : '↑'}</span>}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sorted.map((p, i) => {
+                  const color = teamColor(p.team)
+                  return (
+                    <tr key={p.id} className="border-b border-dvsl-border/40 hover:bg-white/[0.02] transition-colors">
+                      {COLS.map(col => {
+                        if (col.key === 'name') return (
+                          <td key="name" className="px-3 py-2.5 font-medium text-dvsl-text whitespace-nowrap">{p.name}</td>
+                        )
+                        if (col.key === 'team') return (
+                          <td key="team" className="px-3 py-2.5 whitespace-nowrap">
+                            <Link to={`/teams/${teamId(p.team)}`} className="flex items-center gap-1.5 hover:opacity-80">
+                              <span className="w-2 h-2 rounded-full" style={{ background: color }} />
+                              <span className="text-dvsl-muted text-xs">{TEAMS.find(t=>t.name===p.team)?.shortName || p.team}</span>
+                            </Link>
+                          </td>
+                        )
+                        const val = col.fmt(p[col.key])
+                        const isSort = sortKey === col.key
+                        const isRate = ['avg','obp','slg'].includes(col.key)
+                        return (
+                          <td key={col.key} className={`px-3 py-2.5 font-mono text-center ${isSort ? 'text-dvsl-lime font-bold' : isRate ? 'text-dvsl-blue' : 'text-dvsl-muted'}`}>
+                            {val}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <p className="mt-3 text-xs text-dvsl-muted font-mono">
-          Click column headers to sort · AVG/OBP/SLG computed from raw stats
-        </p>
       </div>
     </div>
   )

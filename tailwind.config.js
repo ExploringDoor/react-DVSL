@@ -4,24 +4,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        dvsl: {
-          bg:      '#0a0c0e',
-          surface: '#111418',
-          card:    '#161b20',
-          border:  '#1e2530',
-          text:    '#e8edf2',
-          muted:   '#5a6472',
-          lime:    '#b5e853',
-          gold:    '#e8c84a',
-          red:     '#e85a4a',
-        }
+        'dvsl-bg':      '#0d0f14',
+        'dvsl-surface': '#13161e',
+        'dvsl-card':    '#1a1e29',
+        'dvsl-border':  '#252a38',
+        'dvsl-text':    '#efefef',
+        'dvsl-muted':   '#6b7280',
+        'dvsl-lime':    '#a3e635',
+        'dvsl-gold':    '#f59e0b',
+        'dvsl-blue':    '#3b82f6',
+        'dvsl-red':     '#ef4444',
+        'dvsl-green':   '#22c55e',
       },
       fontFamily: {
-        display: ['"Barlow Condensed"', 'sans-serif'],
+        display: ['"Bebas Neue"', 'sans-serif'],
         body:    ['"DM Sans"', 'sans-serif'],
         mono:    ['"JetBrains Mono"', 'monospace'],
       },
-    }
+    },
   },
   plugins: [],
 }

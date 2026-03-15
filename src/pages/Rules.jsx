@@ -1,96 +1,144 @@
 const RULES = [
   {
-    num: '01',
-    title: 'Game Duration',
-    body: '7 innings or 75-minute time limit, whichever comes first. No new inning starts after the time limit. Ties stand as ties after time expires.',
+    section: 'General Rules',
+    icon: '📋',
+    items: [
+      'All games are governed by ASA/USA Softball rules, except as modified below.',
+      'Games are 7 innings or 65 minutes, whichever comes first. No new inning shall start after 60 minutes.',
+      'A game is considered official after 4 full innings (3½ if the home team is ahead).',
+      'Mercy rule: 15 runs after 3 innings, 10 runs after 5 innings.',
+      'Teams must field a minimum of 8 players to avoid forfeit. The missing spots in the batting order are automatic outs.',
+      'Managers must exchange lineup cards with the plate umpire before the game.',
+    ],
   },
   {
-    num: '02',
-    title: 'Pitching Arc',
-    body: 'Pitches must travel in an arc between 6 and 12 feet high. Umpire judgment is final. Three illegal pitches in an at-bat results in an out.',
+    section: 'Batting & Hitting',
+    icon: '🥎',
+    items: [
+      'A 12-inch slow-pitch softball is used. The DVSL uses Dudley Thunder ZN balls.',
+      'Strike zone mat is used — any pitch landing on the mat is a strike regardless of batter action.',
+      'Each batter starts with a 1-1 count.',
+      'A foul ball on a 2-strike count is an out.',
+      'Home runs over the fence are allowed; unlimited HR rule applies in regular season only.',
+      'Batting helmets are mandatory for all batters and base runners.',
+    ],
   },
   {
-    num: '03',
-    title: 'Strike Zone',
-    body: 'A mat behind home plate is the strike zone. Any pitch hitting the mat is a strike regardless of swing. Umpires may override for obvious illegal pitches.',
+    section: 'Baserunning',
+    icon: '🏃',
+    items: [
+      'Leading off and stealing bases are not permitted.',
+      'Bunting and slap hitting are prohibited.',
+      'A runner may not advance on a dropped third strike.',
+      'Courtesy runners are permitted once per inning per team — the runner must be the last recorded out.',
+      'Sliding is permitted but discouraged. Aggressive collisions at home plate may result in ejection.',
+      'Double bag (orange bag) is in use at first base — batters use the orange bag, fielders use the white bag.',
+    ],
   },
   {
-    num: '04',
-    title: 'Run Limit',
-    body: '5-run limit per half-inning except the final inning, which is open. The home team may score as many runs as needed to walk off in the last inning.',
+    section: 'Pitching',
+    icon: '🤾',
+    items: [
+      'All pitching is slow-pitch. The ball must arc between 6 and 12 feet above the ground.',
+      'Pitchers must pitch from the rubber and keep one foot on the rubber until the ball is released.',
+      'There is no limit on pitches per game or inning.',
+      'Intentional walks: the pitcher may announce an intentional walk without throwing any pitches.',
+    ],
   },
   {
-    num: '05',
-    title: 'Roster Rules',
-    body: 'Minimum 8 players to start a game; fewer than 8 is a forfeit. A batter vacating the lineup due to injury is an out. Batting order does not shorten when a player leaves.',
+    section: 'Lineup & Substitutions',
+    icon: '📝',
+    items: [
+      'Teams may bat up to 12 players with free defensive substitution.',
+      'Once a player is removed from the batting order, they may not re-enter.',
+      'Injured player substitution: if a player is injured and no substitute is available, that spot is skipped (no automatic out).',
+      'Teams may play with a continuous batting order — all present players bat.',
+    ],
   },
   {
-    num: '06',
-    title: 'Courtesy Runner',
-    body: 'One courtesy runner per inning, for the catcher only. The courtesy runner must be the last recorded out. Runners may not be substituted mid-base.',
+    section: 'Sportsmanship & Conduct',
+    icon: '🤝',
+    items: [
+      'Umpire decisions are final. Arguing balls and strikes will result in a warning, then ejection.',
+      'Verbal abuse of umpires, opposing players, or spectators will result in immediate ejection.',
+      'Ejected players must leave the field and surrounding area.',
+      'Alcohol is not permitted on or near the playing field.',
+      'DVSL emphasizes sportsmanship, community, and fun. Treat opponents with respect.',
+    ],
   },
   {
-    num: '07',
-    title: 'Commitment Base',
-    body: 'An orange commitment base is in play at first base to prevent collisions on close plays. Runners must touch the orange base; fielders must touch the white base on force plays.',
+    section: 'Fields & Scheduling',
+    icon: '🏟️',
+    items: [
+      'Home team is responsible for field preparation (raking bases, lining if needed).',
+      'In case of rain, the league coordinator will notify managers by 8:00 AM on game day.',
+      'Rainouts will be rescheduled at the discretion of the league coordinator.',
+      'Games cannot be rescheduled by teams unilaterally — contact the league coordinator.',
+      'DVSL fields: Mondauk Park (Fields 4 & 5), Southampton Township, Sunnybrook, Warwick, Plymouth Meeting, Horsham, Ridgeway.',
+    ],
   },
   {
-    num: '08',
-    title: 'Home Run Rule',
-    body: 'Each team is limited to 3 home runs per game. Additional fair balls hit over the fence are outs. All home runs must be announced to the plate umpire.',
-  },
-  {
-    num: '09',
-    title: 'Weather & Delays',
-    body: 'Games are suspended on thunder or lightning. A mandatory 30-minute wait begins from the last sighting. The umpire has final authority on all weather-related decisions.',
-  },
-  {
-    num: '10',
-    title: 'Playoffs',
-    body: 'Top 4 teams at season end advance to the playoffs. Seeding is by win percentage, then head-to-head, then run differential. Playoff games have no time limit.',
+    section: 'Playoffs',
+    icon: '🏆',
+    items: [
+      'Top 4 teams qualify for Gold Bracket; bottom 4 for Silver Bracket.',
+      'Both brackets use double-elimination format.',
+      'Playoff seeding is determined by win percentage, then run differential.',
+      'Ties in standings are broken by: 1) head-to-head record, 2) run differential (max ±30 per game), 3) coin flip.',
+      'All playoff games must be played to completion — no time limit.',
+      'Playoff rosters are frozen one week before playoff start.',
+    ],
   },
 ]
 
 export default function Rules() {
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-24">
-      {/* Header */}
+    <div className="min-h-screen bg-dvsl-bg pt-16">
       <div className="border-b border-dvsl-border bg-dvsl-surface">
         <div className="max-w-4xl mx-auto px-4 py-10">
-          <p className="tag mb-2">Official Rules</p>
-          <h1 className="font-display font-bold text-4xl text-dvsl-text">Field Guide</h1>
-          <p className="text-dvsl-muted text-sm mt-1">2025 DVSL Men's Slow-Pitch Rules Summary</p>
+          <p className="section-label mb-2">DVSL Softball</p>
+          <h1 className="font-display text-5xl text-dvsl-text">Field Guide</h1>
+          <p className="text-dvsl-muted text-sm mt-1">Official rules and guidelines for the 2025 season</p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="space-y-3">
-          {RULES.map(rule => (
-            <div key={rule.num} className="card p-5 flex gap-5">
-              <div className="shrink-0">
-                <span className="font-display font-black text-3xl text-dvsl-border leading-none">{rule.num}</span>
-              </div>
-              <div>
-                <h3 className="font-display font-bold text-lg text-dvsl-text mb-1">{rule.title}</h3>
-                <p className="text-dvsl-muted text-sm leading-relaxed">{rule.body}</p>
-              </div>
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        {/* Quick-nav */}
+        <div className="card p-4 mb-8">
+          <p className="section-label mb-3">Jump To</p>
+          <div className="flex flex-wrap gap-2">
+            {RULES.map(r => (
+              <a
+                key={r.section}
+                href={`#${r.section.replace(/\s+/g,'-').toLowerCase()}`}
+                className="pill-inactive"
+              >
+                {r.icon} {r.section}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-8">
+          {RULES.map(r => (
+            <div key={r.section} id={r.section.replace(/\s+/g,'-').toLowerCase()} className="card p-6">
+              <h2 className="font-display text-2xl text-dvsl-text mb-4 flex items-center gap-2">
+                <span>{r.icon}</span> {r.section}
+              </h2>
+              <ol className="space-y-2">
+                {r.items.map((item, i) => (
+                  <li key={i} className="flex gap-3 text-sm text-dvsl-muted">
+                    <span className="text-dvsl-lime font-mono text-xs mt-0.5 shrink-0">{String(i+1).padStart(2,'0')}</span>
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 card p-5 border-dvsl-lime/30 bg-dvsl-lime/5">
-          <p className="text-dvsl-lime text-xs font-mono font-semibold tracking-widest uppercase mb-2">Full Ruleset</p>
-          <p className="text-dvsl-muted text-sm mb-3">
-            This is an abbreviated summary. The official DVSL rulebook governs all disputes.
-          </p>
-          <a
-            href="https://s3.amazonaws.com/file.imleagues/Images/Schools/Uploaded/202503/202538222742.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary inline-block"
-          >
-            ⬇ Download Full PDF
-          </a>
+        <div className="mt-8 card p-4 text-sm text-dvsl-muted text-center">
+          Questions? Contact the league coordinator. Rules subject to change by league vote.
         </div>
       </div>
     </div>

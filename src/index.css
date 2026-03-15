@@ -3,11 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
   body {
-    background-color: #0a0c0e;
-    color: #e8edf2;
-    font-family: 'DM Sans', sans-serif;
+    @apply bg-dvsl-bg text-dvsl-text font-body;
     -webkit-font-smoothing: antialiased;
   }
   * { box-sizing: border-box; }
@@ -15,30 +12,30 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-dvsl-lime text-dvsl-bg font-semibold text-sm px-4 py-2 rounded-md hover:brightness-110 transition-all;
+    @apply bg-dvsl-lime text-dvsl-bg font-bold text-sm px-4 py-2 rounded-lg hover:bg-lime-400 transition-colors duration-150;
   }
-  .btn-outline {
-    @apply border border-dvsl-border text-dvsl-text text-sm px-4 py-2 rounded-md hover:border-dvsl-lime hover:text-dvsl-lime transition-all;
+  .btn-secondary {
+    @apply bg-dvsl-border text-dvsl-text font-medium text-sm px-4 py-2 rounded-lg hover:bg-dvsl-card transition-colors duration-150;
   }
   .card {
     @apply bg-dvsl-card border border-dvsl-border rounded-xl;
   }
-  .tag {
-    @apply text-xs font-mono tracking-widest uppercase text-dvsl-lime;
+  .section-label {
+    @apply text-dvsl-lime text-xs font-mono tracking-widest uppercase;
   }
-  .section-title {
-    @apply font-display font-bold text-2xl text-dvsl-text;
+  .pill-active {
+    @apply bg-dvsl-lime text-dvsl-bg font-bold text-xs px-3 py-1 rounded-full;
+  }
+  .pill-inactive {
+    @apply bg-dvsl-border text-dvsl-muted text-xs px-3 py-1 rounded-full hover:text-dvsl-text transition-colors cursor-pointer;
   }
 }
 
-/* Ticker */
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.ticker-track { animation: ticker 30s linear infinite; }
-.ticker-track:hover { animation-play-state: paused; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0d0f14; }
+::-webkit-scrollbar-thumb { background: #252a38; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3b4255; }
 
-/* Page transitions */
-.page-enter { opacity: 0; transform: translateY(8px); }
-.page-enter-active { opacity: 1; transform: translateY(0); transition: all 0.25s ease; }
+/* Table striping */
+.stat-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }

@@ -1,101 +1,83 @@
 import { useState } from 'react'
-import GameCard from '../components/GameCard'
-import Countdown from '../components/Countdown'
-import { getUpcomingGames, getNextGame, GAMES } from '../data/games'
+import { GAMES, getUpcomingGames } from '../data/games'
 import { TEAMS } from '../data/teams'
+import GameCard from '../components/GameCard'
+
+const ALL = 'All Teams'
 
 export default function Schedule() {
-  const [view, setView]       = useState('upcoming') // 'upcoming' | 'full'
-  const [teamFilter, setTeamFilter] = useState('All')
-  const next = getNextGame()
+  const [teamFilter, setTeamFilter] = useState(ALL)
+  const [view, setView] = useState('upcoming') // 'upcoming' | 'full'
 
-  const source = view === 'upcoming' ? getUpcomingGames() : GAMES
-  const filtered = teamFilter === 'All'
+  const source = view === 'upcoming' ? getUpcomingGames() : [...GAMES].sort((a,b) => new Date(a.date)-new Date(b.date))
+
+  const filtered = teamFilter === ALL
     ? source
-    : source.filter(g => g.homeTeam === teamFilter || g.awayTeam === teamFilter)
+    : source.filter(g => g.home === teamFilter || g.away === teamFilter)
 
   const byWeek = filtered.reduce((acc, g) => {
-    const key = `Week ${g.week}`
-    if (!acc[key]) acc[key] = []
-    acc[key].push(g)
+    const k = `Week ${g.week}`
+    if (!acc[k]) acc[k] = []
+    acc[k].push(g)
     return acc
   }, {})
+  const weeks = Object.keys(byWeek).sort((a,b) => parseInt(a.split(' ')[1]) - parseInt(b.split(' ')[1]))
+
+  function fmtDate(d) {
+    return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  }
 
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-24">
-      {/* Header */}
+    <div className="min-h-screen bg-dvsl-bg pt-16">
       <div className="border-b border-dvsl-border bg-dvsl-surface">
         <div className="max-w-5xl mx-auto px-4 py-10">
-          <p className="tag mb-2">2025 Season</p>
-          <h1 className="font-display font-bold text-4xl text-dvsl-text">Schedule</h1>
-          {next && (
-            <div className="mt-4 flex items-center gap-4">
-              <div>
-                <p className="text-dvsl-muted text-xs font-mono uppercase tracking-wider">Next game</p>
-                <p className="text-dvsl-text text-sm font-medium mt-0.5">
-                  {next.homeTeam} vs {next.awayTeam} ·{' '}
-                  {new Date(next.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {next.time}
-                </p>
-              </div>
-              <div className="hidden sm:block pl-4 border-l border-dvsl-border">
-                <Countdown targetDate={next.date} targetTime={next.time} />
-              </div>
-            </div>
-          )}
+          <p className="section-label mb-2">2025 Season</p>
+          <h1 className="font-display text-5xl text-dvsl-text">Schedule</h1>
+          <p className="text-dvsl-muted text-sm mt-1">{getUpcomingGames().length} games remaining</p>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8">
         {/* View toggle */}
-        <div className="flex items-center gap-1 bg-dvsl-surface border border-dvsl-border rounded-lg p-1 w-fit mb-6">
-          {[['upcoming','Upcoming'],['full','Full Season']].map(([v, label]) => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className={`text-sm px-4 py-1.5 rounded-md transition-all ${
-                view === v ? 'bg-dvsl-lime text-dvsl-bg font-semibold' : 'text-dvsl-muted hover:text-dvsl-text'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+        <div className="flex gap-2 mb-6">
+          <button onClick={() => setView('upcoming')} className={view === 'upcoming' ? 'pill-active' : 'pill-inactive'}>Upcoming</button>
+          <button onClick={() => setView('full')} className={view === 'full' ? 'pill-active' : 'pill-inactive'}>Full Season</button>
         </div>
 
         {/* Team filter */}
         <div className="flex flex-wrap gap-2 mb-8">
-          {['All', ...TEAMS.map(t => t.name)].map(t => (
+          {[ALL, ...TEAMS.map(t => t.name)].map(name => (
             <button
-              key={t}
-              onClick={() => setTeamFilter(t)}
-              className={`text-xs font-mono px-3 py-1.5 rounded-full border transition-all ${
-                teamFilter === t
-                  ? 'bg-dvsl-lime text-dvsl-bg border-dvsl-lime font-semibold'
-                  : 'border-dvsl-border text-dvsl-muted hover:border-dvsl-lime hover:text-dvsl-lime'
-              }`}
+              key={name}
+              onClick={() => setTeamFilter(name)}
+              className={teamFilter === name ? 'pill-active' : 'pill-inactive'}
             >
-              {t === 'All' ? 'All Teams' : t}
+              {name === ALL ? name : TEAMS.find(t => t.name === name)?.shortName || name}
             </button>
           ))}
         </div>
 
-        {/* Games */}
-        {Object.keys(byWeek).length === 0 ? (
-          <p className="text-dvsl-muted text-sm">No games to show.</p>
+        {weeks.length === 0 ? (
+          <div className="text-center text-dvsl-muted py-16">No games found.</div>
         ) : (
-          Object.entries(byWeek).map(([week, games]) => (
-            <div key={week} className="mb-10">
-              <div className="flex items-center gap-3 mb-4">
-                <h2 className="font-display font-bold text-xl text-dvsl-text">{week}</h2>
-                <div className="flex-1 h-px bg-dvsl-border" />
-                <span className="text-xs font-mono text-dvsl-muted">
-                  {new Date(games[0].date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {games.map(g => <GameCard key={g.id} game={g} />)}
-              </div>
-            </div>
-          ))
+          <div className="space-y-10">
+            {weeks.map(week => {
+              const games = byWeek[week]
+              const sampleDate = games[0]?.date
+              return (
+                <div key={week}>
+                  <div className="flex items-center gap-4 mb-4">
+                    <h2 className="font-display text-2xl text-dvsl-text">{week}</h2>
+                    <span className="text-dvsl-muted text-xs font-mono">{fmtDate(sampleDate)}</span>
+                    <div className="flex-1 border-t border-dvsl-border" />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {games.map(g => <GameCard key={g.id} game={g} />)}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         )}
       </div>
     </div>

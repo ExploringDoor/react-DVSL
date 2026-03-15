@@ -1,116 +1,157 @@
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import GameCard from '../components/GameCard'
-import { getTeamById } from '../data/teams'
+import { useParams, Link } from 'react-router-dom'
+import { getTeamById, TEAMS } from '../data/teams'
 import { getGamesByTeam } from '../data/games'
-import { PLAYERS, STAT_COLS } from '../data/stats'
+import { getStatsByTeam, fmtAvg } from '../data/stats'
+import { STANDINGS } from '../data/standings'
+import GameCard from '../components/GameCard'
+
+function fmtDate(d) {
+  return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
 
 export default function TeamDetail() {
   const { teamId } = useParams()
-  const navigate = useNavigate()
   const team = getTeamById(teamId)
 
-  if (!team) return (
-    <div className="min-h-screen bg-dvsl-bg pt-32 text-center">
-      <p className="text-dvsl-muted">Team not found.</p>
-      <Link to="/teams" className="text-dvsl-lime text-sm mt-4 inline-block">← Back to Teams</Link>
-    </div>
-  )
+  if (!team) {
+    return (
+      <div className="min-h-screen bg-dvsl-bg pt-24 flex items-center justify-center">
+        <div className="text-center">
+          <p className="font-display text-4xl text-dvsl-text mb-2">Team Not Found</p>
+          <Link to="/teams" className="text-dvsl-lime text-sm">← Back to Teams</Link>
+        </div>
+      </div>
+    )
+  }
 
   const allGames = getGamesByTeam(team.name)
-  const completed = allGames.filter(g => g.status === 'final')
-  const upcoming  = allGames.filter(g => g.status === 'upcoming')
-  const players   = PLAYERS.filter(p => p.team === team.name)
+  const completed = allGames.filter(g => g.status === 'final').sort((a,b)=>new Date(b.date)-new Date(a.date))
+  const upcoming  = allGames.filter(g => g.status === 'upcoming').sort((a,b)=>new Date(a.date)-new Date(b.date))
+  const stats     = getStatsByTeam(team.name).sort((a,b)=>b.avg-a.avg)
+  const standing  = STANDINGS.find(r => r.team === team.name)
+
+  const rank = STANDINGS.findIndex(r => r.team === team.name) + 1
 
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-24">
-      {/* Header */}
-      <div className="border-b border-dvsl-border" style={{ background: `linear-gradient(135deg, ${team.color}18 0%, #111418 60%)` }}>
+    <div className="min-h-screen bg-dvsl-bg pt-16">
+      {/* Hero bar */}
+      <div className="border-b border-dvsl-border" style={{ background: `linear-gradient(135deg, ${team.colorDark}40 0%, #13161e 60%)` }}>
         <div className="max-w-5xl mx-auto px-4 py-10">
-          <button onClick={() => navigate(-1)} className="text-dvsl-muted text-xs font-mono hover:text-dvsl-lime transition-colors mb-4 flex items-center gap-1">
-            ← Back
-          </button>
-          <div className="flex items-center gap-4">
-            <div className="w-4 h-12 rounded" style={{ backgroundColor: team.color }} />
+          <Link to="/teams" className="text-dvsl-muted text-xs hover:text-dvsl-lime transition-colors mb-4 block">← All Teams</Link>
+          <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
-              <p className="text-xs font-mono text-dvsl-muted mb-1">{team.short}</p>
-              <h1 className="font-display font-black text-4xl text-dvsl-text">{team.name}</h1>
-            </div>
-          </div>
-
-          {/* Record stats */}
-          <div className="flex gap-6 mt-6">
-            {[
-              { val: team.wins,   label: 'Wins'   },
-              { val: team.losses, label: 'Losses' },
-              { val: team.pct.toFixed(3).replace('0.','.'), label: 'PCT' },
-              { val: team.runs,   label: 'Runs Scored' },
-              { val: team.runsAllowed, label: 'Runs Allowed' },
-            ].map(s => (
-              <div key={s.label}>
-                <p className="font-display font-black text-2xl text-dvsl-lime">{s.val}</p>
-                <p className="text-dvsl-muted text-xs font-mono">{s.label}</p>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="w-4 h-4 rounded-full" style={{ background: team.color }} />
+                <p className="section-label">#{rank} in League</p>
               </div>
-            ))}
+              <h1 className="font-display text-5xl md:text-6xl text-dvsl-text leading-none">{team.name}</h1>
+              <p className="text-dvsl-muted text-sm mt-2">{team.sponsor} · Mgr: {team.manager}</p>
+              <p className="text-dvsl-muted text-xs mt-1">Home Field: {team.field}</p>
+            </div>
+            {standing && (
+              <div className="card px-6 py-4 text-center min-w-[120px]">
+                <p className="font-display text-5xl" style={{ color: team.color }}>{standing.w}-{standing.l}</p>
+                <p className="text-dvsl-muted text-xs font-mono mt-1">
+                  {standing.pct === 1 ? '1.000' : standing.pct.toFixed(3).replace('0.','.')} PCT
+                </p>
+                <p className="text-dvsl-muted text-xs mt-1">{standing.pf} RF · {standing.pa} RA</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Roster + stats */}
-        <div className="lg:col-span-2">
-          <h2 className="section-title mb-4">Roster / Stats</h2>
-          {players.length === 0 ? (
-            <p className="text-dvsl-muted text-sm">No stats available yet.</p>
-          ) : (
-            <div className="card overflow-x-auto">
-              <table className="w-full text-sm min-w-[500px]">
-                <thead>
-                  <tr className="border-b border-dvsl-border">
-                    <th className="text-left text-xs font-mono text-dvsl-muted py-3 px-4 font-medium">PLAYER</th>
-                    {['avg','obp','h','hr','rbi','r','d2','d3','bb','so','sb'].map(k => {
-                      const col = STAT_COLS.find(c => c.key === k)
-                      return (
-                        <th key={k} title={col?.tip} className="text-center text-xs font-mono text-dvsl-muted py-3 px-2 font-medium">
-                          {col?.label}
-                        </th>
-                      )
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...players].sort((a,b) => parseFloat(b.avg) - parseFloat(a.avg)).map(p => (
-                    <tr key={p.name} className="border-b border-dvsl-border/40 hover:bg-dvsl-surface/50 transition-colors">
-                      <td className="py-3 px-4 font-medium text-dvsl-text">{p.name}</td>
-                      {['avg','obp','h','hr','rbi','r','d2','d3','bb','so','sb'].map(k => (
-                        <td key={k} className="py-3 px-2 text-center font-mono text-xs text-dvsl-muted tabular-nums">{p[k] ?? '—'}</td>
+      <div className="max-w-5xl mx-auto px-4 py-10 grid lg:grid-cols-3 gap-8">
+        {/* Left: roster + stats */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Player stats */}
+          <section>
+            <p className="section-label mb-4">Roster & Stats</p>
+            <div className="card overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full stat-table text-sm">
+                  <thead>
+                    <tr className="border-b border-dvsl-border">
+                      {['Player','GP','AB','H','2B','3B','HR','R','RBI','SB','SO','AVG','OBP'].map(h => (
+                        <th key={h} className={`px-3 py-2.5 text-xs font-mono text-dvsl-muted uppercase tracking-wider ${h==='Player'?'text-left':'text-center'}`}>{h}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {stats.map(p => (
+                      <tr key={p.id} className="border-b border-dvsl-border/40 hover:bg-white/[0.02] transition-colors">
+                        <td className="px-3 py-2.5 text-dvsl-text font-medium whitespace-nowrap">{p.name}</td>
+                        {[p.gp,p.ab,p.h,p.doubles,p.triples,p.hr,p.r,p.rbi,p.sb,p.so].map((v,i) => (
+                          <td key={i} className="px-3 py-2.5 font-mono text-dvsl-muted text-center">{v}</td>
+                        ))}
+                        <td className="px-3 py-2.5 font-mono text-dvsl-lime text-center">{fmtAvg(p.avg)}</td>
+                        <td className="px-3 py-2.5 font-mono text-dvsl-blue text-center">{fmtAvg(p.obp)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </section>
+
+          {/* Recent results */}
+          {completed.length > 0 && (
+            <section>
+              <p className="section-label mb-4">Recent Results</p>
+              <div className="space-y-3">
+                {completed.slice(0,4).map(g => <GameCard key={g.id} game={g} />)}
+              </div>
+            </section>
           )}
         </div>
 
-        {/* Sidebar: schedule */}
+        {/* Right: upcoming */}
         <div className="space-y-6">
-          {upcoming.length > 0 && (
-            <div>
-              <h2 className="section-title text-xl mb-3">Upcoming</h2>
-              <div className="space-y-2">
-                {upcoming.map(g => <GameCard key={g.id} game={g} compact />)}
+          <section className="card p-4">
+            <p className="section-label mb-3">Upcoming Games</p>
+            {upcoming.length === 0 ? (
+              <p className="text-dvsl-muted text-sm">No upcoming games scheduled.</p>
+            ) : (
+              <div className="space-y-3">
+                {upcoming.map(g => {
+                  const opp = g.home === team.name ? g.away : g.home
+                  const isHome = g.home === team.name
+                  const oppTeam = TEAMS.find(t => t.name === opp)
+                  return (
+                    <div key={g.id} className="border-b border-dvsl-border pb-3 last:border-0 last:pb-0">
+                      <p className="text-dvsl-text text-sm font-medium">
+                        {isHome ? 'vs' : '@'} <span style={{ color: oppTeam?.color }}>{opp}</span>
+                      </p>
+                      <p className="text-dvsl-muted text-xs mt-0.5">{fmtDate(g.date)} · {g.time}</p>
+                      <p className="text-dvsl-muted text-xs">{g.field}</p>
+                    </div>
+                  )
+                })}
               </div>
-            </div>
+            )}
+          </section>
+
+          {/* Season summary */}
+          {standing && (
+            <section className="card p-4">
+              <p className="section-label mb-3">Season Stats</p>
+              <div className="space-y-2">
+                {[
+                  ['Record', `${standing.w}-${standing.l}`],
+                  ['Run Diff', standing.diff],
+                  ['Runs For', standing.pf],
+                  ['Runs Against', standing.pa],
+                  ['Points', standing.pts],
+                  ['Streak', standing.streak],
+                ].map(([k,v]) => (
+                  <div key={k} className="flex justify-between text-sm">
+                    <span className="text-dvsl-muted">{k}</span>
+                    <span className="text-dvsl-text font-medium">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
-          <div>
-            <h2 className="section-title text-xl mb-3">Results</h2>
-            <div className="space-y-2">
-              {completed.length === 0
-                ? <p className="text-dvsl-muted text-sm">No results yet.</p>
-                : [...completed].reverse().map(g => <GameCard key={g.id} game={g} compact />)
-              }
-            </div>
-          </div>
         </div>
       </div>
     </div>
