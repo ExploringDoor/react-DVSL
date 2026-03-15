@@ -109,9 +109,20 @@ export default function Schedule() {
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px 48px 60px' }}>
         {/* Week header */}
         <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:36, color:'var(--white)', marginBottom:28, letterSpacing:'.01em' }}>
-          Week {activeWk} · {weekInfo?.date}
+          Week {activeWk} · {weekInfo?.date}</h2>
+        <div style={{ marginBottom:20 }}>
+          <a href="/dvsl-2026.ics" download="dvsl-2026.ics" style={{ display:'inline-flex', alignItems:'center', gap:8, color:'var(--gold)', border:'1px solid rgba(245,200,66,.35)', borderRadius:20, padding:'8px 20px', textDecoration:'none', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:14, letterSpacing:'.06em', textTransform:'uppercase' }}>📅 Subscribe to Calendar</a>
+          <span style={{ fontSize:12, color:'var(--muted2)', marginLeft:12 }}>Add all DVSL games to Apple Calendar, Google Calendar, or Outlook</span>
+        </div>
+        <h2 style={{display:'none'}}
         </h2>
 
+
+        {/* iCal subscribe */}
+        <div style={{ marginBottom:20, display:'flex', alignItems:'center', gap:16 }}>
+          <a href="/dvsl-2026.ics" download="dvsl-2026.ics" style={{ display:'inline-flex', alignItems:'center', gap:8, color:'var(--gold)', border:'1px solid rgba(245,200,66,.35)', borderRadius:20, padding:'8px 20px', textDecoration:'none', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:14, letterSpacing:'.06em', textTransform:'uppercase' }}>📅 Subscribe to Calendar</a>
+          <span style={{ fontSize:12, color:'var(--muted2)' }}>Sync all DVSL games to Apple Calendar, Google Calendar, or Outlook</span>
+        </div>
         {games.length === 0 ? (
           <div style={{ padding:60, textAlign:'center', color:'var(--muted)' }}>No games this week.</div>
         ) : (
