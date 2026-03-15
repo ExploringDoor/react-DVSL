@@ -9,6 +9,11 @@ const LEADER_CATS = [
   { key:'hr',      label:'Home Runs',   fmt: v => v  },
   { key:'rbi',     label:'RBI',         fmt: v => v  },
   { key:'r',       label:'Runs',        fmt: v => v  },
+  { key:'sb',     label:'Stolen Bases', fmt: v => v  },
+  { key:'h',      label:'Hits',         fmt: v => v  },
+  { key:'doubles',label:'Doubles',      fmt: v => v  },
+  { key:'obp',    label:'OBP',          fmt: fmtAvg  },
+  { key:'slg',    label:'Slugging',     fmt: fmtAvg  },
   { key:'h',       label:'Hits',        fmt: v => v  },
   { key:'obp',     label:'OBP',         fmt: fmtAvg  },
 ]

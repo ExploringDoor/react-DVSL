@@ -17,7 +17,10 @@ export default function Home() {
     { key:'avg', label:'Batting Avg', fmt: fmtAvg },
     { key:'hr',  label:'Home Runs',   fmt: v => v  },
     { key:'rbi', label:'RBI',         fmt: v => v  },
-    { key:'r',   label:'Runs',        fmt: v => v  },
+    { key:'r',   label:'Runs',   fmt: v => v  },
+    { key:'h',   label:'Hits',   fmt: v => v  },
+    { key:'sb',  label:'SB',     fmt: v => v  },
+    { key:'obp', label:'OBP',    fmt: fmtAvg  },
   ]
 
   return (
