@@ -34,6 +34,13 @@ export default function TeamDetail() {
       }}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <Link to="/teams" style={{color:'var(--muted)',fontSize:12,textDecoration:'none',display:'block',marginBottom:16}}>← All Teams</Link>
+          <a
+            href={`/calendars/${team.short.toLowerCase()}.ics`}
+            download={`dvsl-2026-${team.short.toLowerCase()}.ics`}
+            style={{display:'inline-flex',alignItems:'center',gap:6,color:'var(--gold)',border:'1px solid rgba(245,200,66,.35)',borderRadius:20,padding:'6px 16px',textDecoration:'none',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:13,letterSpacing:'.06em',textTransform:'uppercase',marginBottom:16}}
+          >
+            📅 Subscribe to {team.name} Schedule
+          </a>
           <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:24}}>
             <div style={{display:'flex',alignItems:'center',gap:20}}>
               <TeamBadge short={team.short} size={60} />

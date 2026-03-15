@@ -80,7 +80,7 @@ export default function GameCard({ game, isNext = false }) {
         // ── FINAL ──
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, marginBottom: 2, display: 'flex', alignItems: 'stretch', overflow: 'hidden', width: '100%' }}>
           {/* R/H/E */}
-          <div style={{ padding: '16px 16px 12px', width: 340, flexShrink: 0 }}>
+          <div style={{ padding: '12px 14px 10px', width: 320, flexShrink: 0 }}>
             <div style={{ display: 'flex', paddingLeft: 48, marginBottom: 6 }}>
               {['R','H','E'].map(l => (
                 <span key={l} style={{ width: 52, textAlign: 'center', fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: 'var(--muted2)', textTransform: 'uppercase' }}>{l}</span>
@@ -112,7 +112,7 @@ export default function GameCard({ game, isNext = false }) {
           </div>
 
           {/* WIN/LOSS pitchers */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '16px 20px', borderLeft: '1px solid var(--border)', flex: 1, gap: 12, minWidth: 200 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '12px 16px', borderLeft: '1px solid var(--border)', flex: 1, gap: 10, minWidth: 180 }}>
             {[{ role:'WIN', p:winP, short:winTeam }, { role:'LOSS', p:lossP, short:lossTeam }].map(({ role, p, short }) => (
               <div key={role} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', color: 'var(--muted2)', width: 30, flexShrink: 0 }}>{role}</span>
@@ -126,9 +126,9 @@ export default function GameCard({ game, isNext = false }) {
           </div>
 
           {/* Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8, padding: '16px 18px', borderLeft: '1px solid var(--border)', flexShrink: 0, width: 130 }}>
-            <button onClick={() => setModal('recap')} className="btn-outline" style={{ fontSize: 13, letterSpacing: '.06em', width: '100%', textAlign: 'center' }}>RECAP</button>
-            <button onClick={() => setModal('boxscore')} className="btn-outline" style={{ fontSize: 13, letterSpacing: '.06em', width: '100%', textAlign: 'center' }}>BOX SCORE</button>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6, padding: '12px 16px', borderLeft: '1px solid var(--border)', flexShrink: 0, width: 120 }}>
+            <button onClick={() => setModal('recap')} className="btn-outline" style={{ fontSize: 12, letterSpacing: '.04em', width: '100%', textAlign: 'center', padding: '6px 10px' }}>RECAP</button>
+            <button onClick={() => setModal('boxscore')} className="btn-outline" style={{ fontSize: 12, letterSpacing: '.04em', width: '100%', textAlign: 'center', padding: '6px 10px' }}>BOX SCORE</button>
           </div>
         </div>
       )}
