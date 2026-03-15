@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { getTeamByShort } from '../data/teams'
 import { getPitcher } from '../data/pitchers'
 import { STATS, fmtAvg } from '../data/stats'
@@ -104,12 +105,13 @@ function ModalHeader({ title, subtitle, onClose }) {
 }
 
 export function BoxScoreModal({ game, onClose }) {
+  const [clickedPlayer, setClickedPlayer] = useState(null)
   const { away, home } = genBoxScore(game)
   const awayT = getTeamByShort(game.away)
   const homeT = getTeamByShort(game.home)
   const field = game.field?.replace(/\s*(6pm|7pm|7:30pm|8pm|6:30pm|6:00pm)/i,'').trim()
 
-  function TeamTable({ players, teamShort, color, score }) {
+  function TeamTable({ players, teamShort, color, score, onPlayerClick }) {
     const totH = players.reduce((a,p)=>a+p.h,0)
     const totR = players.reduce((a,p)=>a+p.r,0)
     const totRBI = players.reduce((a,p)=>a+p.rbi,0)
@@ -134,7 +136,11 @@ export function BoxScoreModal({ game, onClose }) {
                 onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                 onMouseLeave={e=>e.currentTarget.style.background=''}
               >
-                <td style={{ padding:'7px 10px',fontWeight:500,color:'var(--white)' }}>{p.name}</td>
+                <td style={{ padding:'7px 10px' }}>
+                  <button onClick={() => onPlayerClick && onPlayerClick(p.name)} style={{ background:'none',border:'none',cursor:'pointer',fontWeight:600,fontSize:14,color:'var(--white)',padding:0,textDecoration:'underline',textDecorationColor:'rgba(255,255,255,0.25)',textUnderlineOffset:3 }}>
+                    {p.name}
+                  </button>
+                </td>
                 {[p.ab,p.h,p.r,p.rbi,p.hr,p.bb].map((v,vi)=>(
                   <td key={vi} style={{ padding:'7px 10px',textAlign:'center',color:'var(--muted)',fontFamily:"'Barlow Condensed',sans-serif" }}>{v}</td>
                 ))}
@@ -155,14 +161,43 @@ export function BoxScoreModal({ game, onClose }) {
     )
   }
 
+  // Find matching player in STATS for popup
+  const allPlayers = [...away, ...home]
+
   return (
+    <>
+      {clickedPlayer && (
+        <div onClick={() => setClickedPlayer(null)} style={{ position:'fixed',inset:0,zIndex:1100,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',padding:24 }}>
+          <div onClick={e=>e.stopPropagation()} style={{ background:'var(--card)',border:'1px solid var(--border)',borderRadius:12,maxWidth:400,width:'100%',padding:24 }}>
+            <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16 }}>
+              <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:22,color:'var(--white)',textTransform:'uppercase' }}>{clickedPlayer}</span>
+              <button onClick={() => setClickedPlayer(null)} style={{ background:'none',border:'none',color:'var(--muted)',fontSize:20,cursor:'pointer' }}>✕</button>
+            </div>
+            {(() => {
+              const p = allPlayers.find(pl => pl.name === clickedPlayer)
+              if (!p) return <p style={{color:'var(--muted)'}}>No stats found.</p>
+              return (
+                <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:10 }}>
+                  {[['AB',p.ab],['H',p.h],['R',p.r],['RBI',p.rbi],['HR',p.hr],['BB',p.bb],['AVG',p.avg]].map(([k,v])=>(
+                    <div key={k} style={{ background:'var(--bg)',borderRadius:8,padding:'10px 14px',textAlign:'center' }}>
+                      <div style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'var(--muted2)',textTransform:'uppercase',marginBottom:4 }}>{k}</div>
+                      <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:28,color:'var(--gold)' }}>{typeof v==='number'&&k==='AVG'?v.toFixed(3).replace(/^0/,'.'):v}</div>
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
+          </div>
+        </div>
+      )}
     <Modal onClose={onClose}>
       <ModalHeader title="Box Score" subtitle={`${game.away} ${game.awayScore} · ${game.home} ${game.homeScore} · ${field}`} onClose={onClose} />
       <div style={{ padding:'20px 24px' }}>
-        <TeamTable players={away} teamShort={game.away} color={awayT?.color||'var(--gold)'} score={game.awayScore} />
-        <TeamTable players={home} teamShort={game.home} color={homeT?.color||'var(--blue)'} score={game.homeScore} />
+        <TeamTable players={away} teamShort={game.away} color={awayT?.color||'var(--gold)'} score={game.awayScore} onPlayerClick={setClickedPlayer} />
+        <TeamTable players={home} teamShort={game.home} color={homeT?.color||'var(--blue)'} score={game.homeScore} onPlayerClick={setClickedPlayer} />
       </div>
     </Modal>
+    </>
   )
 }
 

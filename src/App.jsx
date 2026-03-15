@@ -15,7 +15,7 @@ import Playoffs   from './pages/Playoffs'
 import Rules      from './pages/Rules'
 import Photos     from './pages/Photos'
 
-const TICKER_H = 52  // approximate ticker height
+const TICKER_H = 46  // approximate ticker height
 
 function NotFound() {
   return (
@@ -33,7 +33,7 @@ function Layout({ children }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > TICKER_H)
+    const handler = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])

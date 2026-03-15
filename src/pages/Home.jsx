@@ -33,18 +33,7 @@ export default function Home() {
           <div style={{ position:'absolute', inset:0, background:'linear-gradient(to bottom, rgba(5,6,8,0.2) 0%, rgba(5,6,8,0.5) 60%, rgba(5,6,8,0.92) 100%)' }} />
         </div>
         <div style={{ maxWidth:1400, margin:'0 auto', padding:'40px clamp(16px,4vw,48px)', position:'relative', zIndex:1, width:'100%' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:24, marginBottom:20 }}>
-            <img src="/dvsl-logo.png" alt="DVSL Logo" style={{ height:120, width:120, objectFit:'contain', flexShrink:0, filter:'drop-shadow(0 0 24px rgba(59,130,246,0.7)) drop-shadow(0 2px 8px rgba(0,0,0,0.8))' }} />
-            <div>
-              <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'rgba(255,255,255,0.7)', marginBottom:8, textShadow:'0 1px 4px rgba(0,0,0,0.8)' }}>2026 Season · Delaware Valley Synagogue League</div>
-              <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:'min(8vw,76px)', textTransform:'uppercase', lineHeight:1, color:'#fff', marginBottom:16, textShadow:'0 2px 12px rgba(0,0,0,0.9)' }}>DVSL Softball</h1>
-              <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-                <Link to="/scores" className="btn-gold">View Scores</Link>
-                <Link to="/standings" className="btn-outline">Standings</Link>
-                <Link to="/schedule" className="btn-outline">Schedule</Link>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
 

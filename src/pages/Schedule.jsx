@@ -39,7 +39,7 @@ function ScheduleRow({ game, isNext }) {
         {isNext && <div style={{ padding:'8px 24px 0', fontSize:13, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
         <div style={{ display:'flex', alignItems:'stretch' }}>
           {/* Teams — full clickable names */}
-          <div style={{ flex:1, padding:'14px 24px', display:'flex', flexDirection:'column', gap:10 }}>
+          <div style={{ flex:1, padding:'12px 16px', display:'flex', flexDirection:'column', gap:8 }}>
             {[{t:game.away, team:away},{t:game.home, team:home}].map(side => (
               <div key={side.t} style={{ display:'flex', alignItems:'center', gap:12 }}>
                 <span style={{ width:12, height:12, borderRadius:'50%', background:side.team?.color||'#6b7280', flexShrink:0 }} />
@@ -55,14 +55,14 @@ function ScheduleRow({ game, isNext }) {
               </div>
             ))}
           </div>
-          {/* Field + time + GAMEDAY — never clips */}
+          {/* Field + time + GAMEDAY — tight */}
           <div style={{ display:'flex', alignItems:'center', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
-            <div style={{ padding:'14px 18px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-              <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:4, whiteSpace:'nowrap' }}>{field}</div>
+            <div style={{ padding:'12px 14px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+              <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:3, whiteSpace:'nowrap' }}>{field}</div>
               <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', whiteSpace:'nowrap' }}>{time}</div>
             </div>
-            <div style={{ padding:'14px 16px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0 }}>
-              <button onClick={() => setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, letterSpacing:'.06em', padding:'8px 16px', whiteSpace:'nowrap', minWidth:90 }}>GAMEDAY</button>
+            <div style={{ padding:'12px 14px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0 }}>
+              <button onClick={() => setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'8px 16px', whiteSpace:'nowrap' }}>GAMEDAY</button>
             </div>
           </div>
         </div>
