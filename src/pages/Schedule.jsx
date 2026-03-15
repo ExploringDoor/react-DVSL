@@ -61,21 +61,21 @@ function ScheduleRow({ game, isNext }) {
           {isNext && <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'var(--gold)', marginTop:2 }}>▶ NEXT</div>}
         </div>
 
-        {/* Time + field + GAMEDAY — matches screenshot */}
-        <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 20px', display:'flex', alignItems:'center', gap:20, flexShrink:0 }}>
-          {/* Big time + date */}
-          <div style={{ minWidth:120 }}>
-            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:34, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-            <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginTop:4 }}>{mo} {day}</div>
+        {/* Fixed-width columns so ALL rows align perfectly */}
+        <div style={{ borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0 }}>
+          {/* Time + date — fixed 140px */}
+          <div style={{ width:140, padding:'14px 20px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--gold)', lineHeight:1 }}>{time}</div>
+            <div style={{ fontSize:12, color:'rgba(255,255,255,0.45)', marginTop:4 }}>{mo} {day}</div>
           </div>
-          {/* Divider */}
-          <div style={{ width:1, height:40, background:'rgba(255,255,255,0.1)', flexShrink:0 }} />
-          {/* Field */}
-          <div style={{ fontWeight:600, fontSize:15, color:'var(--white)', minWidth:90 }}>{field}</div>
-          {/* Divider */}
-          <div style={{ width:1, height:40, background:'rgba(255,255,255,0.1)', flexShrink:0 }} />
-          {/* GAMEDAY */}
-          <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'9px 18px', whiteSpace:'nowrap' }}>GAMEDAY</button>
+          {/* Field — fixed 120px */}
+          <div style={{ width:120, padding:'14px 16px', borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center' }}>
+            <div style={{ fontWeight:600, fontSize:14, color:'var(--white)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{field}</div>
+          </div>
+          {/* GAMEDAY — fixed 120px */}
+          <div style={{ width:120, padding:'14px 16px', borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'9px 18px', whiteSpace:'nowrap' }}>GAMEDAY</button>
+          </div>
         </div>
       </div>
     </>

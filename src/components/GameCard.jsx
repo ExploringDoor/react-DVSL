@@ -56,13 +56,13 @@ export default function GameCard({ game, isNext = false }) {
                 </div>
               ))}
             </div>
-            {/* Field + time + GAMEDAY — tight together */}
+            {/* Fixed-width columns so all rows align */}
             <div style={{ display:'flex', alignItems:'center', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
-              <div style={{ padding:'12px 14px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-                <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:3, whiteSpace:'nowrap' }}>{field}</div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', whiteSpace:'nowrap' }}>{time}</div>
+              <div style={{ width:130, padding:'12px 16px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+                <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:3, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{field}</div>
+                <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', whiteSpace:'nowrap', lineHeight:1 }}>{time}</div>
               </div>
-              <div style={{ padding:'12px 14px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0 }}>
+              <div style={{ width:110, padding:'12px 16px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center' }}>
                 <button onClick={()=>setModal('gameday')} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'8px 16px', whiteSpace:'nowrap' }}>GAMEDAY</button>
               </div>
             </div>
