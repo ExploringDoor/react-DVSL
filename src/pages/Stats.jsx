@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { STATS, getStatLeaders, fmtAvg } from '../data/stats'
+import { PlayerStatsModal } from '../components/GameModals'
 import { TEAMS, getTeamByShort } from '../data/teams'
 
 const LEADER_CATS = [
@@ -34,6 +36,7 @@ const TABLE_COLS = [
 ]
 
 export default function Stats() {
+  const [selectedPlayer, setSelectedPlayer] = useState(null)
   const [sortKey, setSortKey]     = useState('avg')
   const [sortDir, setSortDir]     = useState('desc')
   const [teamFilter, setTeamFilter] = useState('ALL')
@@ -49,6 +52,8 @@ export default function Stats() {
     .sort((a,b) => sortDir==='desc' ? (b[sortKey]??0)-(a[sortKey]??0) : (a[sortKey]??0)-(b[sortKey]??0))
 
   return (
+    <>
+      {selectedPlayer && <PlayerStatsModal player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />}
     <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
       {/* Mini leaders strip - fills black space above heading */}
       <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)' }}>
@@ -117,7 +122,13 @@ export default function Stats() {
                     onMouseLeave={e=>e.currentTarget.style.background=''}
                   >
                     {TABLE_COLS.map(col => {
-                      if (col.key==='name') return <td key="name" style={{ padding:'10px 12px', fontWeight:600, fontSize:14, color:'var(--white)', whiteSpace:'nowrap' }}>{p.name}</td>
+                      if (col.key==='name') return (
+                        <td key="name" style={{ padding:'10px 12px' }}>
+                          <button onClick={() => setSelectedPlayer(p)} style={{ background:'none', border:'none', cursor:'pointer', fontWeight:600, fontSize:14, color:'var(--white)', whiteSpace:'nowrap', padding:0, textDecoration:'underline', textDecorationColor:'rgba(255,255,255,0.2)', textUnderlineOffset:3 }}>
+                            {p.name}
+                          </button>
+                        </td>
+                      )
                       if (col.key==='team') return (
                         <td key="team" style={{ padding:'10px 12px' }}>
                           <Link to={`/teams/${t?.id||p.team}`} style={{ display:'flex', alignItems:'center', gap:6, textDecoration:'none' }}>

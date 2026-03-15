@@ -55,14 +55,13 @@ function ScheduleRow({ game, isNext }) {
               </div>
             ))}
           </div>
-          {/* Field + time */}
-          <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 28px', display:'flex', flexDirection:'column', justifyContent:'center', minWidth:160 }}>
-            <div style={{ fontWeight:700, fontSize:17, color:'var(--white)', marginBottom:6 }}>{field}</div>
-            <div style={{ fontSize:15, fontWeight:700, color:'var(--gold)' }}>{time}</div>
+          {/* Field + time — once only */}
+          <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 24px', display:'flex', flexDirection:'column', justifyContent:'center', minWidth:160 }}>
+            <div style={{ fontWeight:600, fontSize:15, color:'var(--white)', marginBottom:6 }}>{field}</div>
+            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:30, color:'var(--gold)' }}>{time}</div>
           </div>
-          {/* Big time + GAMEDAY */}
-          <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 28px', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', gap:10 }}>
-            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:34, color:'var(--gold)', whiteSpace:'nowrap' }}>{time}</div>
+          {/* GAMEDAY */}
+          <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 20px', display:'flex', alignItems:'center' }}>
             <button onClick={() => setShowGameday(true)} className="btn-outline" style={{ fontSize:13, letterSpacing:'.08em' }}>GAMEDAY</button>
           </div>
         </div>

@@ -25,6 +25,10 @@ function PitcherBadge({ short, size = 40 }) {
   )
 }
 
+// Fixed column widths so R/H/E header always aligns with scores
+const TEAM_COL_W = 150  // badge + name column width
+const STAT_COL_W = 52   // each of R, H, E
+
 export default function GameCard({ game, isNext = false }) {
   const [modal, setModal] = useState(null)
   const away = getTeamByShort(game.away)
@@ -49,7 +53,7 @@ export default function GameCard({ game, isNext = false }) {
       {modal==='gameday'  && <GamedayModal  game={game} onClose={()=>setModal(null)} />}
 
       {!done ? (
-        // ── UPCOMING — time shown once, no duplication ──
+        // ── UPCOMING — time shown ONCE ──
         <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:2 }}>
           {isNext && <div style={{ padding:'8px 20px 0', fontSize:13, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
@@ -67,12 +71,12 @@ export default function GameCard({ game, isNext = false }) {
                 </div>
               ))}
             </div>
-            {/* Field + time — ONCE only */}
+            {/* Field + time — only here, once */}
             <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 24px', display:'flex', flexDirection:'column', justifyContent:'center', minWidth:160 }}>
-              <div style={{ fontWeight:700, fontSize:16, color:'var(--white)', marginBottom:6 }}>{field}</div>
-              <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:28, color:'var(--gold)' }}>{time}</div>
+              <div style={{ fontWeight:600, fontSize:15, color:'var(--white)', marginBottom:6 }}>{field}</div>
+              <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:30, color:'var(--gold)' }}>{time}</div>
             </div>
-            {/* GAMEDAY button only */}
+            {/* GAMEDAY only — no time repeated */}
             <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 20px', display:'flex', alignItems:'center' }}>
               <button onClick={()=>setModal('gameday')} className="btn-outline" style={{ fontSize:13, letterSpacing:'.08em' }}>GAMEDAY</button>
             </div>
@@ -81,21 +85,26 @@ export default function GameCard({ game, isNext = false }) {
       ) : (
         // ── FINAL ──
         <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
-          {/* R/H/E */}
-          <div style={{ padding:'12px 14px 10px', width:310, flexShrink:0 }}>
-            <div style={{ display:'flex', paddingLeft:46, marginBottom:6 }}>
+
+          {/* R/H/E — header width matches exactly */}
+          <div style={{ padding:'12px 14px 10px', flexShrink:0 }}>
+            {/* Header row — paddingLeft matches TEAM_COL_W exactly */}
+            <div style={{ display:'flex', paddingLeft:TEAM_COL_W, marginBottom:6 }}>
               {['R','H','E'].map(l=>(
-                <span key={l} style={{ width:50, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.5)', textTransform:'uppercase' }}>{l}</span>
+                <span key={l} style={{ width:STAT_COL_W, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.5)', textTransform:'uppercase' }}>{l}</span>
               ))}
             </div>
+
+            {/* Team rows */}
             {[
               {t:game.away,team:away,score:game.awayScore,he:awayHE,won:aWin},
               {t:game.home,team:home,score:game.homeScore,he:homeHE,won:hWin},
             ].map((side,i)=>(
               <div key={side.t} style={{ display:'flex', alignItems:'center', marginBottom:i===0?4:0 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:6, width:136, flexShrink:0 }}>
+                {/* Team name — exactly TEAM_COL_W wide */}
+                <div style={{ display:'flex', alignItems:'center', gap:6, width:TEAM_COL_W, flexShrink:0 }}>
                   <TeamBadge short={side.t} size={32} />
-                  <div>
+                  <div style={{ minWidth:0 }}>
                     <div style={{ display:'flex', alignItems:'center', gap:3 }}>
                       <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?800:400, fontSize:20, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
                       {side.won && <span style={{ fontSize:8, color:'var(--muted)' }}>◄</span>}
@@ -103,17 +112,19 @@ export default function GameCard({ game, isNext = false }) {
                     {side.team && <div style={{ fontSize:10, color:'rgba(255,255,255,0.45)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
-                {[side.score,side.he?.h,side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:50, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?800:400, fontSize:34, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'var(--muted)' }}>{val}</span>
+                {/* R, H, E — each exactly STAT_COL_W wide */}
+                {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
+                  <span key={vi} style={{ width:STAT_COL_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?800:400, fontSize:34, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'var(--muted)' }}>{val}</span>
                 ))}
               </div>
             ))}
-            <div style={{ paddingLeft:38, marginTop:6 }}>
+
+            <div style={{ paddingLeft:TEAM_COL_W+4, marginTop:6 }}>
               <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)' }}>FINAL</span>
             </div>
           </div>
 
-          {/* WIN/LOSS — moved closer to buttons */}
+          {/* WIN/LOSS pitchers */}
           <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', padding:'12px 16px', borderLeft:'1px solid var(--border)', flex:1, gap:10 }}>
             {[{role:'WIN',p:winP,short:winTeam},{role:'LOSS',p:lossP,short:lossTeam}].map(({role,p,short})=>(
               <div key={role} style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -127,7 +138,7 @@ export default function GameCard({ game, isNext = false }) {
             ))}
           </div>
 
-          {/* Buttons — tight */}
+          {/* Buttons */}
           <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:6, padding:'12px 14px', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
             <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.04em', padding:'6px 14px', whiteSpace:'nowrap' }}>RECAP</button>
             <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.04em', padding:'6px 14px', whiteSpace:'nowrap' }}>BOX SCORE</button>
