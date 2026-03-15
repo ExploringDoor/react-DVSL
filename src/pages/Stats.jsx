@@ -51,29 +51,28 @@ export default function Stats() {
 
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
-      {/* Hero */}
-      <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)', padding:'32px 48px 0' }}>
-        <div style={{ maxWidth:1300, margin:'0 auto' }}>
-          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>Individual Leaders</div>
-
-          {/* Mini stat summary boxes */}
-          <div style={{ display:'flex', gap:12, overflowX:'auto', paddingBottom:16, scrollbarWidth:'none' }}>
+      {/* Mini leaders strip - fills black space above heading */}
+      <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)' }}>
+        <div style={{ maxWidth:1300, margin:'0 auto', padding:'24px 48px 0' }}>
+          {/* Mini stat boxes */}
+          <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:20, scrollbarWidth:'none' }}>
             {LEADER_CATS.map(({key,label,fmt}) => {
               const p = leaders[key]?.[0]
               if (!p) return null
               const t = getTeamByShort(p.team)
               return (
-                <div key={key} style={{ background:'rgba(255,255,255,0.04)', border:'1px solid var(--border)', borderRadius:8, padding:'10px 16px', flexShrink:0, minWidth:130 }}>
-                  <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:4 }}>{label}</div>
-                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:28, color:'var(--gold)', lineHeight:1 }}>{fmt(p[key])}</div>
-                  <div style={{ fontSize:12, fontWeight:600, color:'var(--white)', marginTop:4, lineHeight:1.2 }}>{p.name.split(' ')[1] || p.name}</div>
+                <div key={key} style={{ background:'rgba(255,255,255,0.04)', border:'1px solid var(--border)', borderRadius:8, padding:'10px 16px', flexShrink:0, minWidth:120 }}>
+                  <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:3 }}>{label}</div>
+                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', lineHeight:1 }}>{fmt(p[key])}</div>
+                  <div style={{ fontSize:12, fontWeight:600, color:'var(--white)', marginTop:3, lineHeight:1.2 }}>{p.name.split(' ')[1] || p.name}</div>
                   <div style={{ fontSize:11, color:t?.color||'var(--muted)', marginTop:1 }}>{p.team}</div>
                 </div>
               )
             })}
           </div>
-
-          <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:0 }}>
+          {/* Section label + heading */}
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>Individual Leaders</div>
+          <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:20 }}>
             <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:64, textTransform:'uppercase', color:'var(--white)', lineHeight:1, letterSpacing:'.01em' }}>Leaderboard</h1>
             <Link to="/stats" style={{ color:'var(--gold)', fontWeight:700, fontSize:14, textDecoration:'none', border:'1px solid rgba(245,200,66,.4)', borderRadius:20, padding:'7px 18px', fontFamily:"'Barlow Condensed',sans-serif", letterSpacing:'.06em', textTransform:'uppercase', marginBottom:8 }}>Full Leaders →</Link>
           </div>

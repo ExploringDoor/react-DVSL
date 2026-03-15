@@ -106,8 +106,7 @@ export default function Home() {
                 <span style={{ width:10, height:10, borderRadius:'50%', background:row.color, flexShrink:0 }} />
                 <Link to={`/teams/${row.id}`} style={{ flex:1, fontSize:15, color:'var(--white)', textDecoration:'none', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{row.name}</Link>
                 {/* Bigger record */}
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700, color:'var(--white)', flexShrink:0, minWidth:48, textAlign:'center' }}>{row.w}-{row.l}</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'var(--gold)', fontWeight:700, minWidth:42, textAlign:'right', flexShrink:0 }}>{fmtPct(row.pct)}</span>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:700, color:'var(--white)', flexShrink:0, minWidth:56, textAlign:'right' }}>{row.w}-{row.l}</span>
               </div>
             ))}
           </div>
