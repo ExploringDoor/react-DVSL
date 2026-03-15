@@ -9,16 +9,14 @@ function fmtTickerDate(date, field) {
   let time = '7:00 PM'
   if (timeMatch) {
     const raw = timeMatch[0].toUpperCase()
-    time = raw.includes(':') ? raw : raw.replace(/(PM|AM)/, ':00 $1')
+    time = raw.includes(':') ? raw.replace('PM',' PM').replace('AM',' AM') : raw.replace(/(PM|AM)/, ':00 $1')
   }
   return `${mo} ${day} · ${time}`
 }
 
 export default function Ticker() {
-  const completed = GAMES.filter(g => g.status === 'final').reverse().slice(0, 8)
-  const upcoming  = GAMES.filter(g => g.status === 'upcoming').slice(0, 10)
-  // Show completed first, then upcoming — but only records for upcoming, scores for completed
-  const all = [...completed, ...upcoming]
+  // Only upcoming games, no scores ever
+  const games = GAMES.filter(g => g.status === 'upcoming').slice(0, 12)
 
   return (
     <div style={{
@@ -37,15 +35,11 @@ export default function Ticker() {
         <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>2026</span>
       </div>
 
-      {/* Game columns */}
+      {/* Game columns - upcoming only, records only */}
       <div style={{ display: 'flex', alignItems: 'stretch' }}>
-        {all.map(g => {
+        {games.map(g => {
           const away = getTeamByShort(g.away)
           const home = getTeamByShort(g.home)
-          const done = g.status === 'final'
-          const aWin = done && g.awayScore > g.homeScore
-          const hWin = done && g.homeScore > g.awayScore
-
           return (
             <div key={g.id} style={{
               display: 'flex', flexDirection: 'column', justifyContent: 'center',
@@ -55,17 +49,13 @@ export default function Ticker() {
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.08em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>
                 {fmtTickerDate(g.date, g.field)}
               </div>
-              {/* Away */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: away?.color || 'var(--white)' }}>{g.away}</span>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{away ? `${away.w}-${away.l}` : ''}</span>
-                {done && <span style={{ fontSize: 13, fontWeight: aWin ? 700 : 400, color: aWin ? 'var(--white)' : 'rgba(255,255,255,0.4)', marginLeft: 3 }}>{g.awayScore}</span>}
               </div>
-              {/* Home */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: home?.color || 'var(--white)' }}>{g.home}</span>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{home ? `${home.w}-${home.l}` : ''}</span>
-                {done && <span style={{ fontSize: 13, fontWeight: hWin ? 700 : 400, color: hWin ? 'var(--white)' : 'rgba(255,255,255,0.4)', marginLeft: 3 }}>{g.homeScore}</span>}
               </div>
             </div>
           )
