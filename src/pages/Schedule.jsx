@@ -80,9 +80,9 @@ export default function Schedule() {
   const firstUpcoming = GAMES.find(g => g.status === 'upcoming')
 
   return (
-    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
+    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:0 }}>
       {/* Week date nav */}
-      <div style={{ borderBottom:'1px solid var(--border)', position:'sticky', top:114, zIndex:50, background:'var(--bg)' }}>
+      <div style={{ borderBottom:'1px solid var(--border)', position:'sticky', top:62, zIndex:50, background:'var(--bg)' }}>
         <div style={{ maxWidth:1100, margin:'0 auto', padding:'0 48px', display:'flex', overflowX:'auto', scrollbarWidth:'none' }}>
           {ALL_WEEKS.map(({wk, date}) => {
             const active = wk === activeWk

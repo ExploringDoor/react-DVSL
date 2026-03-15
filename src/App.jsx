@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import ScrollToTop from './components/ScrollToTop'
 import Ticker     from './components/Ticker'
 import Navbar     from './components/Navbar'
@@ -14,6 +15,8 @@ import Playoffs   from './pages/Playoffs'
 import Rules      from './pages/Rules'
 import Photos     from './pages/Photos'
 
+const TICKER_H = 52  // approximate ticker height
+
 function NotFound() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)', display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -26,15 +29,50 @@ function NotFound() {
   )
 }
 
+function Layout({ children }) {
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > TICKER_H)
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
+
+  return (
+    <>
+      {/* Ticker — fixed at very top, slides up when scrolled */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 301,
+        transform: scrolled ? `translateY(-${TICKER_H}px)` : 'translateY(0)',
+        transition: 'transform 0.25s ease',
+      }}>
+        <Ticker />
+      </div>
+
+      {/* Navbar — fixed below ticker, stays visible always */}
+      <div style={{
+        position: 'fixed', left: 0, right: 0, zIndex: 300,
+        top: scrolled ? 0 : TICKER_H,
+        transition: 'top 0.25s ease',
+      }}>
+        <Navbar />
+      </div>
+
+      {/* Page content — paddingTop accounts for ticker + navbar when at top */}
+      <main style={{ paddingTop: TICKER_H + 62 }}>
+        {children}
+      </main>
+
+      <Footer />
+    </>
+  )
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div style={{ position:'fixed', top:0, left:0, right:0, zIndex:300 }}>
-        <Ticker />
-        <Navbar />
-      </div>
-      <main style={{ paddingTop:114 }}>
+      <Layout>
         <Routes>
           <Route path="/"              element={<Home />} />
           <Route path="/scores"        element={<Scores />} />
@@ -46,17 +84,16 @@ export default function App() {
           <Route path="/playoffs"      element={<Playoffs />} />
           <Route path="/rules"         element={<Rules />} />
           <Route path="/photos"        element={<Photos />} />
-          <Route path="/index.html"        element={<Navigate to="/" replace />} />
-          <Route path="/schedule.html"     element={<Navigate to="/schedule" replace />} />
+          <Route path="/index.html"         element={<Navigate to="/" replace />} />
+          <Route path="/schedule.html"      element={<Navigate to="/schedule" replace />} />
           <Route path="/standings-history.html" element={<Navigate to="/standings" replace />} />
-          <Route path="/stats.html"        element={<Navigate to="/stats" replace />} />
-          <Route path="/playoffs.html"     element={<Navigate to="/playoffs" replace />} />
-          <Route path="/rules.html"        element={<Navigate to="/rules" replace />} />
-          <Route path="/photos.html"       element={<Navigate to="/photos" replace />} />
-          <Route path="*"                  element={<NotFound />} />
+          <Route path="/stats.html"         element={<Navigate to="/stats" replace />} />
+          <Route path="/playoffs.html"      element={<Navigate to="/playoffs" replace />} />
+          <Route path="/rules.html"         element={<Navigate to="/rules" replace />} />
+          <Route path="/photos.html"        element={<Navigate to="/photos" replace />} />
+          <Route path="*"                   element={<NotFound />} />
         </Routes>
-      </main>
-      <Footer />
+      </Layout>
     </BrowserRouter>
   )
 }

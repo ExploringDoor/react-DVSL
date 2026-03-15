@@ -54,7 +54,7 @@ export default function Stats() {
     <>
       {selectedPlayer && <PlayerStatsModal player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />}
 
-      <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
+      <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:0 }}>
         {/* Hero with mini stat boxes */}
         <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)' }}>
           <div style={{ maxWidth:1300, margin:'0 auto', padding:'24px clamp(16px,4vw,48px) 0' }}>

@@ -26,7 +26,7 @@ export default function TeamDetail() {
   const fmtPct    = n => n>=1?'1.000':n.toFixed(3).replace(/^0/,'.')
 
   return (
-    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:0}}>
       {/* Hero */}
       <div style={{
         background:`linear-gradient(135deg, ${team.color}15 0%, var(--dark) 60%)`,

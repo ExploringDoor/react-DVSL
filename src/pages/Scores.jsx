@@ -21,7 +21,7 @@ export default function Scores() {
   const sortedDays = Object.keys(byDay).sort((a,b) => dayOrder.indexOf(a)-dayOrder.indexOf(b))
 
   return (
-    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
+    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:0 }}>
       {/* Page header — full width, centered */}
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 0' }}>
         <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>
@@ -34,7 +34,7 @@ export default function Scores() {
       </div>
 
       {/* Week date nav — full width */}
-      <div style={{ borderBottom:'1px solid var(--border)', position:'sticky', top:114, zIndex:50, background:'var(--bg)' }}>
+      <div style={{ borderBottom:'1px solid var(--border)', position:'sticky', top:62, zIndex:50, background:'var(--bg)' }}>
         <div style={{ maxWidth:1100, margin:'0 auto', padding:'0 48px', display:'flex', overflowX:'auto', scrollbarWidth:'none' }}>
           {WEEKS_WITH_SCORES.map(({wk, date}) => {
             const active = wk === activeWk

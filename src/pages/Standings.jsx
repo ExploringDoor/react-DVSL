@@ -8,7 +8,7 @@ export default function Standings() {
   const fmtPct = (n) => n >= 1 ? '1.000' : n.toFixed(3).replace(/^0/,'.')
 
   return (
-    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:0}}>
       {/* Hero */}
       <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px clamp(16px,4vw,48px) 0'}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>

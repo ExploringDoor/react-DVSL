@@ -23,7 +23,7 @@ export default function Home() {
   ]
 
   return (
-    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
+    <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:0 }}>
       {/* Hero */}
       <div style={{ position:'relative', background:'var(--dark)', borderBottom:'1px solid var(--border)', minHeight:280, display:'flex', flexDirection:'column', justifyContent:'flex-end', overflow:'hidden' }}>
         <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', pointerEvents:'none' }}>

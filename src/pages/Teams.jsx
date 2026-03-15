@@ -15,7 +15,7 @@ export default function Teams() {
   })
 
   return (
-    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:0}}>
       <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px clamp(16px,4vw,48px) 32px'}}>
         <div style={{maxWidth:1200,margin:'0 auto'}}>
           <div className="section-label" style={{marginBottom:8}}>2026 Season</div>
