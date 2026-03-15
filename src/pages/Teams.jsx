@@ -16,7 +16,7 @@ export default function Teams() {
 
   return (
     <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
-      <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px 48px 32px'}}>
+      <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px clamp(16px,4vw,48px) 32px'}}>
         <div style={{maxWidth:1200,margin:'0 auto'}}>
           <div className="section-label" style={{marginBottom:8}}>2026 Season</div>
           <h1 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:52,textTransform:'uppercase',color:'var(--white)',lineHeight:1,marginBottom:20}}>
@@ -43,7 +43,7 @@ export default function Teams() {
         </div>
       </div>
 
-      <div style={{maxWidth:1200,margin:'0 auto',padding:'32px 48px 60px'}}>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'32px clamp(16px,4vw,48px) 60px'}}>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))',gap:16}}>
           {sorted.map((team, i) => {
             const standing = STANDINGS.find(s=>s.id===team.id)

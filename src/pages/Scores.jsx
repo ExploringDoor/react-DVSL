@@ -23,7 +23,7 @@ export default function Scores() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
       {/* Page header — full width, centered */}
-      <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px 48px 0' }}>
+      <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 0' }}>
         <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>
           Season Schedule · Hover a game for details
         </div>
@@ -56,7 +56,7 @@ export default function Scores() {
       </div>
 
       {/* Games */}
-      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px 48px 60px' }}>
+      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px clamp(16px,4vw,48px) 60px' }}>
         {games.length === 0 ? (
           <div style={{ padding:60, textAlign:'center', color:'var(--muted)' }}>No scores yet for this week.</div>
         ) : (

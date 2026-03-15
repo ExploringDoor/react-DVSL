@@ -57,7 +57,7 @@ export default function Stats() {
       <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:114 }}>
         {/* Hero with mini stat boxes */}
         <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)' }}>
-          <div style={{ maxWidth:1300, margin:'0 auto', padding:'24px 48px 0' }}>
+          <div style={{ maxWidth:1300, margin:'0 auto', padding:'24px clamp(16px,4vw,48px) 0' }}>
             {/* Mini stat boxes */}
             <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:20, scrollbarWidth:'none' }}>
               {LEADER_CATS.map(({key,label,fmt}) => {
@@ -84,7 +84,7 @@ export default function Stats() {
           </div>
         </div>
 
-        <div style={{ maxWidth:1300, margin:'0 auto', padding:'32px 48px 60px' }}>
+        <div style={{ maxWidth:1300, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 60px' }}>
           {/* Full table header */}
           <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:8 }}>Full Stats · Click column to sort · Click player name for details</div>
 

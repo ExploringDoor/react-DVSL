@@ -102,7 +102,7 @@ export default function Schedule() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px 48px 60px' }}>
+      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px clamp(16px,4vw,48px) 60px' }}>
         {/* Week header */}
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:24 }}>
           <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--white)', letterSpacing:'.01em' }}>

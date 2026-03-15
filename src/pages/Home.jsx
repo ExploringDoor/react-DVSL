@@ -29,7 +29,7 @@ export default function Home() {
         <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', pointerEvents:'none' }}>
           <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:'min(28vw,260px)', color:'rgba(255,255,255,0.03)', userSelect:'none', lineHeight:1 }}>DVSL</span>
         </div>
-        <div style={{ maxWidth:1400, margin:'0 auto', padding:'40px 48px', position:'relative', zIndex:1, width:'100%' }}>
+        <div style={{ maxWidth:1400, margin:'0 auto', padding:'40px clamp(16px,4vw,48px)', position:'relative', zIndex:1, width:'100%' }}>
           <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:8 }}>2026 Season · Delaware Valley Synagogue League</div>
           <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:'min(8vw,72px)', textTransform:'uppercase', lineHeight:1, color:'var(--white)', marginBottom:20 }}>DVSL Softball</h1>
           <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
@@ -40,7 +40,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1400, margin:'0 auto', padding:'40px 48px 60px', display:'grid', gridTemplateColumns:'1fr 400px', gap:48 }}>
+      <div style={{ maxWidth:1400, margin:'0 auto', padding:'24px 20px 60px' }} className="home-grid">
         {/* LEFT */}
         <div style={{ minWidth:0 }}>
           {/* SCORES */}
@@ -83,7 +83,7 @@ export default function Home() {
               </div>
               <Link to="/stats" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none', border:'1px solid rgba(245,200,66,.4)', borderRadius:20, padding:'7px 18px', fontFamily:"'Barlow Condensed',sans-serif", letterSpacing:'.06em', textTransform:'uppercase' }}>Full Leaders →</Link>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(180px,1fr))', gap:12 }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(150px,1fr))', gap:12 }}>
               {leaderCats.map(({ key, label, fmt }) => (
                 <LeaderCard key={key} catLabel={label} statKey={key} players={leaders[key]||[]} fmt={fmt} />
               ))}

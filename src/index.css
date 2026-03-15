@@ -132,3 +132,45 @@
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+
+/* ── RESPONSIVE ── */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 48px;
+}
+
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* Mobile padding fixes */
+@media (max-width: 768px) {
+  .home-grid {
+    padding: 16px 16px 48px !important;
+  }
+}
+
+/* Scores / Schedule full width on mobile */
+@media (max-width: 640px) {
+  /* Game cards — stack vertically */
+  .game-card-row {
+    flex-direction: column !important;
+  }
+}
+
+/* Game cards on small screens */
+@media (max-width: 700px) {
+  /* Stack game card sections vertically */
+}
+
+/* Ticker on mobile - slightly smaller */
+@media (max-width: 480px) {
+  nav { padding: 0 12px !important; }
+}
+
+/* Standings page table scroll */
+.standings-table { overflow-x: auto; }

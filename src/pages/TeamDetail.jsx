@@ -30,7 +30,7 @@ export default function TeamDetail() {
       {/* Hero */}
       <div style={{
         background:`linear-gradient(135deg, ${team.color}15 0%, var(--dark) 60%)`,
-        borderBottom:'1px solid var(--border)',padding:'40px 48px 32px',
+        borderBottom:'1px solid var(--border)',padding:'40px clamp(16px,4vw,48px) 32px',
       }}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <Link to="/teams" style={{color:'var(--muted)',fontSize:12,textDecoration:'none',display:'block',marginBottom:16}}>← All Teams</Link>
@@ -61,7 +61,7 @@ export default function TeamDetail() {
         </div>
       </div>
 
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px 48px 60px',display:'grid',gridTemplateColumns:'1fr 300px',gap:32}}>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px clamp(16px,4vw,48px) 60px',display:'grid',gridTemplateColumns:'1fr 300px',gap:32}}>
         {/* Left */}
         <div>
           {/* Stats */}

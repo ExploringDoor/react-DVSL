@@ -10,7 +10,7 @@ export default function Standings() {
   return (
     <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
       {/* Hero */}
-      <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px 48px 0'}}>
+      <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px clamp(16px,4vw,48px) 0'}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
           <div className="section-label" style={{marginBottom:8}}>DVSL · 2026 Season</div>
           <h1 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:52,textTransform:'uppercase',letterSpacing:'.02em',lineHeight:1,color:'var(--white)',marginBottom:24}}>
@@ -28,7 +28,7 @@ export default function Standings() {
         </div>
       </div>
 
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px 48px 60px'}}>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px clamp(16px,4vw,48px) 60px'}}>
         {tab === '2026' ? (
           <div style={{overflowX:'auto'}}>
             <table style={{width:'100%',borderCollapse:'collapse',minWidth:700}}>
