@@ -3,39 +3,132 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-dvsl-bg text-dvsl-text font-body;
-    -webkit-font-smoothing: antialiased;
+  :root {
+    --bg: #070709;
+    --dark: #0d0d11;
+    --card: #141418;
+    --card2: #1a1a1f;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.05);
+    --gold: #F5C842;
+    --gold-dim: rgba(245,200,66,0.10);
+    --white: #EDEDED;
+    --muted: rgba(237,237,237,0.45);
+    --muted2: rgba(237,237,237,0.28);
+    --red: #E03C31;
+    --green: #22c55e;
+    --blue: #60a5fa;
   }
-  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-dvsl-lime text-dvsl-bg font-bold text-sm px-4 py-2 rounded-lg hover:bg-lime-400 transition-colors duration-150;
+  .btn-gold {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    border: none;
+    border-radius: 6px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: opacity .15s;
+    text-decoration: none;
+    display: inline-block;
   }
-  .btn-secondary {
-    @apply bg-dvsl-border text-dvsl-text font-medium text-sm px-4 py-2 rounded-lg hover:bg-dvsl-card transition-colors duration-150;
+  .btn-gold:hover { opacity: .85; }
+
+  .btn-outline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: none;
+    border: 1px solid rgba(245,200,66,.35);
+    border-radius: 20px;
+    padding: 7px 22px;
+    cursor: pointer;
+    transition: all .15s;
+    text-decoration: none;
+    display: inline-block;
   }
+  .btn-outline:hover { background: rgba(245,200,66,.1); border-color: var(--gold); }
+
   .card {
-    @apply bg-dvsl-card border border-dvsl-border rounded-xl;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
   }
+
+  /* Team badge pill */
+  .team-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    border: 1.5px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 9px;
+    letter-spacing: .03em;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
   .section-label {
-    @apply text-dvsl-lime text-xs font-mono tracking-widest uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted2);
   }
-  .pill-active {
-    @apply bg-dvsl-lime text-dvsl-bg font-bold text-xs px-3 py-1 rounded-full;
+
+  .nav-link {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 7px 13px;
+    border-radius: 6px;
+    transition: color .2s;
   }
-  .pill-inactive {
-    @apply bg-dvsl-border text-dvsl-muted text-xs px-3 py-1 rounded-full hover:text-dvsl-text transition-colors cursor-pointer;
+  .nav-link:hover { color: var(--white); }
+  .nav-link.active { color: var(--gold); }
+
+  /* Tab bar like scores/schedule */
+  .tab-btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 0;
+    margin-right: 28px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
   }
+  .tab-btn.active { color: var(--white); border-bottom-color: var(--white); }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0d0f14; }
-::-webkit-scrollbar-thumb { background: #252a38; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #3b4255; }
-
-/* Table striping */
-.stat-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }

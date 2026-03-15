@@ -1,157 +1,126 @@
 import { useParams, Link } from 'react-router-dom'
-import { getTeamById, TEAMS } from '../data/teams'
+import { TEAMS, getTeamById } from '../data/teams'
 import { getGamesByTeam } from '../data/games'
 import { getStatsByTeam, fmtAvg } from '../data/stats'
 import { STANDINGS } from '../data/standings'
+import TeamBadge from '../components/TeamBadge'
 import GameCard from '../components/GameCard'
-
-function fmtDate(d) {
-  return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-}
 
 export default function TeamDetail() {
   const { teamId } = useParams()
   const team = getTeamById(teamId)
 
-  if (!team) {
-    return (
-      <div className="min-h-screen bg-dvsl-bg pt-24 flex items-center justify-center">
-        <div className="text-center">
-          <p className="font-display text-4xl text-dvsl-text mb-2">Team Not Found</p>
-          <Link to="/teams" className="text-dvsl-lime text-sm">← Back to Teams</Link>
-        </div>
-      </div>
-    )
-  }
+  if (!team) return (
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:120,textAlign:'center'}}>
+      <p style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:40,color:'var(--white)'}}>Team Not Found</p>
+      <Link to="/teams" style={{color:'var(--gold)',fontSize:14}}>← All Teams</Link>
+    </div>
+  )
 
-  const allGames = getGamesByTeam(team.name)
-  const completed = allGames.filter(g => g.status === 'final').sort((a,b)=>new Date(b.date)-new Date(a.date))
-  const upcoming  = allGames.filter(g => g.status === 'upcoming').sort((a,b)=>new Date(a.date)-new Date(b.date))
-  const stats     = getStatsByTeam(team.name).sort((a,b)=>b.avg-a.avg)
-  const standing  = STANDINGS.find(r => r.team === team.name)
-
-  const rank = STANDINGS.findIndex(r => r.team === team.name) + 1
+  const allGames  = getGamesByTeam(team.short)
+  const completed = allGames.filter(g=>g.status==='final').reverse()
+  const upcoming  = allGames.filter(g=>g.status==='upcoming')
+  const stats     = getStatsByTeam(team.short).sort((a,b)=>b.avg-a.avg)
+  const standing  = STANDINGS.find(s=>s.id===team.id)
+  const rank      = STANDINGS.findIndex(s=>s.id===team.id)+1
+  const fmtPct    = n => n>=1?'1.000':n.toFixed(3).replace(/^0/,'.')
 
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-16">
-      {/* Hero bar */}
-      <div className="border-b border-dvsl-border" style={{ background: `linear-gradient(135deg, ${team.colorDark}40 0%, #13161e 60%)` }}>
-        <div className="max-w-5xl mx-auto px-4 py-10">
-          <Link to="/teams" className="text-dvsl-muted text-xs hover:text-dvsl-lime transition-colors mb-4 block">← All Teams</Link>
-          <div className="flex items-start justify-between flex-wrap gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="w-4 h-4 rounded-full" style={{ background: team.color }} />
-                <p className="section-label">#{rank} in League</p>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+      {/* Hero */}
+      <div style={{
+        background:`linear-gradient(135deg, ${team.color}15 0%, var(--dark) 60%)`,
+        borderBottom:'1px solid var(--border)',padding:'40px 48px 32px',
+      }}>
+        <div style={{maxWidth:1100,margin:'0 auto'}}>
+          <Link to="/teams" style={{color:'var(--muted)',fontSize:12,textDecoration:'none',display:'block',marginBottom:16}}>← All Teams</Link>
+          <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:24}}>
+            <div style={{display:'flex',alignItems:'center',gap:20}}>
+              <TeamBadge short={team.short} size={60} />
+              <div>
+                <div className="section-label" style={{marginBottom:4}}>#{rank} in League</div>
+                <h1 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:52,textTransform:'uppercase',color:'var(--white)',lineHeight:1}}>{team.name}</h1>
+                <div style={{fontSize:13,color:'var(--muted)',marginTop:4}}>{team.field}</div>
               </div>
-              <h1 className="font-display text-5xl md:text-6xl text-dvsl-text leading-none">{team.name}</h1>
-              <p className="text-dvsl-muted text-sm mt-2">{team.sponsor} · Mgr: {team.manager}</p>
-              <p className="text-dvsl-muted text-xs mt-1">Home Field: {team.field}</p>
             </div>
             {standing && (
-              <div className="card px-6 py-4 text-center min-w-[120px]">
-                <p className="font-display text-5xl" style={{ color: team.color }}>{standing.w}-{standing.l}</p>
-                <p className="text-dvsl-muted text-xs font-mono mt-1">
-                  {standing.pct === 1 ? '1.000' : standing.pct.toFixed(3).replace('0.','.')} PCT
-                </p>
-                <p className="text-dvsl-muted text-xs mt-1">{standing.pf} RF · {standing.pa} RA</p>
+              <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,padding:'20px 28px',textAlign:'center'}}>
+                <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:48,color:team.color,lineHeight:1}}>{standing.w}-{standing.l}</div>
+                <div style={{fontSize:13,color:'var(--muted)',fontFamily:"'Barlow Condensed',sans-serif",marginTop:4}}>{fmtPct(standing.pct)} PCT</div>
+                <div style={{fontSize:12,color:'var(--muted2)',marginTop:4}}>{standing.rs} RF · {standing.ra} RA</div>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-10 grid lg:grid-cols-3 gap-8">
-        {/* Left: roster + stats */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Player stats */}
-          <section>
-            <p className="section-label mb-4">Roster & Stats</p>
-            <div className="card overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full stat-table text-sm">
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px 48px 60px',display:'grid',gridTemplateColumns:'1fr 300px',gap:32}}>
+        {/* Left */}
+        <div>
+          {/* Stats */}
+          {stats.length > 0 && (
+            <div style={{marginBottom:32}}>
+              <h2 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:24,color:'var(--white)',marginBottom:16,textTransform:'uppercase'}}>Roster & Stats</h2>
+              <div style={{overflowX:'auto',background:'var(--card)',border:'1px solid var(--border)',borderRadius:10}}>
+                <table style={{width:'100%',borderCollapse:'collapse'}}>
                   <thead>
-                    <tr className="border-b border-dvsl-border">
-                      {['Player','GP','AB','H','2B','3B','HR','R','RBI','SB','SO','AVG','OBP'].map(h => (
-                        <th key={h} className={`px-3 py-2.5 text-xs font-mono text-dvsl-muted uppercase tracking-wider ${h==='Player'?'text-left':'text-center'}`}>{h}</th>
+                    <tr style={{borderBottom:'1px solid var(--border)'}}>
+                      {['Player','GP','AB','H','2B','3B','HR','R','RBI','SB','SO','AVG','OBP'].map(h=>(
+                        <th key={h} style={{padding:'10px 10px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'var(--muted2)',textAlign:h==='Player'?'left':'center'}}>{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {stats.map(p => (
-                      <tr key={p.id} className="border-b border-dvsl-border/40 hover:bg-white/[0.02] transition-colors">
-                        <td className="px-3 py-2.5 text-dvsl-text font-medium whitespace-nowrap">{p.name}</td>
-                        {[p.gp,p.ab,p.h,p.doubles,p.triples,p.hr,p.r,p.rbi,p.sb,p.so].map((v,i) => (
-                          <td key={i} className="px-3 py-2.5 font-mono text-dvsl-muted text-center">{v}</td>
+                    {stats.map(p=>(
+                      <tr key={p.id} style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}
+                        onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
+                        onMouseLeave={e=>e.currentTarget.style.background=''}
+                      >
+                        <td style={{padding:'10px',fontSize:14,fontWeight:600,color:'var(--white)',whiteSpace:'nowrap'}}>{p.name}</td>
+                        {[p.gp,p.ab,p.h,p.doubles,p.triples,p.hr,p.r,p.rbi,p.sb,p.so].map((v,i)=>(
+                          <td key={i} style={{padding:'10px',textAlign:'center',fontSize:13,color:'var(--muted)',fontFamily:"'Barlow Condensed',sans-serif"}}>{v}</td>
                         ))}
-                        <td className="px-3 py-2.5 font-mono text-dvsl-lime text-center">{fmtAvg(p.avg)}</td>
-                        <td className="px-3 py-2.5 font-mono text-dvsl-blue text-center">{fmtAvg(p.obp)}</td>
+                        <td style={{padding:'10px',textAlign:'center',fontSize:13,color:'var(--gold)',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700}}>{fmtAvg(p.avg)}</td>
+                        <td style={{padding:'10px',textAlign:'center',fontSize:13,color:'var(--blue)',fontFamily:"'Barlow Condensed',sans-serif"}}>{fmtAvg(p.obp)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-          </section>
+          )}
 
           {/* Recent results */}
           {completed.length > 0 && (
-            <section>
-              <p className="section-label mb-4">Recent Results</p>
-              <div className="space-y-3">
-                {completed.slice(0,4).map(g => <GameCard key={g.id} game={g} />)}
+            <div>
+              <h2 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:24,color:'var(--white)',marginBottom:12,textTransform:'uppercase'}}>Recent Results</h2>
+              <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,overflow:'hidden'}}>
+                {completed.slice(0,5).map(g=><GameCard key={g.id} game={g} />)}
               </div>
-            </section>
+            </div>
           )}
         </div>
 
-        {/* Right: upcoming */}
-        <div className="space-y-6">
-          <section className="card p-4">
-            <p className="section-label mb-3">Upcoming Games</p>
-            {upcoming.length === 0 ? (
-              <p className="text-dvsl-muted text-sm">No upcoming games scheduled.</p>
-            ) : (
-              <div className="space-y-3">
-                {upcoming.map(g => {
-                  const opp = g.home === team.name ? g.away : g.home
-                  const isHome = g.home === team.name
-                  const oppTeam = TEAMS.find(t => t.name === opp)
-                  return (
-                    <div key={g.id} className="border-b border-dvsl-border pb-3 last:border-0 last:pb-0">
-                      <p className="text-dvsl-text text-sm font-medium">
-                        {isHome ? 'vs' : '@'} <span style={{ color: oppTeam?.color }}>{opp}</span>
-                      </p>
-                      <p className="text-dvsl-muted text-xs mt-0.5">{fmtDate(g.date)} · {g.time}</p>
-                      <p className="text-dvsl-muted text-xs">{g.field}</p>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </section>
-
-          {/* Season summary */}
-          {standing && (
-            <section className="card p-4">
-              <p className="section-label mb-3">Season Stats</p>
-              <div className="space-y-2">
-                {[
-                  ['Record', `${standing.w}-${standing.l}`],
-                  ['Run Diff', standing.diff],
-                  ['Runs For', standing.pf],
-                  ['Runs Against', standing.pa],
-                  ['Points', standing.pts],
-                  ['Streak', standing.streak],
-                ].map(([k,v]) => (
-                  <div key={k} className="flex justify-between text-sm">
-                    <span className="text-dvsl-muted">{k}</span>
-                    <span className="text-dvsl-text font-medium">{v}</span>
+        {/* Right sidebar */}
+        <div style={{display:'flex',flexDirection:'column',gap:20}}>
+          <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,padding:20}}>
+            <h3 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:18,color:'var(--white)',textTransform:'uppercase',marginBottom:14}}>Upcoming Games</h3>
+            {upcoming.length===0 ? (
+              <p style={{color:'var(--muted)',fontSize:13}}>No upcoming games.</p>
+            ) : upcoming.map(g=>{
+              const opp = g.home===team.short ? g.away : g.home
+              const isHome = g.home===team.short
+              const oppTeam = TEAMS.find(t=>t.short===opp)
+              return (
+                <div key={g.id} style={{borderBottom:'1px solid var(--border)',paddingBottom:12,marginBottom:12}}>
+                  <div style={{fontSize:15,fontWeight:600,color:'var(--white)',fontFamily:"'Barlow Condensed',sans-serif",textTransform:'uppercase'}}>
+                    {isHome?'vs':'@'} <span style={{color:oppTeam?.color||'var(--gold)'}}>{opp}</span>
                   </div>
-                ))}
-              </div>
-            </section>
-          )}
+                  <div style={{fontSize:12,color:'var(--muted)',marginTop:2}}>{g.date} · {g.field}</div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>

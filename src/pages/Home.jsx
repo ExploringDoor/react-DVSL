@@ -1,193 +1,132 @@
 import { Link } from 'react-router-dom'
 import { STANDINGS } from '../data/standings'
-import { getRecentGames, getNextGame } from '../data/games'
+import { getRecentGames, getUpcomingGames } from '../data/games'
 import { getStatLeaders, fmtAvg } from '../data/stats'
-import { TEAMS } from '../data/teams'
+import { getTeamByShort } from '../data/teams'
 import GameCard from '../components/GameCard'
-import Countdown from '../components/Countdown'
-
-function fmtDate(d) {
-  const dt = new Date(d + 'T12:00:00')
-  return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-}
+import TeamBadge from '../components/TeamBadge'
 
 export default function Home() {
-  const topStandings = STANDINGS.slice(0, 5)
-  const recentGames  = getRecentGames(4)
-  const nextGame     = getNextGame()
+  const topStandings = STANDINGS.slice(0, 8)
+  const recentGames  = getRecentGames(6)
+  const upcoming     = getUpcomingGames().slice(0,4)
   const leaders      = getStatLeaders()
 
+  const fmtPct = n => n>=1?'1.000':n.toFixed(3).replace(/^0/,'.')
+
   return (
-    <div className="min-h-screen bg-dvsl-bg">
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+      {/* Scrolling ticker */}
+      <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'10px 0',overflow:'hidden',whiteSpace:'nowrap'}}>
+        <div style={{display:'inline-flex',gap:40,paddingLeft:40,animation:'none'}}>
+          {recentGames.map(g => {
+            const at = getTeamByShort(g.away)
+            const ht = getTeamByShort(g.home)
+            const aWin = g.awayScore > g.homeScore
+            return (
+              <span key={g.id} style={{display:'inline-flex',alignItems:'center',gap:8,fontSize:12}}>
+                <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,color: at?.color||'var(--white)'}}>{g.away}</span>
+                <span style={{color: aWin?'var(--white)':'var(--muted)',fontWeight:aWin?700:400}}>{g.awayScore}</span>
+                <span style={{color:'var(--muted2)'}}>·</span>
+                <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,color: ht?.color||'var(--white)'}}>{g.home}</span>
+                <span style={{color: !aWin?'var(--white)':'var(--muted)',fontWeight:!aWin?700:400}}>{g.homeScore}</span>
+              </span>
+            )
+          })}
+          <Link to="/scores" style={{color:'var(--gold)',fontSize:12,fontWeight:600,textDecoration:'none',flexShrink:0}}>Full Schedule »</Link>
+        </div>
+      </div>
+
       {/* Hero */}
-      <section className="relative pt-16 pb-0 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background: 'radial-gradient(ellipse 80% 60% at 50% 0%, #a3e63530 0%, transparent 70%)',
-          }}
-        />
-        <div className="max-w-7xl mx-auto px-4 pt-16 pb-12 relative">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <p className="section-label mb-3">2025 Season · Week 6 of 14</p>
-              <h1 className="font-display text-6xl md:text-7xl leading-none text-dvsl-text mb-4">
-                DELAWARE<br/>
-                <span className="text-dvsl-lime">VALLEY</span><br/>
-                SYNAGOGUE<br/>
-                LEAGUE
-              </h1>
-              <p className="text-dvsl-muted text-sm leading-relaxed max-w-sm mb-6">
-                Adult recreational softball for the Jewish community of the Delaware Valley. 8 teams. 14 weeks. One championship.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link to="/scores" className="btn-primary">View Scores</Link>
-                <Link to="/standings" className="btn-secondary">Standings</Link>
-              </div>
-            </div>
-
-            {/* Next game / countdown */}
-            {nextGame && (
-              <div className="card p-6">
-                <p className="section-label mb-4">Next Game</p>
-                <div className="flex flex-col gap-4">
-                  <Countdown targetDate={nextGame.date} targetTime={nextGame.time} />
-                  <div className="border-t border-dvsl-border pt-4 space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-dvsl-muted">Date</span>
-                      <span className="text-dvsl-text font-medium">{fmtDate(nextGame.date)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-dvsl-muted">Time</span>
-                      <span className="text-dvsl-text">{nextGame.time}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-dvsl-muted">Field</span>
-                      <span className="text-dvsl-text">{nextGame.field}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-dvsl-muted">Matchup</span>
-                      <span className="text-dvsl-text font-medium">{nextGame.away} @ {nextGame.home}</span>
-                    </div>
-                  </div>
-                  <Link to="/schedule" className="btn-secondary text-center block w-full text-center">Full Schedule →</Link>
-                </div>
-              </div>
-            )}
+      <div style={{position:'relative',background:'var(--dark)',borderBottom:'1px solid var(--border)',minHeight:400,display:'flex',flexDirection:'column',justifyContent:'flex-end',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}>
+          <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'min(30vw,300px)',color:'rgba(255,255,255,0.03)',letterSpacing:'-.02em',userSelect:'none',lineHeight:1}}>DVSL</span>
+        </div>
+        <div style={{maxWidth:1100,margin:'0 auto',padding:'60px 48px',position:'relative',zIndex:1,width:'100%'}}>
+          <div className="section-label" style={{marginBottom:12}}>2026 Season · Delaware Valley Synagogue League</div>
+          <h1 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'min(8vw,80px)',textTransform:'uppercase',lineHeight:1,color:'var(--white)',marginBottom:24}}>
+            DVSL Softball
+          </h1>
+          <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+            <Link to="/scores" className="btn-gold">View Scores</Link>
+            <Link to="/standings" className="btn-outline">Standings</Link>
+            <Link to="/schedule" className="btn-outline">Schedule</Link>
           </div>
         </div>
+      </div>
 
-        {/* Season progress bar */}
-        <div className="border-t border-dvsl-border bg-dvsl-surface">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4">
-            <span className="text-dvsl-muted text-xs font-mono shrink-0">Week 6 / 14</span>
-            <div className="flex-1 bg-dvsl-border rounded-full h-1.5">
-              <div className="bg-dvsl-lime h-1.5 rounded-full" style={{ width: '43%' }} />
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'40px 48px 60px',display:'grid',gridTemplateColumns:'1fr 340px',gap:40}}>
+        {/* Main */}
+        <div style={{minWidth:0}}>
+          {/* Recent scores */}
+          <div style={{marginBottom:40}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+              <h2 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:28,textTransform:'uppercase',color:'var(--white)'}}>Scores</h2>
+              <Link to="/scores" style={{color:'var(--gold)',fontSize:13,textDecoration:'none',fontWeight:600}}>Full Schedule →</Link>
             </div>
-            <span className="text-dvsl-lime text-xs font-mono shrink-0">43%</span>
+            <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,overflow:'hidden'}}>
+              {recentGames.length === 0
+                ? <div style={{padding:40,textAlign:'center',color:'var(--muted)'}}>No scores yet.</div>
+                : recentGames.map(g => <GameCard key={g.id} game={g} />)
+              }
+            </div>
           </div>
-        </div>
-      </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-12 grid lg:grid-cols-3 gap-8">
-        {/* Main column */}
-        <div className="lg:col-span-2 space-y-10">
-          {/* Recent Scores */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <p className="section-label">Recent Scores</p>
-              <Link to="/scores" className="text-dvsl-muted text-xs hover:text-dvsl-lime transition-colors">View all →</Link>
+          {/* Stat leaders */}
+          <div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+              <h2 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:28,textTransform:'uppercase',color:'var(--white)'}}>Leaderboard</h2>
+              <Link to="/stats" style={{color:'var(--gold)',fontSize:13,textDecoration:'none',fontWeight:600}}>Full Leaders →</Link>
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {recentGames.map(g => <GameCard key={g.id} game={g} />)}
-            </div>
-          </section>
-
-          {/* Stat leaders preview */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <p className="section-label">Batting Leaders</p>
-              <Link to="/stats" className="text-dvsl-muted text-xs hover:text-dvsl-lime transition-colors">Full stats →</Link>
-            </div>
-            <div className="grid sm:grid-cols-3 gap-3">
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
               {[
-                { cat: 'AVG', key: 'avg', fmt: fmtAvg },
-                { cat: 'HR',  key: 'hr',  fmt: v => v },
-                { cat: 'RBI', key: 'rbi', fmt: v => v },
-              ].map(({ cat, key, fmt }) => {
+                {key:'avg',label:'AVG',fmt:fmtAvg},
+                {key:'hr', label:'HR', fmt:v=>v},
+                {key:'rbi',label:'RBI',fmt:v=>v},
+              ].map(({key,label,fmt})=>{
                 const p = leaders[key]?.[0]
-                if (!p) return null
-                const t = TEAMS.find(t => t.name === p.team)
+                if(!p) return null
+                const t = getTeamByShort(p.team)
                 return (
-                  <div key={cat} className="card p-4">
-                    <p className="section-label mb-2">{cat}</p>
-                    <p className="font-bold text-dvsl-text text-lg leading-tight">{p.name}</p>
-                    <p className="text-dvsl-muted text-xs mb-2" style={{ color: t?.color || '#6b7280' }}>{p.team}</p>
-                    <p className="font-display text-4xl text-dvsl-lime">{fmt(p[key])}</p>
+                  <div key={key} style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,padding:'16px 18px'}}>
+                    <div className="section-label" style={{marginBottom:8}}>{label}</div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:38,color:'var(--gold)',lineHeight:1,marginBottom:6}}>{fmt(p[key])}</div>
+                    <div style={{fontWeight:600,fontSize:14,color:'var(--white)'}}>{p.name}</div>
+                    <div style={{fontSize:12,color:t?.color||'var(--muted)',marginTop:2}}>{p.team}</div>
                   </div>
                 )
               })}
             </div>
-          </section>
+          </div>
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div style={{display:'flex',flexDirection:'column',gap:24}}>
           {/* Standings */}
-          <section className="card p-4">
-            <div className="flex items-center justify-between mb-3">
-              <p className="section-label">Standings</p>
-              <Link to="/standings" className="text-dvsl-muted text-xs hover:text-dvsl-lime transition-colors">Full →</Link>
+          <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,overflow:'hidden'}}>
+            <div style={{padding:'14px 18px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:18,textTransform:'uppercase',color:'var(--white)'}}>Standings</span>
+              <Link to="/standings" style={{color:'var(--gold)',fontSize:12,textDecoration:'none'}}>Full →</Link>
             </div>
-            <div className="space-y-1">
-              {topStandings.map((row, i) => {
-                const t = TEAMS.find(t => t.name === row.team)
-                return (
-                  <div key={row.team} className="flex items-center gap-2 py-1.5 border-b border-dvsl-border last:border-0">
-                    <span className="text-dvsl-muted text-xs font-mono w-4">{i+1}</span>
-                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: t?.color || '#6b7280' }} />
-                    <Link to={`/teams/${t?.id}`} className="flex-1 text-sm text-dvsl-text hover:text-dvsl-lime transition-colors truncate">{row.team}</Link>
-                    <span className="text-dvsl-muted text-xs font-mono">{row.w}-{row.l}</span>
-                    <span className="text-dvsl-lime text-xs font-mono">{row.pct.toFixed(3).replace('0.','.')}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </section>
+            {topStandings.map((row,i)=>(
+              <div key={row.team} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 18px',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                <span style={{fontSize:12,color:'var(--muted2)',width:16,textAlign:'center'}}>{i+1}</span>
+                <span style={{width:8,height:8,borderRadius:'50%',background:row.color,flexShrink:0}} />
+                <Link to={`/teams/${row.id}`} style={{flex:1,fontSize:14,color:'var(--white)',textDecoration:'none',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,textTransform:'uppercase',letterSpacing:'.02em'}}>{row.team}</Link>
+                <span style={{fontSize:13,color:'var(--muted)',fontFamily:"'Barlow Condensed',sans-serif"}}>{row.w}-{row.l}</span>
+                <span style={{fontSize:13,color:'var(--gold)',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,minWidth:34,textAlign:'right'}}>{fmtPct(row.pct)}</span>
+              </div>
+            ))}
+          </div>
 
-          {/* Teams */}
-          <section className="card p-4">
-            <div className="flex items-center justify-between mb-3">
-              <p className="section-label">Teams</p>
-              <Link to="/teams" className="text-dvsl-muted text-xs hover:text-dvsl-lime transition-colors">All →</Link>
+          {/* Upcoming */}
+          <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:10,overflow:'hidden'}}>
+            <div style={{padding:'14px 18px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:18,textTransform:'uppercase',color:'var(--white)'}}>Upcoming</span>
+              <Link to="/schedule" style={{color:'var(--gold)',fontSize:12,textDecoration:'none'}}>Schedule →</Link>
             </div>
-            <div className="space-y-1">
-              {TEAMS.map(t => (
-                <Link
-                  key={t.id}
-                  to={`/teams/${t.id}`}
-                  className="flex items-center gap-2 py-1.5 hover:text-dvsl-lime transition-colors group"
-                >
-                  <span className="w-2 h-2 rounded-full" style={{ background: t.color }} />
-                  <span className="text-sm text-dvsl-muted group-hover:text-dvsl-lime transition-colors">{t.name}</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* Email signup */}
-          <section className="card p-4">
-            <p className="section-label mb-2">Stay Updated</p>
-            <p className="text-dvsl-muted text-xs mb-3">Score alerts, rainout notices, and playoff updates.</p>
-            <form onSubmit={e => e.preventDefault()} className="flex flex-col gap-2">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="bg-dvsl-bg border border-dvsl-border rounded-lg px-3 py-2 text-sm text-dvsl-text placeholder-dvsl-muted focus:outline-none focus:border-dvsl-lime w-full"
-              />
-              <button type="submit" className="btn-primary w-full">Subscribe</button>
-            </form>
-          </section>
+            {upcoming.map(g => <GameCard key={g.id} game={g} isNext />)}
+          </div>
         </div>
       </div>
     </div>

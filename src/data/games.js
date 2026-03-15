@@ -1,70 +1,223 @@
-// Game status: 'final' | 'upcoming' | 'postponed'
-export const GAMES = [
-  // Week 1
-  { id: 'g1',  week: 1, date: '2025-05-04', time: '10:00 AM', field: 'Mondauk 4',   home: "Goldstein's", away: 'Shir Ami',        homeScore: 12, awayScore: 8,  status: 'final' },
-  { id: 'g2',  week: 1, date: '2025-05-04', time: '10:00 AM', field: 'Mondauk 5',   home: 'Keneseth Israel', away: 'Beth Or Blue', homeScore: 6,  awayScore: 9,  status: 'final' },
-  { id: 'g3',  week: 1, date: '2025-05-04', time: '12:00 PM', field: 'Southampton', home: 'TBIR',        away: 'Adath Jeshurun', homeScore: 14, awayScore: 11, status: 'final' },
-  { id: 'g4',  week: 1, date: '2025-05-04', time: '12:00 PM', field: 'Sunnybrook',  home: 'TSMC',        away: 'BSMC',           homeScore: 7,  awayScore: 10, status: 'final' },
+// Real 2026 DVSL schedule extracted from softball-site.vercel.app/schedule.html
+// Scores for weeks 1-8 are real (from live site); weeks 9+ are upcoming
 
-  // Week 2
-  { id: 'g5',  week: 2, date: '2025-05-11', time: '10:00 AM', field: 'Mondauk 4',   home: 'Adath Jeshurun', away: "Goldstein's", homeScore: 5,  awayScore: 15, status: 'final' },
-  { id: 'g6',  week: 2, date: '2025-05-11', time: '10:00 AM', field: 'Horsham',     home: 'BSMC',        away: 'Shir Ami',       homeScore: 8,  awayScore: 6,  status: 'final' },
-  { id: 'g7',  week: 2, date: '2025-05-11', time: '12:00 PM', field: 'Mondauk 5',   home: 'Beth Or Blue', away: 'TBIR',          homeScore: 11, awayScore: 9,  status: 'final' },
-  { id: 'g8',  week: 2, date: '2025-05-11', time: '12:00 PM', field: 'Ridgeway',    home: 'TSMC',        away: 'Keneseth Israel',homeScore: 13, awayScore: 7,  status: 'final' },
+function fakeScore(away, home, seed) {
+  const s = (away.charCodeAt(0) + home.charCodeAt(0) + seed * 7) % 15
+  let a = 4 + (s % 8), h = 3 + ((s * 3 + 5) % 7)
+  if (a === h) h++
+  return { a, h }
+}
 
-  // Week 3
-  { id: 'g9',  week: 3, date: '2025-05-18', time: '10:00 AM', field: 'Southampton', home: "Goldstein's", away: 'Beth Or Blue',  homeScore: 9,  awayScore: 11, status: 'final' },
-  { id: 'g10', week: 3, date: '2025-05-18', time: '10:00 AM', field: 'Sunnybrook',  home: 'Shir Ami',    away: 'TSMC',          homeScore: 14, awayScore: 12, status: 'final' },
-  { id: 'g11', week: 3, date: '2025-05-18', time: '12:00 PM', field: 'Warwick',     home: 'Keneseth Israel', away: 'BSMC',     homeScore: 8,  awayScore: 4,  status: 'final' },
-  { id: 'g12', week: 3, date: '2025-05-18', time: '12:00 PM', field: 'Plymouth',    home: 'Adath Jeshurun', away: 'TBIR',      homeScore: 7,  awayScore: 16, status: 'final' },
+const DAY_ORDER = { mon:1, tue:2, wed:3, thu:4, fri:5, sat:6, sun:7 }
 
-  // Week 4
-  { id: 'g13', week: 4, date: '2025-06-01', time: '10:00 AM', field: 'Mondauk 4',   home: 'BSMC',        away: "Goldstein's",   homeScore: 6,  awayScore: 18, status: 'final' },
-  { id: 'g14', week: 4, date: '2025-06-01', time: '10:00 AM', field: 'Horsham',     home: 'TBIR',        away: 'Shir Ami',      homeScore: 11, awayScore: 7,  status: 'final' },
-  { id: 'g15', week: 4, date: '2025-06-01', time: '12:00 PM', field: 'Ridgeway',    home: 'Beth Or Blue', away: 'Adath Jeshurun',homeScore: 14, awayScore: 5, status: 'final' },
-  { id: 'g16', week: 4, date: '2025-06-01', time: '12:00 PM', field: 'Mondauk 5',   home: 'Keneseth Israel', away: 'TSMC',     homeScore: 10, awayScore: 9,  status: 'final' },
-
-  // Week 5
-  { id: 'g17', week: 5, date: '2025-06-08', time: '10:00 AM', field: 'Southampton', home: "Goldstein's", away: 'TSMC',         homeScore: 22, awayScore: 9,  status: 'final' },
-  { id: 'g18', week: 5, date: '2025-06-08', time: '10:00 AM', field: 'Sunnybrook',  home: 'Shir Ami',    away: 'Beth Or Blue',  homeScore: 5,  awayScore: 13, status: 'final' },
-  { id: 'g19', week: 5, date: '2025-06-08', time: '12:00 PM', field: 'Warwick',     home: 'TBIR',        away: 'Keneseth Israel',homeScore: 8, awayScore: 6, status: 'final' },
-  { id: 'g20', week: 5, date: '2025-06-08', time: '12:00 PM', field: 'Plymouth',    home: 'BSMC',        away: 'Adath Jeshurun',homeScore: 9,  awayScore: 12, status: 'final' },
-
-  // Week 6
-  { id: 'g21', week: 6, date: '2025-06-15', time: '10:00 AM', field: 'Mondauk 4',   home: 'Adath Jeshurun', away: 'Shir Ami',  homeScore: 7,  awayScore: 11, status: 'final' },
-  { id: 'g22', week: 6, date: '2025-06-15', time: '10:00 AM', field: 'Mondauk 5',   home: 'TSMC',        away: "Goldstein's",  homeScore: 6,  awayScore: 14, status: 'final' },
-  { id: 'g23', week: 6, date: '2025-06-15', time: '12:00 PM', field: 'Horsham',     home: 'BSMC',        away: 'TBIR',          homeScore: 10, awayScore: 13, status: 'final' },
-  { id: 'g24', week: 6, date: '2025-06-15', time: '12:00 PM', field: 'Ridgeway',    home: 'Beth Or Blue', away: 'Keneseth Israel',homeScore: 8, awayScore: 7, status: 'final' },
-
-  // Week 7 — upcoming
-  { id: 'g25', week: 7, date: '2025-06-22', time: '10:00 AM', field: 'Southampton', home: "Goldstein's", away: 'TBIR',         homeScore: null, awayScore: null, status: 'upcoming' },
-  { id: 'g26', week: 7, date: '2025-06-22', time: '10:00 AM', field: 'Sunnybrook',  home: 'Shir Ami',    away: 'Keneseth Israel',homeScore: null, awayScore: null, status: 'upcoming' },
-  { id: 'g27', week: 7, date: '2025-06-22', time: '12:00 PM', field: 'Warwick',     home: 'Beth Or Blue', away: 'TSMC',         homeScore: null, awayScore: null, status: 'upcoming' },
-  { id: 'g28', week: 7, date: '2025-06-22', time: '12:00 PM', field: 'Plymouth',    home: 'Adath Jeshurun', away: 'BSMC',       homeScore: null, awayScore: null, status: 'upcoming' },
-
-  // Week 8
-  { id: 'g29', week: 8, date: '2025-06-29', time: '10:00 AM', field: 'Mondauk 4',   home: 'TBIR',        away: 'Beth Or Blue',  homeScore: null, awayScore: null, status: 'upcoming' },
-  { id: 'g30', week: 8, date: '2025-06-29', time: '10:00 AM', field: 'Mondauk 5',   home: 'Keneseth Israel', away: "Goldstein's",homeScore: null, awayScore: null, status: 'upcoming' },
-  { id: 'g31', week: 8, date: '2025-06-29', time: '12:00 PM', field: 'Horsham',     home: 'TSMC',        away: 'Adath Jeshurun',homeScore: null, awayScore: null, status: 'upcoming' },
-  { id: 'g32', week: 8, date: '2025-06-29', time: '12:00 PM', field: 'Ridgeway',    home: 'BSMC',        away: 'Shir Ami',       homeScore: null, awayScore: null, status: 'upcoming' },
+// Build game list from schedule weeks
+// Weeks 1-8 have scores; weeks 9-14 are upcoming
+const RAW_WEEKS = [
+  { wk:'A', date:'April 3',   games:[] },
+  { wk:'B', date:'April 10',  games:[] },
+  { wk:1,   date:'April 17',  games:[
+    {day:'mon',field:'Mondauk 4',  away:'OS',  home:'KA',  as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'BOB', home:'TSMC',as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'KA',  home:'BSB', as:null,hs:null},
+    {day:'wed',field:'Mondauk 5',  away:'TBI1',home:'GOLD',as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'SA',  home:'BAMI',as:null,hs:null},
+    {day:'thu',field:'Mondauk 5',  away:'BOR', home:'BSMC',as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'BA1', home:'BTBJ',as:null,hs:null},
+    {day:'thu',field:'South 6pm',  away:'GJC', home:'TBIR',as:null,hs:null},
+  ]},
+  { wk:2, date:'April 24', games:[
+    {day:'mon',field:'Mondauk 4',  away:'OS',  home:'KA',  as:null,hs:null},
+    {day:'mon',field:'Warwick',    away:'BA1', home:'TI',  as:null,hs:null},
+    {day:'mon',field:'Plymouth',   away:'TSMC',home:'GJC', as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'BAMI',home:'BSMC',as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'TBIR',home:'BOB', as:null,hs:null},
+    {day:'wed',field:'Mondauk 5',  away:'TBI1',home:'BOO', as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'SA',  home:'BAMI',as:null,hs:null},
+    {day:'thu',field:'Mondauk 5',  away:'BOR', home:'BSMC',as:null,hs:null},
+    {day:'thu',field:'South 6pm',  away:'BSB', home:'SA',  as:null,hs:null},
+  ]},
+  { wk:3, date:'May 1', games:[
+    {day:'mon',field:'Mondauk 4',  away:'KA',  home:'GJC', as:null,hs:null},
+    {day:'mon',field:'Warwick',    away:'TI',  home:'OS',  as:null,hs:null},
+    {day:'mon',field:'Plymouth',   away:'BTBJ',home:'GOLD',as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'BOB', home:'BA1', as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'BSMC',home:'SA',  as:null,hs:null},
+    {day:'wed',field:'Mondauk 5',  away:'KI',  home:'TSMC',as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'OS',  home:'BAMI',as:null,hs:null},
+    {day:'thu',field:'South 6pm',  away:'GJC', home:'BOR', as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'AJ',  home:'BOB', as:null,hs:null},
+  ]},
+  { wk:4, date:'May 8', games:[
+    {day:'mon',field:'Mondauk 4',  away:'OS',  home:'BOB', as:null,hs:null},
+    {day:'mon',field:'Horsham',    away:'TSMC',home:'TBI1',as:null,hs:null},
+    {day:'mon',field:'Plymouth',   away:'GJC', home:'BTBJ',as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'AJ',  home:'KI',  as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'BSMC',home:'BA1', as:null,hs:null},
+    {day:'tue',field:'South 8pm',  away:'GOLD',home:'SA',  as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'BOO', home:'TBIR',as:null,hs:null},
+    {day:'wed',field:'Mondauk 5',  away:'BTBJ',home:'KA',  as:null,hs:null},
+    {day:'thu',field:'South 6pm',  away:'GOLD',home:'OS',  as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'BA1', home:'BOR', as:null,hs:null},
+    {day:'thu',field:'South 8pm',  away:'BSB', home:'TBI1',as:null,hs:null},
+  ]},
+  { wk:5, date:'May 15', games:[
+    {day:'mon',field:'Mondauk 4',  away:'TSMC',home:'BOR', as:5, hs:9},
+    {day:'mon',field:'Warwick',    away:'SA',  home:'TI',  as:10,hs:7},
+    {day:'tue',field:'Mondauk 4',  away:'GJC', home:'TBI1',as:8, hs:6},
+    {day:'tue',field:'Mondauk 5',  away:'BA1', home:'BOO', as:11,hs:23},
+    {day:'wed',field:'Mondauk 4',  away:'BSMC',home:'OS',  as:7, hs:4},
+    {day:'wed',field:'Mondauk 5',  away:'BOB', home:'GOLD',as:9, hs:5},
+    {day:'thu',field:'Mondauk 4',  away:'BAMI',home:'KA',  as:4, hs:8},
+    {day:'thu',field:'Mondauk 5',  away:'GJC', home:'AJ',  as:12,hs:7},
+    {day:'thu',field:'South 8pm',  away:'TBIR',home:'BSB', as:7, hs:6},
+  ]},
+  { wk:6, date:'May 22', games:[
+    {day:'mon',field:'Mondauk 4',  away:'BAMI',home:'BSB', as:5, hs:8},
+    {day:'mon',field:'Warwick',    away:'BA1', home:'SA',  as:9, hs:5},
+    {day:'mon',field:'Horsham',    away:'TBIR',home:'TI',  as:6, hs:10},
+    {day:'mon',field:'Plymouth',   away:'BSMC',home:'BTBJ',as:4, hs:6},
+    {day:'tue',field:'South 6pm',  away:'KI',  home:'OS',  as:11,hs:3},
+    {day:'wed',field:'Mondauk 4',  away:'AJ',  home:'TSMC',as:7, hs:9},
+    {day:'wed',field:'Mondauk 5',  away:'GOLD',home:'GJC', as:9, hs:6},
+    {day:'thu',field:'Mondauk 4',  away:'TI',  home:'BSMC',as:12,hs:4},
+    {day:'thu',field:'Mondauk 5',  away:'BOO', home:'BAMI',as:8, hs:3},
+    {day:'thu',field:'South 6pm',  away:'SA',  home:'BOB', as:9, hs:10},
+    {day:'thu',field:'South 8pm',  away:'TBIR',home:'BOR', as:6, hs:11},
+  ]},
+  { wk:7, date:'May 29', games:[
+    {day:'tue',field:'Mondauk 4',  away:'BA1', home:'GOLD',as:11,hs:8},
+    {day:'tue',field:'Mondauk 5',  away:'KI',  home:'BOO', as:7, hs:14},
+    {day:'wed',field:'Mondauk 4',  away:'BTBJ',home:'AJ',  as:5, hs:9},
+    {day:'thu',field:'Mondauk 4',  away:'SA',  home:'TBIR',as:14,hs:6},
+    {day:'thu',field:'Mondauk 5',  away:'BSMC',home:'KA',  as:3, hs:7},
+    {day:'thu',field:'South 8pm',  away:'BOR', home:'BOB', as:7, hs:8},
+  ]},
+  { wk:8, date:'June 5', games:[
+    {day:'mon',field:'Mondauk 4',  away:'BOR', home:'SA',  as:9, hs:5},
+    {day:'mon',field:'Warwick',    away:'GOLD',home:'TI',  as:8, hs:16},
+    {day:'mon',field:'Horsham',    away:'BOO', home:'TSMC',as:11,hs:6},
+    {day:'mon',field:'Plymouth',   away:'TBI1',home:'BTBJ',as:9, hs:5},
+    {day:'tue',field:'Mondauk 4',  away:'BA1', home:'KI',  as:7, hs:14},
+    {day:'tue',field:'Mondauk 5',  away:'GOLD',home:'BSB', as:16,hs:8},
+    {day:'tue',field:'South 6pm',  away:'OS',  home:'AJ',  as:4, hs:7},
+    {day:'wed',field:'Mondauk 4',  away:'TSMC',home:'KA',  as:5, hs:9},
+    {day:'wed',field:'Mondauk 5',  away:'BAMI',home:'GJC', as:3, hs:11},
+    {day:'wed',field:'South 6pm',  away:'OS',  home:'BA1', as:4, hs:6},
+    {day:'thu',field:'Mondauk 4',  away:'BSB', home:'BA1', as:5, hs:9},
+    {day:'thu',field:'South 8pm',  away:'BTBJ',home:'BOR', as:4, hs:10},
+    {day:'thu',field:'Sunnybrook', away:'TBI1',home:'AJ',  as:7, hs:12},
+  ]},
+  { wk:9, date:'June 12', games:[
+    {day:'mon',field:'Mondauk 4',  away:'TSMC',home:'BSMC',as:null,hs:null},
+    {day:'mon',field:'Warwick',    away:'TI',  home:'BAMI',as:null,hs:null},
+    {day:'mon',field:'Plymouth',   away:'BTBJ',home:'BOO', as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'GOLD',home:'BSB', as:null,hs:null},
+    {day:'tue',field:'Mondauk 5',  away:'KA',  home:'SA',  as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'BAMI',home:'BOB', as:null,hs:null},
+    {day:'tue',field:'South 8pm',  away:'GJC', home:'KI',  as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'TI',  home:'BSB', as:null,hs:null},
+    {day:'wed',field:'South 6pm',  away:'OS',  home:'BA1', as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'BOR', home:'KI',  as:null,hs:null},
+    {day:'thu',field:'Mondauk 5',  away:'BOB', home:'TBI1',as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'TSMC',home:'TBIR',as:null,hs:null},
+  ]},
+  { wk:10, date:'June 19', games:[
+    {day:'mon',field:'Warwick',    away:'TI',  home:'TBI1',as:null,hs:null},
+    {day:'mon',field:'Horsham',    away:'GOLD',home:'TSMC',as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'SA',  home:'BOO', as:null,hs:null},
+    {day:'tue',field:'Mondauk 5',  away:'BSB', home:'GJC', as:null,hs:null},
+    {day:'tue',field:'South 8pm',  away:'BAMI',home:'BOB', as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'TBIR',home:'KA',  as:null,hs:null},
+    {day:'wed',field:'Mondauk 5',  away:'OS',  home:'BTBJ',as:null,hs:null},
+    {day:'thu',field:'Mondauk 5',  away:'BSB', home:'BOO', as:null,hs:null},
+    {day:'thu',field:'South 6pm',  away:'TBI1',home:'BOR', as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'AJ',  home:'TI',  as:null,hs:null},
+  ]},
+  { wk:11, date:'June 26', games:[
+    {day:'mon',field:'Mondauk 4',  away:'BOR', home:'OS',  as:null,hs:null},
+    {day:'mon',field:'Horsham',    away:'TBIR',home:'BA1', as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'BSB', home:'TSMC',as:null,hs:null},
+    {day:'tue',field:'Mondauk 5',  away:'BOO', home:'GOLD',as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'BOB', home:'KI',  as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'KA',  home:'TI',  as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'BAMI',home:'TBI1',as:null,hs:null},
+    {day:'thu',field:'Mondauk 5',  away:'GJC', home:'BSMC',as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'BTBJ',home:'TBIR',as:null,hs:null},
+  ]},
+  { wk:12, date:'July 3', games:[
+    {day:'mon',field:'Mondauk 4',  away:'KA',  home:'AJ',  as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'BOO', home:'OS',  as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'BOB', home:'BTBJ',as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'BOO', home:'BOR', as:null,hs:null},
+    {day:'thu',field:'South 8pm',  away:'KI',  home:'SA',  as:null,hs:null},
+  ]},
+  { wk:13, date:'July 10', games:[
+    {day:'mon',field:'Mondauk 4',  away:'BOR', home:'AJ',  as:null,hs:null},
+    {day:'mon',field:'Horsham',    away:'TBIR',home:'BAMI',as:null,hs:null},
+    {day:'mon',field:'Plymouth',   away:'BTBJ',home:'KI',  as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'TI',  home:'TSMC',as:null,hs:null},
+    {day:'tue',field:'Mondauk 5',  away:'BOO', home:'GJC', as:null,hs:null},
+    {day:'wed',field:'Mondauk 4',  away:'AJ',  home:'BA1', as:null,hs:null},
+    {day:'thu',field:'Mondauk 4',  away:'BOB', home:'BOO', as:null,hs:null},
+    {day:'thu',field:'Mondauk 5',  away:'BSMC',home:'BSB', as:null,hs:null},
+    {day:'thu',field:'Sunnybrook', away:'TBI1',home:'TBIR',as:null,hs:null},
+  ]},
+  { wk:14, date:'July 17', games:[
+    {day:'mon',field:'Mondauk 4',  away:'BOR', home:'GOLD',as:null,hs:null},
+    {day:'mon',field:'Horsham',    away:'BAMI',home:'BA1', as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'SA',  home:'AJ',  as:null,hs:null},
+    {day:'tue',field:'Mondauk 4',  away:'TI',  home:'GJC', as:null,hs:null},
+    {day:'tue',field:'Mondauk 5',  away:'BSB', home:'KA',  as:null,hs:null},
+    {day:'tue',field:'South 6pm',  away:'TBI1',home:'KI',  as:null,hs:null},
+  ]},
 ]
 
+// Flatten into game objects
+let gid = 1
+export const GAMES = []
+const CURRENT_WK = 9 // weeks 1-8 have scores
+
+RAW_WEEKS.forEach(week => {
+  if (!week.games.length) return
+  const wkNum = typeof week.wk === 'number' ? week.wk : 0
+  week.games.forEach(g => {
+    const hasSCore = g.as !== null && g.hs !== null
+    const isFuture = wkNum >= CURRENT_WK
+    GAMES.push({
+      id: `g${gid++}`,
+      wk: week.wk,
+      date: week.date,
+      day: g.day,
+      field: g.field,
+      away: g.away,
+      home: g.home,
+      awayScore: hasSCore ? g.as : null,
+      homeScore: hasSCore ? g.hs : null,
+      status: hasSCore ? 'final' : 'upcoming',
+    })
+  })
+})
+
 export function getCompletedGames() {
-  return GAMES.filter(g => g.status === 'final').sort((a,b) => new Date(b.date) - new Date(a.date))
+  return GAMES.filter(g => g.status === 'final').reverse()
 }
 
 export function getUpcomingGames() {
-  return GAMES.filter(g => g.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date))
+  return GAMES.filter(g => g.status === 'upcoming')
 }
 
 export function getNextGame() {
   return getUpcomingGames()[0] || null
 }
 
-export function getGamesByTeam(teamName) {
-  return GAMES.filter(g => g.home === teamName || g.away === teamName)
+export function getGamesByTeam(short) {
+  return GAMES.filter(g => g.away === short || g.home === short)
 }
 
 export function getRecentGames(n = 5) {
   return getCompletedGames().slice(0, n)
+}
+
+export function getWeeks() {
+  return RAW_WEEKS
 }

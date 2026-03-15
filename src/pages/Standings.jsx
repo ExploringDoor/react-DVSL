@@ -1,126 +1,101 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { STANDINGS, LEAGUE_HISTORY } from '../data/standings'
-import { TEAMS } from '../data/teams'
 
 export default function Standings() {
-  const [tab, setTab] = useState('current') // 'current' | 'history'
+  const [tab, setTab] = useState('2026')
 
-  function teamColor(name) {
-    return TEAMS.find(t => t.name === name)?.color || '#6b7280'
-  }
-  function teamId(name) {
-    return TEAMS.find(t => t.name === name)?.id || name
-  }
+  const fmtPct = (n) => n >= 1 ? '1.000' : n.toFixed(3).replace(/^0/,'.')
 
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-16">
-      <div className="border-b border-dvsl-border bg-dvsl-surface">
-        <div className="max-w-5xl mx-auto px-4 py-10">
-          <p className="section-label mb-2">2025 Season</p>
-          <h1 className="font-display text-5xl text-dvsl-text">Standings</h1>
-          <p className="text-dvsl-muted text-sm mt-1">Through Week 6 · {STANDINGS.reduce((a,r)=>a+r.gp,0)/2} games played</p>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+      {/* Hero */}
+      <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px 48px 0'}}>
+        <div style={{maxWidth:1100,margin:'0 auto'}}>
+          <div className="section-label" style={{marginBottom:8}}>DVSL · 2026 Season</div>
+          <h1 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:52,textTransform:'uppercase',letterSpacing:'.02em',lineHeight:1,color:'var(--white)',marginBottom:24}}>
+            Standings
+          </h1>
+          {/* Tab bar */}
+          <div style={{display:'flex'}}>
+            {['2026','History'].map(t => (
+              <button key={t} onClick={() => setTab(t)}
+                className={`tab-btn${tab===t?' active':''}`}>
+                {t}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        {/* Tabs */}
-        <div className="flex gap-2 mb-8">
-          <button onClick={() => setTab('current')} className={tab==='current' ? 'pill-active' : 'pill-inactive'}>2025 Standings</button>
-          <button onClick={() => setTab('history')} className={tab==='history' ? 'pill-active' : 'pill-inactive'}>League History</button>
-        </div>
-
-        {tab === 'current' ? (
-          <div className="card overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full stat-table">
-                <thead>
-                  <tr className="border-b border-dvsl-border">
-                    {['#','Team','GP','W','L','PCT','GB','PF','PA','DIFF','STK','PTS'].map(h => (
-                      <th key={h} className="px-3 py-3 text-left text-xs font-mono text-dvsl-muted uppercase tracking-wider first:pl-4 last:pr-4">
-                        {h}
-                      </th>
-                    ))}
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px 48px 60px'}}>
+        {tab === '2026' ? (
+          <div style={{overflowX:'auto'}}>
+            <table style={{width:'100%',borderCollapse:'collapse',minWidth:700}}>
+              <thead>
+                <tr style={{borderBottom:'1px solid var(--border)'}}>
+                  {['#','Team','W','L','T','PCT','GB','PF','PA','DIFF','STRK','PTS'].map(h => (
+                    <th key={h} style={{
+                      padding:'10px 12px',textAlign: h==='Team' ? 'left' : 'center',
+                      fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',
+                      color:'var(--muted2)',
+                    }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {STANDINGS.map((row, i) => (
+                  <tr key={row.team} style={{borderBottom:'1px solid rgba(255,255,255,0.04)',transition:'background .15s'}}
+                    onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
+                    onMouseLeave={e=>e.currentTarget.style.background=''}
+                  >
+                    <td style={{padding:'12px',color:'var(--muted2)',fontSize:13,textAlign:'center'}}>{i+1}</td>
+                    <td style={{padding:'12px'}}>
+                      <Link to={`/teams/${row.id}`} style={{display:'flex',alignItems:'center',gap:10,textDecoration:'none'}}>
+                        <span style={{width:10,height:10,borderRadius:'50%',background:row.color,display:'inline-block',flexShrink:0}} />
+                        <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:18,color:'var(--white)',textTransform:'uppercase',letterSpacing:'.02em'}}>{row.name}</span>
+                        <span style={{fontSize:12,color:'var(--muted2)'}}>({row.team})</span>
+                      </Link>
+                    </td>
+                    <td style={{padding:'12px',textAlign:'center',fontWeight:700,fontSize:15,color:'var(--white)'}}>{row.w}</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,color:'var(--muted)'}}>{row.l}</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,color:'var(--muted)'}}>0</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,color:'var(--gold)',fontWeight:700}}>{fmtPct(row.pct)}</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,color: row.gb==='—' ? 'var(--muted2)' : 'var(--blue)'}}>
+                      {row.gb === '—' ? '—' : typeof row.gb === 'number' ? row.gb : row.gb}
+                    </td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,color:'var(--muted)'}}>{row.rs}</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,color:'var(--muted)'}}>{row.ra}</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:14,fontWeight:700,color: String(row.diff).startsWith('+') ? 'var(--green)' : 'var(--red)'}}>{row.diff}</td>
+                    <td style={{padding:'12px',textAlign:'center',fontSize:13,color:'var(--muted2)'}}>—</td>
+                    <td style={{padding:'12px',textAlign:'center',fontWeight:700,fontSize:15,color:'var(--white)'}}>{row.pts}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {STANDINGS.map((row, i) => {
-                    const color = teamColor(row.team)
-                    const id = teamId(row.team)
-                    const strk = row.streak || ''
-                    const strkColor = strk.startsWith('W') ? '#4ade80' : '#f87171'
-                    return (
-                      <tr key={row.team} className="border-b border-dvsl-border/50 hover:bg-white/[0.02] transition-colors">
-                        <td className="px-3 py-3 pl-4 text-dvsl-muted text-sm font-mono">{i+1}</td>
-                        <td className="px-3 py-3 min-w-[140px]">
-                          <Link to={`/teams/${id}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: color }} />
-                            <span className="text-dvsl-text text-sm font-medium">{row.team}</span>
-                          </Link>
-                        </td>
-                        <td className="px-3 py-3 text-dvsl-muted text-sm font-mono text-center">{row.gp}</td>
-                        <td className="px-3 py-3 text-dvsl-text text-sm font-bold text-center">{row.w}</td>
-                        <td className="px-3 py-3 text-dvsl-muted text-sm font-mono text-center">{row.l}</td>
-                        <td className="px-3 py-3 text-dvsl-lime text-sm font-mono text-center">
-                          {row.pct === 1 ? '1.000' : row.pct.toFixed(3).replace('0.',  '.')}
-                        </td>
-                        <td className="px-3 py-3 text-center">
-                          <span className={`text-sm font-mono ${row.gb === '—' ? 'text-dvsl-muted' : 'text-dvsl-blue'}`}>
-                            {row.gb === '—' ? '—' : `-${row.gb}`}
-                          </span>
-                        </td>
-                        <td className="px-3 py-3 text-dvsl-muted text-sm font-mono text-center">{row.pf}</td>
-                        <td className="px-3 py-3 text-dvsl-muted text-sm font-mono text-center">{row.pa}</td>
-                        <td className="px-3 py-3 text-center">
-                          <span className={`text-sm font-mono font-bold ${String(row.diff).startsWith('+') ? 'text-dvsl-green' : 'text-dvsl-red'}`}>
-                            {row.diff}
-                          </span>
-                        </td>
-                        <td className="px-3 py-3 text-center">
-                          <span className="text-sm font-mono" style={{ color: strkColor }}>{strk}</span>
-                        </td>
-                        <td className="px-3 py-3 pr-4 text-dvsl-text text-sm font-bold text-center">{row.pts}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-            <div className="px-4 py-3 border-t border-dvsl-border flex flex-wrap gap-4 text-xs text-dvsl-muted font-mono">
-              <span>GP=Games Played</span><span>PCT=Win%</span><span>GB=Games Behind</span>
-              <span>PF=Runs Scored</span><span>PA=Runs Allowed</span><span>STK=Streak</span>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : (
-          <div className="card overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-dvsl-border">
-                    {['Year','Champion','Runner-Up','Notes'].map(h => (
-                      <th key={h} className="px-4 py-3 text-left text-xs font-mono text-dvsl-muted uppercase tracking-wider">{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {LEAGUE_HISTORY.map(row => (
-                    <tr key={row.year} className="border-b border-dvsl-border/50 hover:bg-white/[0.02] transition-colors">
-                      <td className="px-4 py-3 font-mono text-dvsl-lime text-sm">{row.year}</td>
-                      <td className="px-4 py-3">
-                        {row.champion ? (
-                          <div className="flex items-center gap-2">
-                            <span className="text-dvsl-gold">🏆</span>
-                            <span className="text-dvsl-text text-sm font-medium">{row.champion}</span>
-                          </div>
-                        ) : <span className="text-dvsl-muted text-sm">—</span>}
-                      </td>
-                      <td className="px-4 py-3 text-dvsl-muted text-sm">{row.runnerUp || '—'}</td>
-                      <td className="px-4 py-3 text-dvsl-muted text-sm italic">{row.note || ''}</td>
-                    </tr>
+          <div>
+            <h2 style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:36,color:'var(--white)',marginBottom:24}}>League History</h2>
+            <table style={{width:'100%',borderCollapse:'collapse'}}>
+              <thead>
+                <tr style={{borderBottom:'1px solid var(--border)'}}>
+                  {['Year','Champion','Runner-Up','Notes'].map(h=>(
+                    <th key={h} style={{padding:'10px 12px',textAlign:'left',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'var(--muted2)'}}>{h}</th>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </tr>
+              </thead>
+              <tbody>
+                {LEAGUE_HISTORY.map(row=>(
+                  <tr key={row.year} style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                    <td style={{padding:'14px 12px',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:20,color:'var(--gold)'}}>{row.year}</td>
+                    <td style={{padding:'14px 12px',fontSize:15,color:'var(--white)',fontWeight:600}}>{row.champion ? `🏆 ${row.champion}` : '—'}</td>
+                    <td style={{padding:'14px 12px',fontSize:14,color:'var(--muted)'}}>{row.runnerUp || '—'}</td>
+                    <td style={{padding:'14px 12px',fontSize:13,color:'var(--muted2)',fontStyle:'italic'}}>{row.note||''}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

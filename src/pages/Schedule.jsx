@@ -1,83 +1,88 @@
 import { useState } from 'react'
-import { GAMES, getUpcomingGames } from '../data/games'
-import { TEAMS } from '../data/teams'
+import { GAMES } from '../data/games'
 import GameCard from '../components/GameCard'
 
-const ALL = 'All Teams'
+const ALL_WEEKS = [...new Map(GAMES.map(g => [g.wk, g])).entries()]
+  .filter(([wk]) => typeof wk === 'number')
+  .map(([wk, g]) => ({ wk, date: g.date }))
+  .sort((a,b) => a.wk - b.wk)
+
+const UPCOMING_WEEKS = ALL_WEEKS.filter(w =>
+  GAMES.some(g => g.wk === w.wk && g.status === 'upcoming')
+)
 
 export default function Schedule() {
-  const [teamFilter, setTeamFilter] = useState(ALL)
-  const [view, setView] = useState('upcoming') // 'upcoming' | 'full'
+  const [activeWk, setActiveWk] = useState(UPCOMING_WEEKS[0]?.wk || ALL_WEEKS[0]?.wk)
 
-  const source = view === 'upcoming' ? getUpcomingGames() : [...GAMES].sort((a,b) => new Date(a.date)-new Date(b.date))
-
-  const filtered = teamFilter === ALL
-    ? source
-    : source.filter(g => g.home === teamFilter || g.away === teamFilter)
-
-  const byWeek = filtered.reduce((acc, g) => {
-    const k = `Week ${g.week}`
-    if (!acc[k]) acc[k] = []
-    acc[k].push(g)
+  const games = GAMES.filter(g => g.wk === activeWk)
+  const byDay = games.reduce((acc, g) => {
+    if (!acc[g.day]) acc[g.day] = []
+    acc[g.day].push(g)
     return acc
   }, {})
-  const weeks = Object.keys(byWeek).sort((a,b) => parseInt(a.split(' ')[1]) - parseInt(b.split(' ')[1]))
-
-  function fmtDate(d) {
-    return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  const DAY_FULL = { mon:'Monday', tue:'Tuesday', wed:'Wednesday', thu:'Thursday', fri:'Friday' }
+  const weekLabel = (wk) => {
+    const w = ALL_WEEKS.find(w => w.wk === wk)
+    return w ? `Week ${wk} · ${w.date}` : `Week ${wk}`
   }
 
+  const displayWeeks = ALL_WEEKS
+
   return (
-    <div className="min-h-screen bg-dvsl-bg pt-16">
-      <div className="border-b border-dvsl-border bg-dvsl-surface">
-        <div className="max-w-5xl mx-auto px-4 py-10">
-          <p className="section-label mb-2">2025 Season</p>
-          <h1 className="font-display text-5xl text-dvsl-text">Schedule</h1>
-          <p className="text-dvsl-muted text-sm mt-1">{getUpcomingGames().length} games remaining</p>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+      {/* Tab bar */}
+      <div style={{padding:'0 48px',borderBottom:'1px solid var(--border)',background:'var(--bg)',display:'flex'}}>
+        <button className="tab-btn active">Schedule</button>
+      </div>
+
+      {/* Week nav */}
+      <div style={{
+        display:'flex',alignItems:'stretch',background:'var(--bg)',
+        borderBottom:'1px solid var(--border)',position:'sticky',top:62,zIndex:50,
+        overflowX:'auto',scrollbarWidth:'none',
+      }}>
+        {displayWeeks.map(({wk, date}) => {
+          const active = wk === activeWk
+          const [mon, day] = (date || '').split(' ')
+          const mo = {April:'Apr',May:'May',June:'Jun',July:'Jul',August:'Aug'}[mon] || mon
+          const hasUpcoming = GAMES.some(g => g.wk === wk && g.status === 'upcoming')
+          return (
+            <button key={wk} onClick={() => setActiveWk(wk)} style={{
+              background:'none',border:'none',cursor:'pointer',
+              padding:'12px 20px',borderBottom: active ? '2px solid var(--gold)' : '2px solid transparent',
+              flexShrink:0,textAlign:'center',
+            }}>
+              <div style={{fontSize:10,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color: active ? 'var(--gold)' : 'var(--muted2)'}}>WK {wk}</div>
+              <div style={{fontFamily:"'Oswald',sans-serif",fontWeight:600,fontSize:20,color: active ? 'var(--gold)' : 'var(--white)',lineHeight:1,marginTop:2}}>{mo} {day}</div>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Week header */}
+      <div style={{maxWidth:900,margin:'0 auto',padding:'20px 20px 4px'}}>
+        <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:22,color:'var(--white)'}}>
+          Week {activeWk} · {ALL_WEEKS.find(w=>w.wk===activeWk)?.date}
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        {/* View toggle */}
-        <div className="flex gap-2 mb-6">
-          <button onClick={() => setView('upcoming')} className={view === 'upcoming' ? 'pill-active' : 'pill-inactive'}>Upcoming</button>
-          <button onClick={() => setView('full')} className={view === 'full' ? 'pill-active' : 'pill-inactive'}>Full Season</button>
-        </div>
-
-        {/* Team filter */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {[ALL, ...TEAMS.map(t => t.name)].map(name => (
-            <button
-              key={name}
-              onClick={() => setTeamFilter(name)}
-              className={teamFilter === name ? 'pill-active' : 'pill-inactive'}
-            >
-              {name === ALL ? name : TEAMS.find(t => t.name === name)?.shortName || name}
-            </button>
-          ))}
-        </div>
-
-        {weeks.length === 0 ? (
-          <div className="text-center text-dvsl-muted py-16">No games found.</div>
+      {/* Games */}
+      <div style={{maxWidth:900,margin:'0 auto',paddingBottom:60}}>
+        {games.length === 0 ? (
+          <div style={{padding:60,textAlign:'center',color:'var(--muted)'}}>No games this week.</div>
         ) : (
-          <div className="space-y-10">
-            {weeks.map(week => {
-              const games = byWeek[week]
-              const sampleDate = games[0]?.date
-              return (
-                <div key={week}>
-                  <div className="flex items-center gap-4 mb-4">
-                    <h2 className="font-display text-2xl text-dvsl-text">{week}</h2>
-                    <span className="text-dvsl-muted text-xs font-mono">{fmtDate(sampleDate)}</span>
-                    <div className="flex-1 border-t border-dvsl-border" />
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {games.map(g => <GameCard key={g.id} game={g} />)}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          Object.entries(byDay).map(([day, dayGames]) => (
+            <div key={day}>
+              <div style={{padding:'14px 20px 4px',fontSize:13,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'var(--muted2)',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
+                {DAY_FULL[day] || day}
+              </div>
+              {dayGames.map((g, i) => {
+                const isNext = g.status === 'upcoming' && i === 0 &&
+                  !GAMES.some(gg => gg.status==='upcoming' && gg.wk < g.wk)
+                return <GameCard key={g.id} game={g} isNext={isNext} />
+              })}
+            </div>
+          ))
         )}
       </div>
     </div>

@@ -1,70 +1,111 @@
 import { Link } from 'react-router-dom'
-import { TEAMS } from '../data/teams'
+import { getTeamByShort } from '../data/teams'
+import TeamBadge from './TeamBadge'
 
-function teamColor(name) {
-  const t = TEAMS.find(t => t.name === name)
-  return t ? t.color : '#6b7280'
+function cleanField(f) {
+  return f?.replace(/\s*(6pm|7pm|7:30pm|8pm|6:30pm)/i, '') || f
+}
+function parseTime(f) {
+  const m = f?.match(/([\d:]+\s*(am|pm))/i)
+  return m ? m[0].toUpperCase() : '7:30 PM'
 }
 
-function teamId(name) {
-  const t = TEAMS.find(t => t.name === name)
-  return t ? t.id : name.toLowerCase().replace(/\s+/g, '-')
-}
-
-export default function GameCard({ game, compact = false }) {
-  const isFinal = game.status === 'final'
-  const homeWon = isFinal && game.homeScore > game.awayScore
-  const awayWon = isFinal && game.awayScore > game.homeScore
-
-  if (compact) {
-    return (
-      <div className="card p-3 flex items-center justify-between gap-3 text-sm">
-        <div className="flex items-center gap-2 min-w-0 flex-1">
-          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: teamColor(game.away) }} />
-          <span className={`truncate ${awayWon ? 'text-dvsl-text font-semibold' : 'text-dvsl-muted'}`}>{game.away}</span>
-        </div>
-        {isFinal ? (
-          <span className="font-mono text-xs text-dvsl-muted shrink-0">{game.awayScore} – {game.homeScore}</span>
-        ) : (
-          <span className="font-mono text-xs text-dvsl-muted shrink-0">{game.time}</span>
-        )}
-        <div className="flex items-center gap-2 min-w-0 flex-1 justify-end">
-          <span className={`truncate text-right ${homeWon ? 'text-dvsl-text font-semibold' : 'text-dvsl-muted'}`}>{game.home}</span>
-          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: teamColor(game.home) }} />
-        </div>
-      </div>
-    )
-  }
+export default function GameCard({ game, isNext = false }) {
+  const away = getTeamByShort(game.away)
+  const home = getTeamByShort(game.home)
+  const ac = away?.color || '#6b7280'
+  const hc = home?.color || '#6b7280'
+  const done = game.status === 'final'
+  const aWin = done && game.awayScore > game.homeScore
+  const hWin = done && game.homeScore > game.awayScore
+  const field = cleanField(game.field)
+  const time  = parseTime(game.field)
 
   return (
-    <div className="card overflow-hidden">
-      {/* Header */}
-      <div className="px-4 py-2 border-b border-dvsl-border flex items-center justify-between">
-        <span className="text-dvsl-muted text-xs font-mono">Week {game.week} · {game.field}</span>
-        <span className={`text-xs font-mono px-2 py-0.5 rounded-full ${
-          isFinal ? 'bg-dvsl-green/15 text-dvsl-green' : 'bg-dvsl-gold/15 text-dvsl-gold'
-        }`}>
-          {isFinal ? 'FINAL' : `${game.date.slice(5)} ${game.time}`}
-        </span>
-      </div>
-      {/* Teams */}
-      <div className="p-4 space-y-2">
-        {[{ name: game.away, score: game.awayScore, won: awayWon }, { name: game.home, score: game.homeScore, won: homeWon }].map(side => (
-          <div key={side.name} className="flex items-center justify-between">
-            <Link
-              to={`/teams/${teamId(side.name)}`}
-              className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
-            >
-              <span className="w-3 h-3 rounded-full" style={{ background: teamColor(side.name) }} />
-              <span className={`text-sm ${side.won ? 'text-dvsl-text font-bold' : 'text-dvsl-muted'}`}>{side.name}</span>
-            </Link>
-            {isFinal && (
-              <span className={`font-mono text-lg font-bold ${side.won ? 'text-dvsl-text' : 'text-dvsl-muted'}`}>
-                {side.score}
-              </span>
-            )}
-          </div>
-        ))}
+    <div style={{
+      background: 'var(--card)',
+      borderBottom: '1px solid var(--border)',
+      padding: '14px 20px',
+    }}>
+      {/* Status label */}
+      {isNext && (
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'var(--gold)',paddingBottom:6,paddingLeft:44}}>
+          NEXT
+        </div>
+      )}
+      {done && (
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'var(--muted2)',paddingBottom:6,paddingLeft:44}}>
+          FINAL
+        </div>
+      )}
+
+      <div style={{display:'flex',alignItems:'stretch',gap:0}}>
+        {/* Teams + scores */}
+        <div style={{flex:1,display:'flex',flexDirection:'column',gap:6}}>
+          {[
+            { t:game.away, team:away, color:ac, score:game.awayScore, won:aWin },
+            { t:game.home, team:home, color:hc, score:game.homeScore, won:hWin },
+          ].map(side => (
+            <div key={side.t} style={{display:'flex',alignItems:'center',gap:10}}>
+              <TeamBadge short={side.t} size={34} />
+              <Link
+                to={`/teams/${side.team?.id || side.t}`}
+                style={{
+                  fontFamily:"'Barlow Condensed',sans-serif",
+                  fontWeight: side.won ? 800 : 400,
+                  fontSize: 22,
+                  letterSpacing: '.02em',
+                  textTransform: 'uppercase',
+                  color: side.won ? 'var(--white)' : 'var(--muted)',
+                  textDecoration: 'none',
+                  flex: 1,
+                  lineHeight: 1,
+                }}
+              >
+                {side.t}
+                {!done && side.team && (
+                  <span style={{fontSize:12,fontWeight:400,color:'var(--muted2)',marginLeft:6}}>
+                    ({side.team.w}-{side.team.l})
+                  </span>
+                )}
+              </Link>
+              {done && (
+                <span style={{
+                  fontFamily:"'Barlow Condensed',sans-serif",
+                  fontWeight: side.won ? 800 : 400,
+                  fontSize: 30,
+                  color: side.won ? 'var(--white)' : 'var(--muted)',
+                  minWidth: 32,
+                  textAlign: 'right',
+                  lineHeight: 1,
+                }}>
+                  {side.score}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div style={{width:1,background:'var(--border)',margin:'0 20px'}} />
+
+        {/* Field + time */}
+        <div style={{display:'flex',flexDirection:'column',justifyContent:'center',minWidth:120}}>
+          <div style={{fontWeight:700,fontSize:16,color:'var(--white)',marginBottom:4}}>{field}</div>
+          {!done && (
+            <div style={{fontSize:14,fontWeight:700,color:'var(--gold)',marginTop:4}}>{time}</div>
+          )}
+        </div>
+
+        {/* Gameday button for upcoming */}
+        {!done && (
+          <>
+            <div style={{width:1,background:'var(--border)',margin:'0 20px'}} />
+            <div style={{display:'flex',alignItems:'center'}}>
+              <button className="btn-outline" style={{fontSize:14,whiteSpace:'nowrap'}}>GAMEDAY</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
