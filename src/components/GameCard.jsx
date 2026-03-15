@@ -16,8 +16,8 @@ function parseTime(f) {
 }
 
 // Fixed column widths — header and rows must match exactly
-const TEAM_W = 110   // team name+badge column
-const STAT_W = 44    // each stat column (R, H, E)
+const TEAM_W = 150   // team name+badge column
+const STAT_W = 60    // each stat column (R, H, E)
 
 export default function GameCard({ game, isNext = false }) {
   const [modal, setModal] = useState(null)
@@ -94,14 +94,14 @@ export default function GameCard({ game, isNext = false }) {
                   <TeamBadge short={side.t} size={30} />
                   <div>
                     <div style={{ display:'flex', alignItems:'center', gap:3 }}>
-                      <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:400, fontSize:18, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
+                      <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:400, fontSize:'clamp(16px,2vw,26px)', textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
                       {side.won && <span style={{ fontSize:8, color:'var(--muted)' }}>◄</span>}
                     </div>
                     {side.team && <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
                 {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:32, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
+                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(28px,4vw,56px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
                 ))}
               </div>
             ))}
