@@ -55,14 +55,15 @@ function ScheduleRow({ game, isNext }) {
               </div>
             ))}
           </div>
-          {/* Field + time — once only */}
-          <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 24px', display:'flex', flexDirection:'column', justifyContent:'center', minWidth:160 }}>
-            <div style={{ fontWeight:600, fontSize:15, color:'var(--white)', marginBottom:6 }}>{field}</div>
-            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:30, color:'var(--gold)' }}>{time}</div>
-          </div>
-          {/* GAMEDAY */}
-          <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 20px', display:'flex', alignItems:'center' }}>
-            <button onClick={() => setShowGameday(true)} className="btn-outline" style={{ fontSize:13, letterSpacing:'.08em' }}>GAMEDAY</button>
+          {/* Field + time + GAMEDAY — never clips */}
+          <div style={{ display:'flex', alignItems:'center', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
+            <div style={{ padding:'14px 18px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+              <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:4, whiteSpace:'nowrap' }}>{field}</div>
+              <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', whiteSpace:'nowrap' }}>{time}</div>
+            </div>
+            <div style={{ padding:'14px 16px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0 }}>
+              <button onClick={() => setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, letterSpacing:'.06em', padding:'8px 16px', whiteSpace:'nowrap', minWidth:90 }}>GAMEDAY</button>
+            </div>
           </div>
         </div>
       </div>
