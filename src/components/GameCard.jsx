@@ -43,7 +43,7 @@ export default function GameCard({ game, isNext = false }) {
           {isNext && <div style={{ padding:'6px 16px 0', fontSize:12, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
             {/* Teams */}
-            <div style={{ width:340, flexShrink:0, padding:'12px 16px', display:'flex', flexDirection:'column', gap:6 }}>
+            <div style={{ flex:'1 1 200px', minWidth:0, padding:'12px 16px', display:'flex', flexDirection:'column', gap:6 }}>
               {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
                 <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
                   <TeamBadge short={side.t} size={34} />
@@ -57,7 +57,7 @@ export default function GameCard({ game, isNext = false }) {
               ))}
             </div>
             {/* Fixed-width columns so all rows align */}
-            <div style={{ display:'flex', alignItems:'center', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
+            <div style={{ display:'flex', alignItems:'center', borderLeft:'1px solid var(--border)', flexShrink:0, flexWrap:'wrap' }}>
               <div style={{ width:130, padding:'12px 16px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
                 <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:3, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{field}</div>
                 <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', whiteSpace:'nowrap', lineHeight:1 }}>{time}</div>
@@ -70,7 +70,7 @@ export default function GameCard({ game, isNext = false }) {
         </div>
       ) : (
         // ── FINAL ──
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', overflow:'hidden', width:'fit-content', minWidth:'100%' }}>
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', flexWrap:'wrap', overflow:'hidden', width:'100%' }}>
           {/* R/H/E */}
           <div style={{ padding:'14px 14px 10px', flexShrink:0 }}>
             <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:6 }}>
@@ -94,7 +94,7 @@ export default function GameCard({ game, isNext = false }) {
                   </div>
                 </div>
                 {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:44, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
+                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(28px,5vw,44px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
                 ))}
               </div>
             ))}

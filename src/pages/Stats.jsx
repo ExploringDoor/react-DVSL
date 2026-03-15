@@ -57,7 +57,7 @@ export default function Stats() {
         <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)' }}>
           <div style={{ maxWidth:1300, margin:'0 auto', padding:'24px clamp(16px,4vw,48px) 0' }}>
             {/* Mini stat boxes */}
-            <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:20, scrollbarWidth:'none' }}>
+            <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:20, scrollbarWidth:'none', WebkitOverflowScrolling:'touch' }}>
               {LEADER_CATS.map(({key,label,fmt}) => {
                 const p = leaders[key]?.[0]
                 if (!p) return null
@@ -101,7 +101,7 @@ export default function Stats() {
           </div>
 
           {/* Table */}
-          <div style={{ overflowX:'auto', background:'var(--card)', border:'1px solid var(--border)', borderRadius:10 }}>
+          <div style={{ overflowX:'auto', WebkitOverflowScrolling:'touch', background:'var(--card)', border:'1px solid var(--border)', borderRadius:10 }}>
             <table style={{ width:'100%', borderCollapse:'collapse', minWidth:900 }}>
               <thead>
                 <tr style={{ borderBottom:'1px solid var(--border)' }}>

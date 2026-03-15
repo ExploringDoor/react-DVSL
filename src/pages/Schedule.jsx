@@ -38,9 +38,9 @@ function ScheduleRow({ game, isNext }) {
   return (
     <>
       {showGameday && <GamedayModal game={game} onClose={() => setShowGameday(false)} />}
-      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6, display:'flex', alignItems:'stretch' }}>
+      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6, display:'flex', alignItems:'stretch', flexWrap:'wrap' }}>
         {/* Teams */}
-        <div style={{ width:340, flexShrink:0, padding:'14px 20px', display:'flex', flexDirection:'column', gap:6 }}>
+        <div style={{ flex:'1 1 200px', minWidth:0, padding:'14px 20px', display:'flex', flexDirection:'column', gap:6 }}>
           {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
             <div key={side.t} style={{ display:'flex', alignItems:'center', gap:10 }}>
               <div style={{ width:36, height:36, borderRadius:8, background:`${side.team?.color||'#6b7280'}22`, border:`2px solid ${side.team?.color||'#6b7280'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
@@ -62,7 +62,7 @@ function ScheduleRow({ game, isNext }) {
         </div>
 
         {/* Fixed-width columns so ALL rows align perfectly */}
-        <div style={{ borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0 }}>
+        <div style={{ borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0, flexWrap:'wrap', minWidth:0 }}>
           {/* Time + date — fixed 140px */}
           <div style={{ width:140, padding:'14px 20px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
             <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--gold)', lineHeight:1 }}>{time}</div>

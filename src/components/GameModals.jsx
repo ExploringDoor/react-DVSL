@@ -109,7 +109,7 @@ function genGamedayPreview(game) {
 
 function Modal({ onClose, children, maxWidth = 900 }) {
   return (
-    <div onClick={onClose} style={{ position:'fixed',inset:0,zIndex:1000,background:'rgba(0,0,0,0.88)',display:'flex',alignItems:'center',justifyContent:'center',padding:16,overflowY:'auto' }}>
+    <div onClick={onClose} style={{ position:'fixed',inset:0,zIndex:1000,background:'rgba(0,0,0,0.88)',display:'flex',alignItems:'center',justifyContent:'center',padding:'env(safe-area-inset-top, 8px) 8px 8px',overflowY:'auto' }}>
       <div onClick={e=>e.stopPropagation()} style={{ background:'#0d0d11',border:'1px solid rgba(255,255,255,0.1)',borderRadius:14,maxWidth,width:'100%',maxHeight:'90vh',overflowY:'auto',position:'relative' }}>
         {children}
       </div>
@@ -167,7 +167,7 @@ export function PlayerStatsModal({ player, onClose }) {
 
       {/* Stat grid */}
       <div style={{ padding:'20px 28px' }}>
-        <div style={{ display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:28 }}>
+        <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(120px,1fr))',gap:10,marginBottom:24 }}>
           {[
             ['AVG', fmtAvg(player.avg)],
             ['HR',  player.hr],
@@ -260,32 +260,32 @@ export function BoxScoreModal({ game, onClose }) {
         <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:8,color:'var(--white)',fontSize:18,fontWeight:400,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
 
         {/* Hero score header */}
-        <div style={{ padding:'32px 40px 24px',textAlign:'center',borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ padding:'24px clamp(12px,4vw,40px) 20px',textAlign:'center',borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
           <div style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:32 }}>
             {/* Away */}
             <div style={{ flex:1,textAlign:'center' }}>
-              <Link to={`/teams/${awayT?.id||game.away}`} style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:64,textTransform:'uppercase',color:awayT?.color||'var(--gold)',textDecoration:'none',lineHeight:1,display:'block' }}>{game.away}</Link>
+              <Link to={`/teams/${awayT?.id||game.away}`} style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(32px,6vw,64px)',textTransform:'uppercase',color:awayT?.color||'var(--gold)',textDecoration:'none',lineHeight:1,display:'block' }}>{game.away}</Link>
               <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:4,textTransform:'uppercase',letterSpacing:'.08em' }}>AWAY ↗</div>
             </div>
             {/* Score */}
             <div style={{ textAlign:'center' }}>
               <div style={{ display:'flex',alignItems:'center',gap:12 }}>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:72,color:'var(--gold)',lineHeight:1 }}>{game.awayScore}</span>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(40px,8vw,72px)',color:'var(--gold)',lineHeight:1 }}>{game.awayScore}</span>
                 <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:400,fontSize:48,color:'rgba(255,255,255,0.3)',lineHeight:1 }}>-</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:72,color:'rgba(255,255,255,0.35)',lineHeight:1 }}>{game.homeScore}</span>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(40px,8vw,72px)',color:'rgba(255,255,255,0.35)',lineHeight:1 }}>{game.homeScore}</span>
               </div>
               <div style={{ background:'rgba(255,255,255,0.08)',borderRadius:6,padding:'4px 16px',fontSize:11,fontWeight:700,letterSpacing:'.1em',color:'rgba(255,255,255,0.5)',textTransform:'uppercase',marginTop:8,display:'inline-block' }}>FINAL</div>
               <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:6 }}>📍 {field}</div>
             </div>
             {/* Home */}
             <div style={{ flex:1,textAlign:'center' }}>
-              <Link to={`/teams/${homeT?.id||game.home}`} style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:64,textTransform:'uppercase',color:homeT?.color||'var(--gold)',textDecoration:'none',lineHeight:1,display:'block' }}>{game.home}</Link>
+              <Link to={`/teams/${homeT?.id||game.home}`} style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(32px,6vw,64px)',textTransform:'uppercase',color:homeT?.color||'var(--gold)',textDecoration:'none',lineHeight:1,display:'block' }}>{game.home}</Link>
               <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:4,textTransform:'uppercase',letterSpacing:'.08em' }}>HOME ↗</div>
             </div>
           </div>
         </div>
 
-        <div style={{ padding:'24px 32px 32px' }}>
+        <div style={{ padding:'16px clamp(12px,4vw,32px) 24px' }}>
           {/* Line Score with innings */}
           <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:10 }}>Line Score</div>
           {(() => {

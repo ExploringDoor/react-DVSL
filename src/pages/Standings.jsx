@@ -64,7 +64,7 @@ export default function Standings() {
         {tab === '2026' ? (
           <>
             <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', marginBottom:12 }}>Click any column header to sort</div>
-            <div style={{ overflowX:'auto', background:'var(--card)', border:'1px solid var(--border)', borderRadius:10 }}>
+            <div style={{ overflowX:'auto', WebkitOverflowScrolling:'touch', background:'var(--card)', border:'1px solid var(--border)', borderRadius:10 }}>
               <table style={{ width:'100%', borderCollapse:'collapse', minWidth:700 }}>
                 <thead>
                   <tr style={{ borderBottom:'1px solid var(--border)' }}>

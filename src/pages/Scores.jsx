@@ -56,7 +56,7 @@ export default function Scores() {
       </div>
 
       {/* Games */}
-      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px clamp(16px,4vw,48px) 60px' }}>
+      <div style={{ maxWidth:1100, margin:'0 auto', padding:'16px clamp(12px,4vw,48px) 60px' }}>
         {games.length === 0 ? (
           <div style={{ padding:60, textAlign:'center', color:'var(--muted)' }}>No scores yet for this week.</div>
         ) : (
