@@ -15,8 +15,9 @@ function parseTime(f) {
   return `${t}${t.includes(':') ? '' : ':00'} ${p.toUpperCase()}`
 }
 
-const TEAM_W = 180
-const STAT_W = 64
+// Fixed column widths — header and rows must match exactly
+const TEAM_W = 130   // team name+badge column
+const STAT_W = 48    // each stat column (R, H, E)
 
 export default function GameCard({ game, isNext = false }) {
   const [modal, setModal] = useState(null)
@@ -30,6 +31,8 @@ export default function GameCard({ game, isNext = false }) {
   const homeHE = done ? fakeHE(game.homeScore, seed+3) : null
   const field = cleanField(game.field)
   const time  = parseTime(game.field)
+  const [mon, day] = (game.date||'').split(' ')
+  const mo = {April:'Apr',May:'May',June:'Jun',July:'Jul',August:'Aug'}[mon]||mon
 
   return (
     <>
@@ -38,75 +41,78 @@ export default function GameCard({ game, isNext = false }) {
       {modal==='gameday'  && <GamedayModal  game={game} onClose={()=>setModal(null)} />}
 
       {!done ? (
-        // ── UPCOMING ──
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:2 }}>
-          {isNext && <div style={{ padding:'6px 16px 0', fontSize:12, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
+        // ── UPCOMING ──────────────────────────────────────────────────────
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6 }}>
+          {isNext && <div style={{ padding:'6px 16px 0', fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)' }}>▶ NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
-            {/* Teams */}
-            <div style={{ flex:'1 1 200px', minWidth:0, padding:'12px 16px', display:'flex', flexDirection:'column', gap:6 }}>
+            {/* Teams — fixed 300px */}
+            <div style={{ width:300, flexShrink:0, padding:'12px 14px', display:'flex', flexDirection:'column', gap:6 }}>
               {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
                 <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
-                  <TeamBadge short={side.t} size={34} />
-                  <div>
-                    <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:24, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block' }}>
+                  <div style={{ width:32, height:32, borderRadius:6, background:`${side.team?.color||'#6b7280'}22`, border:`2px solid ${side.team?.color||'#6b7280'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                    <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:9, color:side.team?.color||'var(--white)', textTransform:'uppercase' }}>{side.t?.slice(0,4)}</span>
+                  </div>
+                  <div style={{ minWidth:0 }}>
+                    <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:20, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                       {side.team?.name || side.t}
                     </Link>
-                    {side.team && <div style={{ fontSize:11, color:'rgba(255,255,255,0.55)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
+                    {side.team && <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
               ))}
             </div>
-            {/* Fixed-width columns so all rows align */}
-            <div style={{ display:'flex', alignItems:'center', borderLeft:'1px solid var(--border)', flexShrink:0, flexWrap:'wrap' }}>
-              <div style={{ width:130, padding:'12px 16px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-                <div style={{ fontWeight:600, fontSize:13, color:'var(--white)', marginBottom:3, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{field}</div>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', whiteSpace:'nowrap', lineHeight:1 }}>{time}</div>
-              </div>
-              <div style={{ width:110, padding:'12px 16px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <button onClick={()=>setModal('gameday')} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'8px 16px', whiteSpace:'nowrap' }}>GAMEDAY</button>
-              </div>
+            {/* Time — fixed 120px */}
+            <div style={{ width:120, flexShrink:0, borderLeft:'1px solid var(--border)', padding:'12px 14px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+              <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', lineHeight:1 }}>{time}</div>
+              <div style={{ fontSize:12, color:'rgba(255,255,255,0.45)', marginTop:4 }}>{mo} {day}</div>
+              <div style={{ fontSize:12, color:'rgba(255,255,255,0.55)', marginTop:2, fontWeight:600 }}>{field}</div>
+            </div>
+            {/* GAMEDAY — fixed 110px */}
+            <div style={{ width:110, flexShrink:0, borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', padding:'12px 10px' }}>
+              <button onClick={()=>setModal('gameday')} className="btn-outline" style={{ fontSize:12, fontWeight:700, padding:'8px 10px', whiteSpace:'nowrap', width:'100%', textAlign:'center' }}>GAMEDAY</button>
             </div>
           </div>
         </div>
       ) : (
-        // ── FINAL ──
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', flexWrap:'wrap', overflow:'hidden', width:'100%' }}>
-          {/* R/H/E */}
-          <div style={{ padding:'14px 14px 10px', flexShrink:0 }}>
-            <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:6 }}>
+        // ── FINAL ─────────────────────────────────────────────────────────
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
+          {/* RHE section — tight fixed widths */}
+          <div style={{ padding:'12px 10px 10px', flexShrink:0 }}>
+            {/* Header */}
+            <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:4 }}>
               {['R','H','E'].map(l=>(
-                <span key={l} style={{ width:STAT_W, textAlign:'center', fontSize:12, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.45)', textTransform:'uppercase' }}>{l}</span>
+                <span key={l} style={{ width:STAT_W, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.4)', textTransform:'uppercase' }}>{l}</span>
               ))}
             </div>
+            {/* Rows */}
             {[
               {t:game.away,team:away,score:game.awayScore,he:awayHE,won:aWin},
               {t:game.home,team:home,score:game.homeScore,he:homeHE,won:hWin},
             ].map((side,i)=>(
-              <div key={side.t} style={{ display:'flex', alignItems:'center', marginBottom:i===0?6:0 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8, width:TEAM_W, flexShrink:0 }}>
-                  <TeamBadge short={side.t} size={36} />
+              <div key={side.t} style={{ display:'flex', alignItems:'center', marginBottom:i===0?4:0 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:6, width:TEAM_W, flexShrink:0 }}>
+                  <TeamBadge short={side.t} size={30} />
                   <div>
                     <div style={{ display:'flex', alignItems:'center', gap:3 }}>
-                      <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:400, fontSize:26, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
-                      {side.won && <span style={{ fontSize:9, color:'var(--muted)' }}>◄</span>}
+                      <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:400, fontSize:18, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
+                      {side.won && <span style={{ fontSize:8, color:'var(--muted)' }}>◄</span>}
                     </div>
-                    {side.team && <div style={{ fontSize:11, color:'rgba(255,255,255,0.45)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
+                    {side.team && <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
                 {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(28px,5vw,44px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
+                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:36, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
                 ))}
               </div>
             ))}
-            <div style={{ paddingLeft:TEAM_W+4, marginTop:6 }}>
-              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.35)' }}>FINAL</span>
+            <div style={{ paddingLeft:TEAM_W+4, marginTop:4 }}>
+              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.3)' }}>FINAL</span>
             </div>
           </div>
-
-          {/* Buttons — right next to scores */}
-          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:8, padding:'14px 16px', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
-            <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'8px 16px', whiteSpace:'nowrap' }}>RECAP</button>
-            <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'8px 16px', whiteSpace:'nowrap' }}>BOX SCORE</button>
+          {/* Buttons — right next to RHE */}
+          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:6, padding:'12px 12px', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
+            <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:12, fontWeight:700, padding:'7px 14px', whiteSpace:'nowrap' }}>RECAP</button>
+            <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:12, fontWeight:700, padding:'7px 14px', whiteSpace:'nowrap' }}>BOX SCORE</button>
           </div>
         </div>
       )}
