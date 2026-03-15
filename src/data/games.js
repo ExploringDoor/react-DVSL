@@ -175,7 +175,7 @@ const RAW_WEEKS = [
 // Flatten into game objects
 let gid = 1
 export const GAMES = []
-const CURRENT_WK = 9 // weeks 1-8 have scores
+const CURRENT_WK = 0 // weeks 1-8 have scores
 
 RAW_WEEKS.forEach(week => {
   if (!week.games.length) return

@@ -6,13 +6,18 @@ function fmtTickerDate(date, field) {
   const [mon, day] = (date || '').split(' ')
   const mo = { April:'Apr', May:'May', June:'Jun', July:'Jul', August:'Aug' }[mon] || mon
   const timeMatch = field?.match(/([\d:]+)\s*(pm|am)/i)
-  const time = timeMatch ? timeMatch[0].toUpperCase().replace(/(\d+)(PM|AM)/, '$1:00 $2') : '7:00 PM'
+  let time = '7:00 PM'
+  if (timeMatch) {
+    const raw = timeMatch[0].toUpperCase()
+    time = raw.includes(':') ? raw : raw.replace(/(PM|AM)/, ':00 $1')
+  }
   return `${mo} ${day} · ${time}`
 }
 
 export default function Ticker() {
   const completed = GAMES.filter(g => g.status === 'final').reverse().slice(0, 8)
-  const upcoming  = GAMES.filter(g => g.status === 'upcoming').slice(0, 6)
+  const upcoming  = GAMES.filter(g => g.status === 'upcoming').slice(0, 10)
+  // Show completed first, then upcoming — but only records for upcoming, scores for completed
   const all = [...completed, ...upcoming]
 
   return (
@@ -47,7 +52,6 @@ export default function Ticker() {
               padding: '5px 16px', borderRight: '1px solid rgba(255,255,255,0.06)',
               flexShrink: 0, gap: 2,
             }}>
-              {/* Date/time */}
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.08em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>
                 {fmtTickerDate(g.date, g.field)}
               </div>
@@ -55,22 +59,21 @@ export default function Ticker() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                 <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: away?.color || 'var(--white)' }}>{g.away}</span>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{away ? `${away.w}-${away.l}` : ''}</span>
-                {done && <span style={{ fontSize: 13, fontWeight: aWin ? 700 : 400, color: aWin ? 'var(--white)' : 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{g.awayScore}</span>}
+                {done && <span style={{ fontSize: 13, fontWeight: aWin ? 700 : 400, color: aWin ? 'var(--white)' : 'rgba(255,255,255,0.4)', marginLeft: 3 }}>{g.awayScore}</span>}
               </div>
               {/* Home */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                 <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: home?.color || 'var(--white)' }}>{g.home}</span>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{home ? `${home.w}-${home.l}` : ''}</span>
-                {done && <span style={{ fontSize: 13, fontWeight: hWin ? 700 : 400, color: hWin ? 'var(--white)' : 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{g.homeScore}</span>}
+                {done && <span style={{ fontSize: 13, fontWeight: hWin ? 700 : 400, color: hWin ? 'var(--white)' : 'rgba(255,255,255,0.4)', marginLeft: 3 }}>{g.homeScore}</span>}
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Full Schedule link */}
       <div style={{ display: 'flex', alignItems: 'center', padding: '0 20px', flexShrink: 0, marginLeft: 'auto' }}>
-        <Link to="/scores" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: 'var(--gold)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+        <Link to="/schedule" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: 'var(--gold)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
           Full Schedule »
         </Link>
       </div>
