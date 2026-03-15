@@ -33,8 +33,9 @@ export default function Navbar() {
         background: 'rgba(7,7,9,0.98)', backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255,255,255,0.08)',
       }}>
-        <Link to="/" style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)', textDecoration:'none', flexShrink:0 }}>
-          DVSL
+        <Link to="/" style={{ textDecoration:'none', flexShrink:0, display:'flex', alignItems:'center', gap:10 }}>
+          <img src="/dvsl-logo.png" alt="DVSL" style={{ height:36, width:36, objectFit:'contain', filter:'drop-shadow(0 0 8px rgba(59,130,246,0.5))' }} />
+          <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)' }}>DVSL</span>
         </Link>
 
         {/* Desktop nav */}
@@ -74,7 +75,10 @@ export default function Navbar() {
         }} className="lg:hidden">
           {/* Header row */}
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 20px', height:62, borderBottom:'1px solid rgba(255,255,255,0.08)', flexShrink:0 }}>
-            <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', letterSpacing:'.1em' }}>DVSL</span>
+            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <img src="/dvsl-logo.png" alt="DVSL" style={{ height:32, width:32, objectFit:'contain' }} />
+              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', letterSpacing:'.1em' }}>DVSL</span>
+            </div>
             <button onClick={() => setOpen(false)} style={{ background:'none', border:'none', color:'var(--white)', fontSize:28, cursor:'pointer', padding:8 }}>✕</button>
           </div>
 
