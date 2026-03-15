@@ -30,39 +30,52 @@ function ScheduleRow({ game, isNext }) {
   const home = getTeamByShort(game.home)
   const field = cleanField(game.field)
   const time  = parseTime(game.field)
+  const [mon, day] = (game.date||'').split(' ')
+  const mo = {April:'Apr',May:'May',June:'Jun',July:'Jul',August:'Aug'}[mon]||mon
 
   if (game.status === 'final') return <GameCard game={game} />
 
   return (
     <>
       {showGameday && <GamedayModal game={game} onClose={() => setShowGameday(false)} />}
-      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6 }}>
-        {isNext && <div style={{ padding:'6px 16px 0', fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
-        <div style={{ display:'flex', alignItems:'center', padding:'12px 16px', gap:0 }}>
-          {/* Teams — stacked, compact */}
-          <div style={{ flex:1, display:'flex', flexDirection:'column', gap:4 }}>
-            {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
-              <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <span style={{ width:10, height:10, borderRadius:'50%', background:side.team?.color||'#6b7280', flexShrink:0 }} />
+      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6, display:'flex', alignItems:'stretch' }}>
+        {/* Teams */}
+        <div style={{ flex:1, padding:'14px 20px', display:'flex', flexDirection:'column', gap:6 }}>
+          {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
+            <div key={side.t} style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <div style={{ width:36, height:36, borderRadius:8, background:`${side.team?.color||'#6b7280'}22`, border:`2px solid ${side.team?.color||'#6b7280'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:10, color:side.team?.color||'var(--white)', textTransform:'uppercase', letterSpacing:'-.02em' }}>{side.t?.slice(0,4)}</span>
+              </div>
+              <div>
                 <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{
-                  fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:20,
+                  fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26,
                   textTransform:'uppercase', color:side.team?.color||'var(--white)',
-                  textDecoration:'none', lineHeight:1,
+                  textDecoration:'none', lineHeight:1, display:'block',
                 }}>
                   {side.team?.name || side.t}
                 </Link>
-                <span style={{ fontSize:11, color:'rgba(255,255,255,0.4)' }}>({side.team?.w}-{side.team?.l})</span>
+                <span style={{ fontSize:12, color:'rgba(255,255,255,0.4)' }}>({side.team?.w}-{side.team?.l})</span>
               </div>
-            ))}
-          </div>
-          {/* Field + time — compact */}
-          <div style={{ display:'flex', alignItems:'center', gap:20, flexShrink:0, paddingLeft:16, borderLeft:'1px solid var(--border)' }}>
-            <div>
-              <div style={{ fontSize:12, color:'rgba(255,255,255,0.5)', marginBottom:2 }}>{field}</div>
-              <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', lineHeight:1 }}>{time}</div>
             </div>
-            <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:12, padding:'7px 14px', whiteSpace:'nowrap' }}>GAMEDAY</button>
+          ))}
+          {isNext && <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'var(--gold)', marginTop:2 }}>▶ NEXT</div>}
+        </div>
+
+        {/* Time + field + GAMEDAY — matches screenshot */}
+        <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 20px', display:'flex', alignItems:'center', gap:20, flexShrink:0 }}>
+          {/* Big time + date */}
+          <div style={{ minWidth:120 }}>
+            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:34, color:'var(--gold)', lineHeight:1 }}>{time}</div>
+            <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginTop:4 }}>{mo} {day}</div>
           </div>
+          {/* Divider */}
+          <div style={{ width:1, height:40, background:'rgba(255,255,255,0.1)', flexShrink:0 }} />
+          {/* Field */}
+          <div style={{ fontWeight:600, fontSize:15, color:'var(--white)', minWidth:90 }}>{field}</div>
+          {/* Divider */}
+          <div style={{ width:1, height:40, background:'rgba(255,255,255,0.1)', flexShrink:0 }} />
+          {/* GAMEDAY */}
+          <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'9px 18px', whiteSpace:'nowrap' }}>GAMEDAY</button>
         </div>
       </div>
     </>
