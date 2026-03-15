@@ -43,7 +43,7 @@ export default function GameCard({ game, isNext = false }) {
           {isNext && <div style={{ padding:'6px 16px 0', fontSize:12, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
             {/* Teams */}
-            <div style={{ flex:1, padding:'12px 16px', display:'flex', flexDirection:'column', gap:8 }}>
+            <div style={{ flex:'0 1 auto', padding:'12px 16px', display:'flex', flexDirection:'column', gap:6 }}>
               {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
                 <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
                   <TeamBadge short={side.t} size={34} />
@@ -69,8 +69,8 @@ export default function GameCard({ game, isNext = false }) {
           </div>
         </div>
       ) : (
-        // ── FINAL — bigger names/scores, tighter layout ──
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
+        // ── FINAL ──
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', overflow:'hidden', width:'fit-content', minWidth:'100%' }}>
           {/* R/H/E */}
           <div style={{ padding:'14px 14px 10px', flexShrink:0 }}>
             <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:6 }}>

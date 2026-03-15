@@ -11,7 +11,6 @@ const LEADER_CATS = [
   { key:'r',       label:'Runs',        fmt: v => v  },
   { key:'h',       label:'Hits',        fmt: v => v  },
   { key:'obp',     label:'OBP',         fmt: fmtAvg  },
-  { key:'sb',      label:'Stolen Bases',fmt: v => v  },
   { key:'doubles', label:'Doubles',     fmt: v => v  },
 ]
 
@@ -28,7 +27,6 @@ const TABLE_COLS = [
   { key:'rbi',     label:'RBI'},
   { key:'bb',      label:'BB' },
   { key:'so',      label:'SO' },
-  { key:'sb',      label:'SB' },
   { key:'avg',     label:'AVG', fmt: fmtAvg, highlight: true },
   { key:'obp',     label:'OBP', fmt: fmtAvg, highlight: true },
   { key:'slg',     label:'SLG', fmt: fmtAvg, highlight: true },
