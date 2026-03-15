@@ -40,7 +40,7 @@ function ScheduleRow({ game, isNext }) {
       {showGameday && <GamedayModal game={game} onClose={() => setShowGameday(false)} />}
       <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6, display:'flex', alignItems:'stretch' }}>
         {/* Teams */}
-        <div style={{ flex:1, padding:'14px 20px', display:'flex', flexDirection:'column', gap:6 }}>
+        <div style={{ width:340, flexShrink:0, padding:'14px 20px', display:'flex', flexDirection:'column', gap:6 }}>
           {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
             <div key={side.t} style={{ display:'flex', alignItems:'center', gap:10 }}>
               <div style={{ width:36, height:36, borderRadius:8, background:`${side.team?.color||'#6b7280'}22`, border:`2px solid ${side.team?.color||'#6b7280'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
