@@ -121,9 +121,7 @@ export default function Schedule() {
           <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:28, color:'var(--white)' }}>
             Week {activeWk} · {weekInfo?.date}
           </h2>
-          <a href="/dvsl-2026.ics" download style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--gold)', border:'1px solid rgba(245,200,66,.35)', borderRadius:20, padding:'6px 14px', textDecoration:'none', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:12, letterSpacing:'.06em', textTransform:'uppercase', whiteSpace:'nowrap' }}>
-            📅 Subscribe to Calendar
-          </a>
+
         </div>
 
         {games.length === 0 ? (

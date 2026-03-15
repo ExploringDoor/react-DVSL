@@ -24,12 +24,10 @@ export default function Home() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
 
-      {/* Hero banner */}
-      <div className="hero-section" style={{ position:'relative', minHeight:'clamp(220px,35vw,400px)', display:'flex', flexDirection:'column', justifyContent:'flex-end', overflow:'hidden', background:'#050608' }}>
-        <div style={{ position:'absolute', inset:0, pointerEvents:'none' }}>
-          <img src="/dvsl-banner.png" alt="" className='hero-banner-img' style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center center', opacity:0.92 }} />
-          <div style={{ position:'absolute', inset:0, background:'linear-gradient(to bottom, rgba(5,6,8,0.05) 0%, rgba(5,6,8,0.3) 60%, rgba(5,6,8,0.85) 100%)' }} />
-        </div>
+      {/* Hero banner — full width, natural height */}
+      <div style={{ position:'relative', width:'100%', background:'#050608', lineHeight:0 }}>
+        <img src="/dvsl-banner.png" alt="DVSL Softball" style={{ width:'100%', height:'auto', display:'block', opacity:0.95 }} />
+        <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'40%', background:'linear-gradient(to bottom, transparent, rgba(5,6,8,0.9))', pointerEvents:'none' }} />
       </div>
 
       {/* Main content grid */}
