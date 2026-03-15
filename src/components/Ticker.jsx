@@ -11,7 +11,6 @@ function fmtTickerDate(date, field) {
 }
 
 export default function Ticker() {
-  // Show last 8 completed + next 6 upcoming
   const completed = GAMES.filter(g => g.status === 'final').reverse().slice(0, 8)
   const upcoming  = GAMES.filter(g => g.status === 'upcoming').slice(0, 6)
   const all = [...completed, ...upcoming]
@@ -55,26 +54,14 @@ export default function Ticker() {
               {/* Away */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                 <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: away?.color || 'var(--white)' }}>{g.away}</span>
-                {done ? (
-                  <>
-                    <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{away ? `${away.w}-${away.l}` : ''}</span>
-                    <span style={{ fontSize: 13, fontWeight: aWin ? 700 : 400, color: aWin ? 'var(--white)' : 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{g.awayScore}</span>
-                  </>
-                ) : (
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{away ? `${away.w}-${away.l}` : ''}</span>
-                )}
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{away ? `${away.w}-${away.l}` : ''}</span>
+                {done && <span style={{ fontSize: 13, fontWeight: aWin ? 700 : 400, color: aWin ? 'var(--white)' : 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{g.awayScore}</span>}
               </div>
               {/* Home */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                 <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 13, color: home?.color || 'var(--white)' }}>{g.home}</span>
-                {done ? (
-                  <>
-                    <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{home ? `${home.w}-${home.l}` : ''}</span>
-                    <span style={{ fontSize: 13, fontWeight: hWin ? 700 : 400, color: hWin ? 'var(--white)' : 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{g.homeScore}</span>
-                  </>
-                ) : (
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{home ? `${home.w}-${home.l}` : ''}</span>
-                )}
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{home ? `${home.w}-${home.l}` : ''}</span>
+                {done && <span style={{ fontSize: 13, fontWeight: hWin ? 700 : 400, color: hWin ? 'var(--white)' : 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{g.homeScore}</span>}
               </div>
             </div>
           )

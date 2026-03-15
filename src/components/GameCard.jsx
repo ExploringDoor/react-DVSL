@@ -13,7 +13,7 @@ function parseTime(f) {
   return `${t}${t.includes(':') ? '' : ':00'} ${period.toUpperCase()}`
 }
 
-function PitcherBadge({ short, size = 48 }) {
+function PitcherBadge({ short, size = 44 }) {
   const team = getTeamByShort(short)
   const color = team?.color || '#6b7280'
   return (
@@ -22,7 +22,7 @@ function PitcherBadge({ short, size = 48 }) {
       background: `${color}28`, border: `2px solid ${color}`,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900,
-      fontSize: size * 0.26, color, flexShrink: 0, letterSpacing: '.02em',
+      fontSize: size * 0.25, color, flexShrink: 0, letterSpacing: '.02em',
     }}>{short?.slice(0, 4)}</div>
   )
 }
@@ -44,7 +44,7 @@ export default function GameCard({ game, isNext = false }) {
   const field = cleanField(game.field)
   const time  = parseTime(game.field)
 
-  // ── UPCOMING ──────────────────────────────────────────────
+  // ── UPCOMING ──
   if (!done) {
     return (
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden', marginBottom: 2 }}>
@@ -52,30 +52,23 @@ export default function GameCard({ game, isNext = false }) {
           <div style={{ padding: '8px 20px 0', fontSize: 13, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--gold)' }}>NEXT</div>
         )}
         <div style={{ display: 'flex', alignItems: 'stretch' }}>
-          {/* Teams */}
           <div style={{ flex: 1, padding: '14px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[{ t: game.away, team: away }, { t: game.home, team: home }].map(side => (
               <div key={side.t} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <TeamBadge short={side.t} size={36} />
                 <div>
-                  <Link to={`/teams/${side.team?.id || side.t}`} style={{
-                    fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700,
-                    fontSize: 28, textTransform: 'uppercase',
-                    color: 'var(--white)', textDecoration: 'none', lineHeight: 1, display: 'block',
-                  }}>{side.t}</Link>
+                  <Link to={`/teams/${side.team?.id || side.t}`} style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: 28, textTransform: 'uppercase', color: 'var(--white)', textDecoration: 'none', lineHeight: 1, display: 'block' }}>{side.t}</Link>
                   {side.team && <div style={{ fontSize: 12, color: 'var(--muted2)', marginTop: 1 }}>({side.team.w}-{side.team.l})</div>}
                 </div>
               </div>
             ))}
           </div>
-          {/* Field + time */}
-          <div style={{ borderLeft: '1px solid var(--border)', padding: '14px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 160 }}>
-            <div style={{ fontWeight: 700, fontSize: 17, color: 'var(--white)', marginBottom: 6 }}>{field}</div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--gold)' }}>{time}</div>
+          <div style={{ borderLeft: '1px solid var(--border)', padding: '14px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 150 }}>
+            <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--white)', marginBottom: 6 }}>{field}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--gold)' }}>{time}</div>
           </div>
-          {/* Big time + gameday */}
-          <div style={{ borderLeft: '1px solid var(--border)', padding: '14px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 12 }}>
-            <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 36, color: 'var(--gold)', letterSpacing: '.01em', whiteSpace: 'nowrap' }}>{time}</div>
+          <div style={{ borderLeft: '1px solid var(--border)', padding: '14px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+            <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 32, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{time}</div>
             <button className="btn-outline" style={{ fontSize: 13, letterSpacing: '.08em' }}>GAMEDAY</button>
           </div>
         </div>
@@ -83,14 +76,17 @@ export default function GameCard({ game, isNext = false }) {
     )
   }
 
-  // ── FINAL ─────────────────────────────────────────────────
+  // ── FINAL ──
+  // Layout: [RHE section] | [WIN/LOSS pitchers] | [RECAP/BOX SCORE]
+  // Fixed widths so nothing gets cut off
   return (
-    <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, marginBottom: 2, display: 'flex', alignItems: 'stretch', overflow: 'hidden' }}>
-      {/* R/H/E */}
-      <div style={{ padding: '18px 20px 14px', flexShrink: 0 }}>
-        <div style={{ display: 'flex', paddingLeft: 50, marginBottom: 8 }}>
+    <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, marginBottom: 2, display: 'flex', alignItems: 'stretch', overflow: 'hidden', width: '100%' }}>
+
+      {/* R/H/E — fixed width */}
+      <div style={{ padding: '16px 16px 12px', width: 340, flexShrink: 0 }}>
+        <div style={{ display: 'flex', paddingLeft: 48, marginBottom: 6 }}>
           {['R','H','E'].map(l => (
-            <span key={l} style={{ width: 56, textAlign: 'center', fontSize: 12, fontWeight: 700, letterSpacing: '.1em', color: 'var(--muted2)', textTransform: 'uppercase' }}>{l}</span>
+            <span key={l} style={{ width: 52, textAlign: 'center', fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: 'var(--muted2)', textTransform: 'uppercase' }}>{l}</span>
           ))}
         </div>
         {[
@@ -98,56 +94,56 @@ export default function GameCard({ game, isNext = false }) {
           { t: game.home, team: home, score: game.homeScore, he: homeHE, won: hWin },
         ].map((side, i) => (
           <div key={side.t} style={{ display: 'flex', alignItems: 'center', marginBottom: i === 0 ? 4 : 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: 168, flexShrink: 0 }}>
-              <TeamBadge short={side.t} size={36} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: 140, flexShrink: 0 }}>
+              <TeamBadge short={side.t} size={34} />
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                   <Link to={`/teams/${side.team?.id || side.t}`} style={{
                     fontFamily: "'Barlow Condensed',sans-serif",
-                    fontWeight: side.won ? 800 : 400, fontSize: 24,
+                    fontWeight: side.won ? 800 : 400, fontSize: 22,
                     textTransform: 'uppercase',
                     color: side.won ? 'var(--white)' : 'var(--muted)',
                     textDecoration: 'none', lineHeight: 1,
                   }}>{side.t}</Link>
-                  {side.won && <span style={{ fontSize: 9, color: 'var(--muted)' }}>◄</span>}
+                  {side.won && <span style={{ fontSize: 8, color: 'var(--muted)' }}>◄</span>}
                 </div>
-                {side.team && <div style={{ fontSize: 11, color: 'var(--muted2)', marginTop: 1 }}>({side.team.w}-{side.team.l})</div>}
+                {side.team && <div style={{ fontSize: 10, color: 'var(--muted2)', marginTop: 1 }}>({side.team.w}-{side.team.l})</div>}
               </div>
             </div>
             {[side.score, side.he?.h, side.he?.e].map((val, vi) => (
               <span key={vi} style={{
-                width: 56, textAlign: 'center',
+                width: 52, textAlign: 'center',
                 fontFamily: "'Barlow Condensed',sans-serif",
                 fontWeight: vi === 0 && side.won ? 800 : 400,
-                fontSize: 40, lineHeight: 1,
+                fontSize: 36, lineHeight: 1,
                 color: vi === 2 ? 'var(--muted)' : side.won ? 'var(--white)' : 'var(--muted)',
               }}>{val}</span>
             ))}
           </div>
         ))}
-        <div style={{ paddingLeft: 44, marginTop: 8 }}>
+        <div style={{ paddingLeft: 42, marginTop: 6 }}>
           <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--muted2)' }}>FINAL</span>
         </div>
       </div>
 
-      {/* WIN/LOSS — no field name, saves space */}
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '18px 20px', borderLeft: '1px solid var(--border)', flex: 1, gap: 14 }}>
+      {/* WIN/LOSS — flex grows */}
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '16px 18px', borderLeft: '1px solid var(--border)', flex: 1, gap: 12, minWidth: 0 }}>
         {[{ role:'WIN', p:winP, short:winTeam }, { role:'LOSS', p:lossP, short:lossTeam }].map(({ role, p, short }) => (
           <div key={role} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', color: 'var(--muted2)', width: 34, flexShrink: 0 }}>{role}</span>
-            <PitcherBadge short={short} size={44} />
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--white)', lineHeight: 1.2 }}>{p?.name}</div>
-              <div style={{ fontSize: 12, color: 'var(--muted2)', marginTop: 2 }}>{p?.wl} · {p?.era} ERA</div>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', color: 'var(--muted2)', width: 30, flexShrink: 0 }}>{role}</span>
+            <PitcherBadge short={short} size={42} />
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--white)', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p?.name}</div>
+              <div style={{ fontSize: 11, color: 'var(--muted2)', marginTop: 2, whiteSpace: 'nowrap' }}>{p?.wl} · {p?.era} ERA</div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Buttons */}
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10, padding: '18px 20px', borderLeft: '1px solid var(--border)', flexShrink: 0 }}>
-        <button className="btn-outline" style={{ fontSize: 13, letterSpacing: '.08em' }}>RECAP</button>
-        <button className="btn-outline" style={{ fontSize: 13, letterSpacing: '.08em' }}>BOX SCORE</button>
+      {/* Buttons — fixed width, never hidden */}
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8, padding: '16px 18px', borderLeft: '1px solid var(--border)', flexShrink: 0, width: 130 }}>
+        <button className="btn-outline" style={{ fontSize: 13, letterSpacing: '.06em', width: '100%', textAlign: 'center' }}>RECAP</button>
+        <button className="btn-outline" style={{ fontSize: 13, letterSpacing: '.06em', width: '100%', textAlign: 'center' }}>BOX SCORE</button>
       </div>
     </div>
   )

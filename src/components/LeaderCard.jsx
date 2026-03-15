@@ -1,11 +1,23 @@
 import { Link } from 'react-router-dom'
 import { getTeamByShort } from '../data/teams'
 
-// Realistic placeholder using Unsplash's face collection (seeded by player name)
-function Avatar({ name, size = 140 }) {
-  const seed = name?.split('').reduce((a, c) => a + c.charCodeAt(0), 0) || 42
-  // Use picsum with a face-like seed
-  const url = `https://i.pravatar.cc/${size}?u=${encodeURIComponent(name || 'player')}`
+// Real photos of random men from randomuser.me - seeded by index
+const MALE_PHOTOS = [
+  'https://randomuser.me/api/portraits/men/42.jpg',
+  'https://randomuser.me/api/portraits/men/55.jpg',
+  'https://randomuser.me/api/portraits/men/36.jpg',
+  'https://randomuser.me/api/portraits/men/67.jpg',
+  'https://randomuser.me/api/portraits/men/48.jpg',
+  'https://randomuser.me/api/portraits/men/71.jpg',
+  'https://randomuser.me/api/portraits/men/33.jpg',
+  'https://randomuser.me/api/portraits/men/59.jpg',
+  'https://randomuser.me/api/portraits/men/44.jpg',
+  'https://randomuser.me/api/portraits/men/62.jpg',
+]
+
+function Avatar({ name, size = 130 }) {
+  const idx = (name?.charCodeAt(0) || 0 + (name?.charCodeAt(1) || 0)) % MALE_PHOTOS.length
+  const url = MALE_PHOTOS[idx]
   return (
     <div style={{ width: size, height: size, borderRadius: 8, overflow: 'hidden', flexShrink: 0, background: 'rgba(255,255,255,0.06)' }}>
       <img
@@ -16,7 +28,6 @@ function Avatar({ name, size = 140 }) {
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         onError={e => {
           e.target.style.display = 'none'
-          e.target.parentNode.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:${size*0.32}px;color:rgba(255,255,255,0.2)">${(name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}</div>`
         }}
       />
     </div>
@@ -36,7 +47,6 @@ export default function LeaderCard({ catLabel, players, fmt, statKey, active = f
       borderRadius: 12, padding: '18px',
       position: 'relative', overflow: 'hidden', minWidth: 0,
     }}>
-      {/* #1 watermark */}
       <div style={{
         position: 'absolute', top: 4, right: 12,
         fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 68,
@@ -56,7 +66,6 @@ export default function LeaderCard({ catLabel, players, fmt, statKey, active = f
       <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--white)', marginBottom: 2 }}>{leader.name}</div>
       <div style={{ fontSize: 13, color: team?.color || 'var(--muted)', marginBottom: 14 }}>{leader.team}</div>
 
-      {/* 2-7 list */}
       <div style={{ borderTop: '1px solid var(--border)', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 5 }}>
         {rest.map((p, i) => (
           <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
