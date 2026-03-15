@@ -25,7 +25,7 @@ export default function Scores() {
       {/* Page header — full width, centered */}
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 0' }}>
         <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>
-          Season Schedule · Hover a game for details
+          2026 Season
         </div>
         <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:20 }}>
           <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:72, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Scores</h1>

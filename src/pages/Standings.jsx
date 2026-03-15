@@ -49,7 +49,7 @@ export default function Standings() {
                     onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                     onMouseLeave={e=>e.currentTarget.style.background=''}
                   >
-                    <td style={{padding:'12px',color:'var(--muted2)',fontSize:13,textAlign:'center'}}>{i+1}</td>
+                    <td style={{padding:'12px',color:'var(--gold)',fontSize:18,fontWeight:900,textAlign:'center',fontFamily:"'Barlow Condensed',sans-serif"}}>{i+1}</td>
                     <td style={{padding:'12px'}}>
                       <Link to={`/teams/${row.id}`} style={{display:'flex',alignItems:'center',gap:10,textDecoration:'none'}}>
                         <span style={{width:10,height:10,borderRadius:'50%',background:row.color,display:'inline-block',flexShrink:0}} />

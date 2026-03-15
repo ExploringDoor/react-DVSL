@@ -44,7 +44,7 @@ export default function Home() {
           <div style={{ marginBottom:52 }}>
             <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:16 }}>
               <div>
-                <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>Season Schedule · Hover a game for details</div>
+                <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>2026 Season</div>
                 <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:52, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Scores</h2>
               </div>
               <Link to="/scores" style={{ color:'var(--gold)', fontWeight:700, fontSize:15, textDecoration:'none' }}>Full Schedule →</Link>
