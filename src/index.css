@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #0a0c0e;
+    color: #e8edf2;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  * { box-sizing: border-box; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-dvsl-lime text-dvsl-bg font-semibold text-sm px-4 py-2 rounded-md hover:brightness-110 transition-all;
+  }
+  .btn-outline {
+    @apply border border-dvsl-border text-dvsl-text text-sm px-4 py-2 rounded-md hover:border-dvsl-lime hover:text-dvsl-lime transition-all;
+  }
+  .card {
+    @apply bg-dvsl-card border border-dvsl-border rounded-xl;
+  }
+  .tag {
+    @apply text-xs font-mono tracking-widest uppercase text-dvsl-lime;
+  }
+  .section-title {
+    @apply font-display font-bold text-2xl text-dvsl-text;
+  }
+}
+
+/* Ticker */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-track { animation: ticker 30s linear infinite; }
+.ticker-track:hover { animation-play-state: paused; }
+
+/* Page transitions */
+.page-enter { opacity: 0; transform: translateY(8px); }
+.page-enter-active { opacity: 1; transform: translateY(0); transition: all 0.25s ease; }
