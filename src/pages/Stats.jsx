@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { STATS, getStatLeaders, fmtAvg } from '../data/stats'
 import { TEAMS, getTeamByShort } from '../data/teams'
-import LeaderCard from '../components/LeaderCard'
 
 const LEADER_CATS = [
   { key:'avg',     label:'Batting Avg', fmt: fmtAvg },
@@ -80,13 +79,6 @@ export default function Stats() {
       </div>
 
       <div style={{ maxWidth:1300, margin:'0 auto', padding:'32px 48px 60px' }}>
-        {/* Leader cards */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(200px,1fr))', gap:14, marginBottom:56 }}>
-          {LEADER_CATS.map(({key,label,fmt}) => (
-            <LeaderCard key={key} catLabel={label} statKey={key} players={leaders[key]||[]} fmt={fmt} />
-          ))}
-        </div>
-
         {/* Full table */}
         <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:8 }}>Full Stats · Click column to sort</div>
 
