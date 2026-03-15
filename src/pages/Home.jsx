@@ -25,30 +25,31 @@ export default function Home() {
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
 
       {/* Hero banner */}
-      <div style={{ position:'relative', minHeight:'clamp(160px,30vw,320px)', display:'flex', flexDirection:'column', justifyContent:'flex-end', overflow:'hidden', background:'#050608' }}>
+      <div className="hero-section" style={{ position:'relative', minHeight:'clamp(220px,35vw,400px)', display:'flex', flexDirection:'column', justifyContent:'flex-end', overflow:'hidden', background:'#050608' }}>
         <div style={{ position:'absolute', inset:0, pointerEvents:'none' }}>
-          <img src="/dvsl-banner.png" alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center center', opacity:0.75 }} />
-          <div style={{ position:'absolute', inset:0, background:'linear-gradient(to bottom, rgba(5,6,8,0.2) 0%, rgba(5,6,8,0.5) 60%, rgba(5,6,8,0.92) 100%)' }} />
+          <img src="/dvsl-banner.png" alt="" className='hero-banner-img' style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center center', opacity:0.92 }} />
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(to bottom, rgba(5,6,8,0.05) 0%, rgba(5,6,8,0.3) 60%, rgba(5,6,8,0.85) 100%)' }} />
         </div>
       </div>
 
       {/* Main content grid */}
-      <div className="home-grid" style={{ maxWidth:1400, margin:"0 auto", padding:"32px clamp(16px,4vw,48px) 60px" }}>
+      <div style={{ maxWidth:1400, margin:'0 auto', padding:'32px clamp(24px,5vw,64px) 60px' }}>
+      <div className="home-grid">
 
         {/* LEFT — scores + upcoming */}
         <div style={{ minWidth:0 }}>
 
           {/* Recent Scores */}
           {recentGames.length > 0 && (
-            <div style={{ marginBottom:40 }}>
-              <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:16 }}>
+            <div style={{ marginBottom:24 }}>
+              <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                 <div>
                   <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>2026 Season</div>
                   <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:36, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Recent Results</h2>
                 </div>
                 <Link to="/scores" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>All Scores →</Link>
               </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
                 {recentGames.map(g => <GameCard key={g.id} game={g} />)}
               </div>
             </div>
@@ -56,23 +57,23 @@ export default function Home() {
 
           {/* Upcoming */}
           {upcomingGames.length > 0 && (
-            <div style={{ marginBottom:40 }}>
-              <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:16 }}>
+            <div style={{ marginBottom:24 }}>
+              <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                 <div>
                   <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>On Deck</div>
                   <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:36, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Upcoming</h2>
                 </div>
                 <Link to="/schedule" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Schedule →</Link>
               </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
                 {upcomingGames.map((g,i) => <GameCard key={g.id} game={g} isNext={i===0 && recentGames.length===0} />)}
               </div>
             </div>
           )}
 
           {/* Leaders */}
-          <div style={{ marginBottom:40 }}>
-            <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:16 }}>
+          <div style={{ marginBottom:24 }}>
+            <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
               <div>
                 <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>Individual Leaders</div>
                 <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:36, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Leaderboard</h2>
@@ -105,6 +106,8 @@ export default function Home() {
           </div>
         </div>
 
+      </div>
+      </div>
       </div>
     </div>
   )
