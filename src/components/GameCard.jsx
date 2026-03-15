@@ -43,7 +43,7 @@ export default function GameCard({ game, isNext = false }) {
           {isNext && <div style={{ padding:'6px 16px 0', fontSize:12, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
             {/* Teams */}
-            <div style={{ flex:'1 1 180px', padding:'12px 16px', display:'flex', flexDirection:'column', gap:8 }}>
+            <div style={{ flex:1, padding:'12px 16px', display:'flex', flexDirection:'column', gap:8 }}>
               {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
                 <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
                   <TeamBadge short={side.t} size={34} />
@@ -72,7 +72,7 @@ export default function GameCard({ game, isNext = false }) {
         // ── FINAL — bigger names/scores, tighter layout ──
         <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
           {/* R/H/E */}
-          <div style={{ padding:'14px 14px 10px', flex:'1 1 260px' }}>
+          <div style={{ padding:'14px 14px 10px', flexShrink:0 }}>
             <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:6 }}>
               {['R','H','E'].map(l=>(
                 <span key={l} style={{ width:STAT_W, textAlign:'center', fontSize:12, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.45)', textTransform:'uppercase' }}>{l}</span>

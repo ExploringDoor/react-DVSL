@@ -31,16 +31,17 @@ function NotFound() {
 function Layout({ children }) {
   return (
     <>
-      {/* Ticker scrolls away naturally - NOT fixed */}
-      <Ticker />
+      {/* Ticker at very top - scrolls away naturally */}
+      <div style={{ position: 'relative', zIndex: 200 }}>
+        <Ticker />
+      </div>
 
-      {/* Navbar fixed at top always */}
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300 }}>
+      {/* Navbar sticks after ticker scrolls away */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 300 }}>
         <Navbar />
       </div>
 
-      {/* Content below navbar */}
-      <main style={{ paddingTop: 62 }}>
+      <main>
         {children}
       </main>
 

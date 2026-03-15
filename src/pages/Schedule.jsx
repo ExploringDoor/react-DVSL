@@ -39,14 +39,14 @@ function ScheduleRow({ game, isNext }) {
         {isNext && <div style={{ padding:'8px 24px 0', fontSize:13, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
         <div style={{ display:'flex', alignItems:'stretch' }}>
           {/* Teams — full clickable names */}
-          <div style={{ flex:1, padding:'12px 16px', display:'flex', flexDirection:'column', gap:8 }}>
+          <div style={{ flex:'0 1 auto', padding:'12px 16px', display:'flex', flexDirection:'column', gap:6 }}>
             {[{t:game.away, team:away},{t:game.home, team:home}].map(side => (
               <div key={side.t} style={{ display:'flex', alignItems:'center', gap:12 }}>
                 <span style={{ width:12, height:12, borderRadius:'50%', background:side.team?.color||'#6b7280', flexShrink:0 }} />
                 <div>
                   <Link
                     to={`/teams/${side.team?.id || side.t.toLowerCase()}`}
-                    style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:24, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block' }}
+                    style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:22, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block' }}
                   >
                     {side.team?.name || side.t}
                   </Link>

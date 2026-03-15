@@ -6,6 +6,20 @@ import { Link } from 'react-router-dom'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
+// Generate 7-inning line score that sums to total runs
+function genInnings(totalRuns, seed) {
+  const innings = Array(7).fill(0)
+  let left = totalRuns
+  for (let i = 0; i < 7; i++) {
+    if (left === 0) break
+    const isLast = i === 6
+    const r = isLast ? left : Math.min(left, ((seed + i * 13) % 4))
+    innings[i] = r
+    left -= r
+  }
+  return innings
+}
+
 function genBoxScore(game) {
   const rosterNames = {
     GOLD:['Mike Goldstein','David Levy','Aaron Rosen','Josh Weinberg','Ethan Katz','Ben Abrams','Noah Schwartz','Sam Rubin','Zach Feldman','Ari Blum','Danny Fox','Lev Cohen'],
@@ -272,23 +286,42 @@ export function BoxScoreModal({ game, onClose }) {
         </div>
 
         <div style={{ padding:'24px 32px 32px' }}>
-          {/* Line Score */}
+          {/* Line Score with innings */}
           <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:10 }}>Line Score</div>
-          <div style={{ background:'rgba(255,255,255,0.04)',borderRadius:8,overflow:'hidden',marginBottom:28 }}>
-            <div style={{ display:'grid',gridTemplateColumns:'1fr auto auto auto',padding:'8px 16px',borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
-              {['TEAM','R','H','E'].map(h=>(
-                <span key={h} style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'rgba(255,255,255,0.35)',textTransform:'uppercase',textAlign:h==='TEAM'?'left':'right',paddingLeft:h!=='TEAM'?24:0 }}>{h}</span>
-              ))}
-            </div>
-            {[{short:game.away,t:awayT,r:game.awayScore,h:awayH},{short:game.home,t:homeT,r:game.homeScore,h:homeH}].map((row,i)=>(
-              <div key={i} style={{ display:'grid',gridTemplateColumns:'1fr auto auto auto',padding:'12px 16px',borderBottom:i===0?'1px solid rgba(255,255,255,0.04)':'none' }}>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:18,color:row.t?.color||'var(--gold)',textTransform:'uppercase' }}>{row.short}</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:22,color:'var(--white)',paddingLeft:24,textAlign:'right' }}>{row.r}</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:400,fontSize:22,color:'rgba(255,255,255,0.5)',paddingLeft:24,textAlign:'right' }}>{row.h}</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:400,fontSize:22,color:'rgba(255,255,255,0.5)',paddingLeft:24,textAlign:'right' }}>0</span>
+          {(() => {
+            const seed = (game.away?.charCodeAt(0)||0) + (game.home?.charCodeAt(0)||0)
+            const awayInn = genInnings(game.awayScore||0, seed)
+            const homeInn = genInnings(game.homeScore||0, seed+7)
+            const cols = '80px repeat(7, 1fr) 1.2fr 1.2fr 1.2fr'
+            const thStyle = { fontSize:11,fontWeight:700,letterSpacing:'.08em',color:'rgba(255,255,255,0.35)',textTransform:'uppercase',textAlign:'center',padding:'8px 4px' }
+            const tdStyle = { fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,textAlign:'center',padding:'10px 4px',color:'rgba(255,255,255,0.55)' }
+            return (
+              <div style={{ overflowX:'auto',marginBottom:28 }}>
+                <table style={{ width:'100%',borderCollapse:'collapse',background:'rgba(255,255,255,0.04)',borderRadius:8,overflow:'hidden',minWidth:500 }}>
+                  <thead>
+                    <tr style={{ borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
+                      <th style={{...thStyle,textAlign:'left',paddingLeft:16}}>TEAM</th>
+                      {[1,2,3,4,5,6,7].map(n=><th key={n} style={thStyle}>{n}</th>)}
+                      <th style={{...thStyle,color:'var(--white)',fontWeight:800}}>R</th>
+                      <th style={{...thStyle,color:'var(--white)',fontWeight:800}}>H</th>
+                      <th style={{...thStyle,color:'var(--white)',fontWeight:800}}>E</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[{short:game.away,t:awayT,inn:awayInn,r:game.awayScore,h:awayH},{short:game.home,t:homeT,inn:homeInn,r:game.homeScore,h:homeH}].map((row,i)=>(
+                      <tr key={i} style={{ borderBottom:i===0?'1px solid rgba(255,255,255,0.04)':'none' }}>
+                        <td style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:18,color:row.t?.color||'var(--gold)',textTransform:'uppercase',padding:'10px 16px' }}>{row.short}</td>
+                        {row.inn.map((r,ii)=><td key={ii} style={tdStyle}>{r}</td>)}
+                        <td style={{...tdStyle,color:'var(--white)',fontWeight:900,fontSize:20}}>{row.r}</td>
+                        <td style={{...tdStyle,color:'rgba(255,255,255,0.6)'}}>{row.h}</td>
+                        <td style={{...tdStyle,color:'rgba(255,255,255,0.6)'}}>0</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            ))}
-          </div>
+            )
+          })()}
 
           {/* Batting */}
           <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:16 }}>Batting</div>
