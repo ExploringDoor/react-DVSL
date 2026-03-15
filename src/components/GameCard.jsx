@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getTeamByShort } from '../data/teams'
-import { getPitcher, fakeHE } from '../data/pitchers'
+import { fakeHE } from '../data/pitchers'
 import TeamBadge from './TeamBadge'
 import { BoxScoreModal, RecapModal, GamedayModal } from './GameModals'
 
@@ -15,19 +15,8 @@ function parseTime(f) {
   return `${t}${t.includes(':') ? '' : ':00'} ${p.toUpperCase()}`
 }
 
-function PitcherBadge({ short, size = 40 }) {
-  const team = getTeamByShort(short)
-  const color = team?.color || '#6b7280'
-  return (
-    <div style={{ width:size, height:size, borderRadius:'22%', background:`${color}28`, border:`2px solid ${color}`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:size*0.25, color, flexShrink:0 }}>
-      {short?.slice(0,4)}
-    </div>
-  )
-}
-
-// Fixed column widths so R/H/E header always aligns with scores
-const TEAM_COL_W = 150  // badge + name column width
-const STAT_COL_W = 52   // each of R, H, E
+const TEAM_W = 150   // team name column — fixed
+const STAT_W = 52    // R, H, E columns — fixed
 
 export default function GameCard({ game, isNext = false }) {
   const [modal, setModal] = useState(null)
@@ -39,10 +28,6 @@ export default function GameCard({ game, isNext = false }) {
   const seed = (game.id||'').length + (game.away?.charCodeAt(0)||0)
   const awayHE = done ? fakeHE(game.awayScore, seed) : null
   const homeHE = done ? fakeHE(game.homeScore, seed+3) : null
-  const winTeam  = aWin ? game.away : game.home
-  const lossTeam = aWin ? game.home : game.away
-  const winP  = done ? getPitcher(winTeam)  : null
-  const lossP = done ? getPitcher(lossTeam) : null
   const field = cleanField(game.field)
   const time  = parseTime(game.field)
 
@@ -53,95 +38,81 @@ export default function GameCard({ game, isNext = false }) {
       {modal==='gameday'  && <GamedayModal  game={game} onClose={()=>setModal(null)} />}
 
       {!done ? (
-        // ── UPCOMING — time shown ONCE ──
+        // ── UPCOMING ──────────────────────────────────────
         <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:2 }}>
-          {isNext && <div style={{ padding:'8px 20px 0', fontSize:13, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
-          <div style={{ display:'flex', alignItems:'stretch' }}>
+          {isNext && <div style={{ padding:'8px 16px 0', fontSize:12, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gold)' }}>NEXT</div>}
+          <div style={{ display:'flex', alignItems:'stretch', flexWrap:'wrap' }}>
             {/* Teams */}
-            <div style={{ flex:1, padding:'14px 20px', display:'flex', flexDirection:'column', gap:8 }}>
+            <div style={{ flex:'1 1 200px', padding:'12px 16px', display:'flex', flexDirection:'column', gap:8 }}>
               {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
-                <div key={side.t} style={{ display:'flex', alignItems:'center', gap:10 }}>
-                  <TeamBadge short={side.t} size={34} />
+                <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
+                  <TeamBadge short={side.t} size={32} />
                   <div>
-                    <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:22, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block' }}>
+                    <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:20, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block' }}>
                       {side.team?.name || side.t}
                     </Link>
-                    {side.team && <div style={{ fontSize:12, color:'rgba(255,255,255,0.55)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
+                    {side.team && <div style={{ fontSize:11, color:'rgba(255,255,255,0.55)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
               ))}
             </div>
-            {/* Field + time — only here, once */}
-            <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 24px', display:'flex', flexDirection:'column', justifyContent:'center', minWidth:160 }}>
-              <div style={{ fontWeight:600, fontSize:15, color:'var(--white)', marginBottom:6 }}>{field}</div>
-              <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:30, color:'var(--gold)' }}>{time}</div>
-            </div>
-            {/* GAMEDAY only — no time repeated */}
-            <div style={{ borderLeft:'1px solid var(--border)', padding:'14px 20px', display:'flex', alignItems:'center' }}>
-              <button onClick={()=>setModal('gameday')} className="btn-outline" style={{ fontSize:13, letterSpacing:'.08em' }}>GAMEDAY</button>
+            {/* Field + time + button */}
+            <div style={{ display:'flex', alignItems:'center', gap:0, flexShrink:0, borderLeft:'1px solid var(--border)' }}>
+              <div style={{ padding:'12px 16px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+                <div style={{ fontWeight:600, fontSize:14, color:'var(--white)', marginBottom:4, whiteSpace:'nowrap' }}>{field}</div>
+                <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:24, color:'var(--gold)', whiteSpace:'nowrap' }}>{time}</div>
+              </div>
+              <div style={{ padding:'12px 14px', borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center' }}>
+                <button onClick={()=>setModal('gameday')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.06em', padding:'7px 12px', whiteSpace:'nowrap' }}>GAMEDAY</button>
+              </div>
             </div>
           </div>
         </div>
       ) : (
-        // ── FINAL ──
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
+        // ── FINAL — R/H/E + buttons only, NO pitchers ────
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:2, display:'flex', alignItems:'stretch', flexWrap:'wrap', overflow:'hidden' }}>
 
-          {/* R/H/E — header width matches exactly */}
-          <div style={{ padding:'12px 14px 10px', flexShrink:0 }}>
-            {/* Header row — paddingLeft matches TEAM_COL_W exactly */}
-            <div style={{ display:'flex', paddingLeft:TEAM_COL_W, marginBottom:6 }}>
+          {/* R/H/E section */}
+          <div style={{ padding:'12px 14px 10px', flex:'1 1 280px' }}>
+            {/* Header aligned to TEAM_W */}
+            <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:4 }}>
               {['R','H','E'].map(l=>(
-                <span key={l} style={{ width:STAT_COL_W, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.5)', textTransform:'uppercase' }}>{l}</span>
+                <span key={l} style={{ width:STAT_W, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.5)', textTransform:'uppercase' }}>{l}</span>
               ))}
             </div>
 
-            {/* Team rows */}
             {[
-              {t:game.away,team:away,score:game.awayScore,he:awayHE,won:aWin},
-              {t:game.home,team:home,score:game.homeScore,he:homeHE,won:hWin},
+              {t:game.away, team:away, score:game.awayScore, he:awayHE, won:aWin},
+              {t:game.home, team:home, score:game.homeScore, he:homeHE, won:hWin},
             ].map((side,i)=>(
               <div key={side.t} style={{ display:'flex', alignItems:'center', marginBottom:i===0?4:0 }}>
-                {/* Team name — exactly TEAM_COL_W wide */}
-                <div style={{ display:'flex', alignItems:'center', gap:6, width:TEAM_COL_W, flexShrink:0 }}>
-                  <TeamBadge short={side.t} size={32} />
-                  <div style={{ minWidth:0 }}>
+                {/* Team — exactly TEAM_W wide */}
+                <div style={{ display:'flex', alignItems:'center', gap:6, width:TEAM_W, flexShrink:0 }}>
+                  <TeamBadge short={side.t} size={30} />
+                  <div>
                     <div style={{ display:'flex', alignItems:'center', gap:3 }}>
-                      <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?800:400, fontSize:20, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
+                      <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?800:400, fontSize:18, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
                       {side.won && <span style={{ fontSize:8, color:'var(--muted)' }}>◄</span>}
                     </div>
                     {side.team && <div style={{ fontSize:10, color:'rgba(255,255,255,0.45)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
-                {/* R, H, E — each exactly STAT_COL_W wide */}
+                {/* R H E — each STAT_W wide */}
                 {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:STAT_COL_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?800:400, fontSize:34, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'var(--muted)' }}>{val}</span>
+                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?800:400, fontSize:32, lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'var(--muted)' }}>{val}</span>
                 ))}
               </div>
             ))}
 
-            <div style={{ paddingLeft:TEAM_COL_W+4, marginTop:6 }}>
-              <span style={{ fontSize:11, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)' }}>FINAL</span>
+            <div style={{ paddingLeft:TEAM_W+4, marginTop:6 }}>
+              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)' }}>FINAL</span>
             </div>
-          </div>
-
-          {/* WIN/LOSS pitchers */}
-          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', padding:'12px 16px', borderLeft:'1px solid var(--border)', flex:1, gap:10 }}>
-            {[{role:'WIN',p:winP,short:winTeam},{role:'LOSS',p:lossP,short:lossTeam}].map(({role,p,short})=>(
-              <div key={role} style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', color:'rgba(255,255,255,0.45)', width:28, flexShrink:0 }}>{role}</span>
-                <PitcherBadge short={short} size={38} />
-                <div>
-                  <div style={{ fontWeight:700, fontSize:13, color:'var(--white)', lineHeight:1.2 }}>{p?.name}</div>
-                  <div style={{ fontSize:11, color:'rgba(255,255,255,0.45)', marginTop:1, whiteSpace:'nowrap' }}>{p?.wl} · {p?.era} ERA</div>
-                </div>
-              </div>
-            ))}
           </div>
 
           {/* Buttons */}
           <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:6, padding:'12px 14px', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
-            <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.04em', padding:'6px 14px', whiteSpace:'nowrap' }}>RECAP</button>
-            <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.04em', padding:'6px 14px', whiteSpace:'nowrap' }}>BOX SCORE</button>
+            <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.04em', padding:'7px 14px', whiteSpace:'nowrap' }}>RECAP</button>
+            <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:12, letterSpacing:'.04em', padding:'7px 14px', whiteSpace:'nowrap' }}>BOX SCORE</button>
           </div>
         </div>
       )}

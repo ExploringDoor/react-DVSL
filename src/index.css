@@ -174,3 +174,21 @@
 
 /* Standings page table scroll */
 .standings-table { overflow-x: auto; }
+
+/* Force hamburger visibility — override Tailwind if needed */
+@media (max-width: 1023px) {
+  .lg\:hidden { display: flex !important; }
+  .hidden.lg\:flex { display: none !important; }
+  .hidden.sm\:flex { display: none !important; }
+  .hidden.sm\:block { display: none !important; }
+}
+@media (min-width: 1024px) {
+  .lg\:hidden { display: none !important; }
+  .hidden.lg\:flex { display: flex !important; }
+}
+
+/* Mobile game cards wrap properly */
+@media (max-width: 600px) {
+  /* Ticker smaller text */
+  .ticker-game { padding: 4px 10px !important; }
+}

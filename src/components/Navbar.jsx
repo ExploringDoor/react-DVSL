@@ -18,74 +18,82 @@ export default function Navbar() {
   const { pathname } = useLocation()
   useEffect(() => { setOpen(false) }, [pathname])
 
+  // Lock body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
   return (
     <>
       <nav style={{
-        position:'relative', display:'flex', alignItems:'center', justifyContent:'space-between',
-        padding:'0 20px', height:62,
-        background:'rgba(7,7,9,.97)', backdropFilter:'blur(20px)',
-        borderBottom:'1px solid rgba(255,255,255,0.08)', gap:16,
+        position: 'relative',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 16px', height: 62,
+        background: 'rgba(7,7,9,0.98)', backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
       }}>
         <Link to="/" style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)', textDecoration:'none', flexShrink:0 }}>
           DVSL
         </Link>
 
-        {/* Desktop links — hidden on mobile */}
-        <ul style={{ display:'flex', gap:2, listStyle:'none', margin:'0 auto', flexWrap:'nowrap' }} className="hidden lg:flex">
+        {/* Desktop nav */}
+        <ul style={{ display:'flex', gap:2, listStyle:'none', margin:'0 auto' }} className="hidden lg:flex">
           {LINKS.map(l => (
             <li key={l.to}>
-              <NavLink to={l.to} end={l.to==='/'} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-                {l.label}
-              </NavLink>
+              <NavLink to={l.to} end={l.to==='/'} className={({ isActive }) => `nav-link${isActive?' active':''}`}>{l.label}</NavLink>
             </li>
           ))}
         </ul>
 
-        {/* Right side */}
-        <div style={{ display:'flex', alignItems:'center', gap:10, flexShrink:0 }}>
-          <button style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:12, letterSpacing:'.06em', textTransform:'uppercase', color:'var(--gold)', background:'rgba(245,200,66,.08)', border:'1px solid rgba(245,200,66,.25)', borderRadius:6, padding:'6px 12px', cursor:'pointer', whiteSpace:'nowrap' }} className="hidden sm:block">
-            🔔 Alerts
-          </button>
-          {/* Hamburger — visible on mobile only */}
-          <button
-            onClick={() => setOpen(o => !o)}
-            className="lg:hidden"
-            aria-label="Menu"
-            style={{ background:'none', border:'none', cursor:'pointer', padding:6, display:'flex', flexDirection:'column', gap:5, flexShrink:0 }}
-          >
-            {open
-              ? <span style={{ color:'var(--white)', fontSize:22, lineHeight:1 }}>✕</span>
-              : [0,1,2].map(i => <span key={i} style={{ display:'block', width:24, height:2, background:'var(--white)', borderRadius:2 }} />)
-            }
-          </button>
-        </div>
+        {/* Hamburger button — always visible on non-desktop */}
+        <button
+          onClick={() => setOpen(o => !o)}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            padding: '8px', display: 'flex', flexDirection: 'column',
+            gap: 5, flexShrink: 0,
+          }}
+          className="lg:hidden"
+          aria-label="Toggle menu"
+        >
+          <span style={{ display:'block', width:24, height:2, background:'var(--white)', borderRadius:2, transition:'all .3s', transform: open ? 'translateY(7px) rotate(45deg)' : 'none' }} />
+          <span style={{ display:'block', width:24, height:2, background:'var(--white)', borderRadius:2, transition:'all .3s', opacity: open ? 0 : 1 }} />
+          <span style={{ display:'block', width:24, height:2, background:'var(--white)', borderRadius:2, transition:'all .3s', transform: open ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
+        </button>
       </nav>
 
-      {/* Mobile dropdown — full screen, proper z-index */}
+      {/* Full-screen mobile menu overlay */}
       {open && (
         <div style={{
-          position:'fixed', top:0, left:0, right:0, bottom:0, zIndex:500,
-          background:'rgba(7,7,9,0.98)', backdropFilter:'blur(20px)',
-          display:'flex', flexDirection:'column', overflowY:'auto',
-          paddingTop:80,
-        }}>
-          {/* Close button */}
-          <button onClick={() => setOpen(false)} style={{ position:'absolute', top:20, right:20, background:'none', border:'none', color:'var(--white)', fontSize:28, cursor:'pointer' }}>✕</button>
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          zIndex: 9999,
+          background: '#070709',
+          display: 'flex', flexDirection: 'column',
+          overflowY: 'auto',
+        }} className="lg:hidden">
+          {/* Header row */}
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 20px', height:62, borderBottom:'1px solid rgba(255,255,255,0.08)', flexShrink:0 }}>
+            <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', letterSpacing:'.1em' }}>DVSL</span>
+            <button onClick={() => setOpen(false)} style={{ background:'none', border:'none', color:'var(--white)', fontSize:28, cursor:'pointer', padding:8 }}>✕</button>
+          </div>
 
-          <div style={{ padding:'0 32px 40px' }}>
-            <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', color:'var(--muted2)', textTransform:'uppercase', marginBottom:24 }}>DVSL 2026</div>
+          {/* Nav links */}
+          <div style={{ padding:'8px 0 40px' }}>
             {LINKS.map(l => (
               <NavLink
                 key={l.to}
                 to={l.to}
                 end={l.to === '/'}
                 style={({ isActive }) => ({
-                  fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:40,
-                  textTransform:'uppercase', letterSpacing:'.02em',
+                  display: 'flex', alignItems: 'center',
+                  fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 36,
+                  textTransform: 'uppercase', letterSpacing: '.02em',
                   color: isActive ? 'var(--gold)' : 'var(--white)',
-                  textDecoration:'none', padding:'14px 0',
-                  borderBottom:'1px solid rgba(255,255,255,0.06)', display:'block',
-                  lineHeight:1,
+                  textDecoration: 'none',
+                  padding: '16px 24px',
+                  borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  background: isActive ? 'rgba(245,200,66,0.06)' : 'none',
                 })}
               >
                 {l.label}
