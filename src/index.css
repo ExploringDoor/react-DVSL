@@ -136,8 +136,8 @@
 /* ── RESPONSIVE ── */
 .home-grid {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 48px;
+  grid-template-columns: 1fr 360px;
+  gap: 40px;
 }
 
 @media (max-width: 900px) {
@@ -267,5 +267,26 @@ body { overflow-x: clip; max-width: 100vw; }
   /* Scores page — no horizontal overflow */
   .game-card-wrap {
     flex-direction: column !important;
+  }
+}
+
+/* ── Game card mobile: use % widths so nothing clips ── */
+@media (max-width: 500px) {
+
+  /* Final game card */
+  .game-final-rhe { font-size: 28px !important; }
+
+  /* Force upcoming card sections to use flex % */
+  /* Team names - allow wrap */
+  .upcoming-teams { 
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+  .upcoming-time {
+    flex-shrink: 0 !important;
+    min-width: 100px !important;
+  }
+  .upcoming-gameday {
+    flex-shrink: 0 !important;
   }
 }

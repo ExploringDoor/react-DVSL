@@ -33,7 +33,7 @@ export default function Home() {
       </div>
 
       {/* Main content grid */}
-      <div className="home-grid">
+      <div className="home-grid" style={{ maxWidth:1400, margin:"0 auto", padding:"32px clamp(16px,4vw,48px) 60px" }}>
 
         {/* LEFT — scores + upcoming */}
         <div style={{ minWidth:0 }}>
