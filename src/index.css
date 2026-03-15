@@ -306,3 +306,16 @@ body { overflow-x: clip; max-width: 100vw; }
     height: auto !important;
   }
 }
+
+/* ── Home schedule rows — mobile fix ── */
+@media (max-width: 600px) {
+  /* Hide field name on mobile to save space, keep time+date+gameday */
+  .home-schedule-field { display: none !important; }
+  /* Shrink time column */
+  .home-schedule-time { width: 110px !important; padding: 10px 10px !important; }
+  .home-schedule-time .time-text { font-size: 22px !important; }
+  /* Shrink gameday col */
+  .home-schedule-gameday { width: 90px !important; padding: 10px 8px !important; }
+  /* Shrink team col */
+  .home-schedule-teams { width: 160px !important; }
+}
