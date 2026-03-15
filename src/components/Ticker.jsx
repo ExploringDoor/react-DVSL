@@ -16,7 +16,7 @@ function fmtTickerDate(date, field) {
 
 export default function Ticker() {
   // Only upcoming games, no scores ever
-  const games = GAMES.filter(g => g.status === 'upcoming').slice(0, 12)
+  const games = GAMES.filter(g => g.status === 'upcoming').slice(0, 9)
 
   return (
     <div style={{
