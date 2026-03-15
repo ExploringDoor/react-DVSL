@@ -29,7 +29,7 @@ export default function Schedule() {
   const displayWeeks = ALL_WEEKS
 
   return (
-    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
       {/* Tab bar */}
       <div style={{padding:'0 48px',borderBottom:'1px solid var(--border)',background:'var(--bg)',display:'flex'}}>
         <button className="tab-btn active">Schedule</button>
@@ -38,7 +38,7 @@ export default function Schedule() {
       {/* Week nav */}
       <div style={{
         display:'flex',alignItems:'stretch',background:'var(--bg)',
-        borderBottom:'1px solid var(--border)',position:'sticky',top:62,zIndex:50,
+        borderBottom:'1px solid var(--border)',position:'sticky',top:114,zIndex:50,
         overflowX:'auto',scrollbarWidth:'none',
       }}>
         {displayWeeks.map(({wk, date}) => {

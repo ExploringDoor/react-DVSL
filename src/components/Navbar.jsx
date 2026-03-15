@@ -22,7 +22,7 @@ export default function Navbar() {
   return (
     <>
       <nav style={{
-        position:'fixed',top:0,left:0,right:0,zIndex:200,
+        position:'relative',
         display:'flex',alignItems:'center',justifyContent:'space-between',
         padding:'0 40px',height:62,
         background:'rgba(7,7,9,.92)',backdropFilter:'blur(20px)',

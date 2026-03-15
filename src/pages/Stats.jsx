@@ -47,7 +47,7 @@ export default function Stats() {
     .sort((a,b) => sortDir==='desc' ? (b[sortKey]??0)-(a[sortKey]??0) : (a[sortKey]??0)-(b[sortKey]??0))
 
   return (
-    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
       {/* Hero */}
       <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'40px 48px 32px'}}>
         <div style={{maxWidth:1200,margin:'0 auto'}}>

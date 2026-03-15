@@ -15,7 +15,7 @@ export default function Home() {
   const fmtPct = n => n>=1?'1.000':n.toFixed(3).replace(/^0/,'.')
 
   return (
-    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:62}}>
+    <div style={{minHeight:'100vh',background:'var(--bg)',paddingTop:114}}>
       {/* Scrolling ticker */}
       <div style={{background:'var(--dark)',borderBottom:'1px solid var(--border)',padding:'10px 0',overflow:'hidden',whiteSpace:'nowrap'}}>
         <div style={{display:'inline-flex',gap:40,paddingLeft:40,animation:'none'}}>
