@@ -365,3 +365,21 @@ body { overflow-x: clip; max-width: 100vw; }
   /* Shrink RHE font on very small screens */
   .rhe-score { font-size: 26px !important; }
 }
+
+/* ── Upcoming game grids ── */
+.upcoming-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.upcoming-grid-3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+.upcoming-list-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .upcoming-grid-desktop { display: none !important; }
+  .upcoming-list-mobile  { display: flex !important; flex-direction: column; gap: 6px; }
+}

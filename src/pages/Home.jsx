@@ -7,6 +7,7 @@ import { getStatLeaders, fmtAvg } from '../data/stats'
 import GameCard from '../components/GameCard'
 import GameCardGrid from '../components/GameCardGrid'
 import { GamedayModal } from '../components/GameModals'
+import GameCardUpcomingGrid from '../components/GameCardUpcomingGrid'
 import LeaderCard from '../components/LeaderCard'
 
 const LEADER_CATS = [
@@ -129,7 +130,12 @@ export default function Home() {
                   </div>
                   <Link to="/schedule" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Schedule →</Link>
                 </div>
-                <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
+                {/* Desktop: 2-col grid */}
+                <div className="upcoming-grid-desktop">
+                  {upcomingGames.map((g,i) => <GameCardUpcomingGrid key={g.id} game={g} isNext={i===0 && recentGames.length===0} showFullName={false} />)}
+                </div>
+                {/* Mobile: compact list */}
+                <div className="upcoming-list-mobile">
                   {upcomingGames.map((g,i) => <HomeScheduleRow key={g.id} game={g} isNext={i===0 && recentGames.length===0} />)}
                 </div>
               </div>

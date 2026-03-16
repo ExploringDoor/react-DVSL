@@ -1,3 +1,4 @@
+import GameCardUpcomingGrid from '../components/GameCardUpcomingGrid'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GAMES } from '../data/games'
@@ -30,29 +31,26 @@ function ScheduleRow({ game, isNext }) {
   const home = getTeamByShort(game.home)
   const field = cleanField(game.field)
   const time  = parseTime(game.field)
-  const [mon, day] = (game.date||'').split(' ')
-  const mo = {April:'Apr',May:'May',June:'Jun',July:'Jul',August:'Aug'}[mon]||mon
+  const parts = (game.date||'').split(' ')
+  const mon = parts[0], day = parts[1]
+  const moMap = { April:'Apr', May:'May', June:'Jun', July:'Jul', August:'Aug' }
+  const mo = moMap[mon] || mon
 
   if (game.status === 'final') return <GameCard game={game} />
 
   return (
     <>
       {showGameday && <GamedayModal game={game} onClose={() => setShowGameday(false)} />}
-      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6, display:'flex', alignItems:'stretch', flexWrap:'wrap' }}>
-        {/* Teams */}
-        <div style={{ flex:'1 1 120px', minWidth:0, padding:'12px 10px', display:'flex', flexDirection:'column', gap:5 }}>
+      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6, display:'flex', alignItems:'stretch' }}>
+        {/* Teams — flex so shrinks on mobile */}
+        <div className="home-schedule-teams" style={{ flex:'1 1 120px', minWidth:0, padding:'12px 10px', display:'flex', flexDirection:'column', gap:5 }}>
           {[{t:game.away,team:away},{t:game.home,team:home}].map(side=>(
-            <div key={side.t} style={{ display:'flex', alignItems:'center', gap:10 }}>
-              <div style={{ width:36, height:36, borderRadius:8, background:`${side.team?.color||'#6b7280'}22`, border:`2px solid ${side.team?.color||'#6b7280'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:10, color:side.team?.color||'var(--white)', textTransform:'uppercase', letterSpacing:'-.02em' }}>{side.t?.slice(0,4)}</span>
+            <div key={side.t} style={{ display:'flex', alignItems:'center', gap:8 }}>
+              <div style={{ width:36, height:36, borderRadius:8, background:(side.team?.color||'#6b7280')+'22', border:'2px solid '+(side.team?.color||'#6b7280'), display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:10, color:side.team?.color||'var(--white)', textTransform:'uppercase', letterSpacing:'-.02em' }}>{(side.t||'').slice(0,4)}</span>
               </div>
-              <div>
-                <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{
-                  fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:'clamp(14px,3vw,22px)',
-                  textTransform:'uppercase', color:side.team?.color||'var(--white)',
-                  textDecoration:'none', lineHeight:1, display:'block',
-                  overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap',
-                }}>
+              <div style={{ minWidth:0 }}>
+                <Link to={'/teams/'+(side.team?.id||side.t.toLowerCase())} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:'clamp(14px,2.5vw,22px)', textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                   {side.team?.name || side.t}
                 </Link>
                 <span style={{ fontSize:12, color:'rgba(255,255,255,0.4)' }}>({side.team?.w}-{side.team?.l})</span>
@@ -62,26 +60,22 @@ function ScheduleRow({ game, isNext }) {
           {isNext && <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'var(--gold)', marginTop:2 }}>▶ NEXT</div>}
         </div>
 
-        {/* Fixed-width columns so ALL rows align perfectly */}
-        <div style={{ borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', flexShrink:0, flexWrap:'wrap', minWidth:0 }}>
-          {/* Time + date — fixed 140px */}
-          <div style={{ flexShrink:0, padding:'10px 12px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-            <div style={{ fontSize:12, color:'rgba(255,255,255,0.45)', marginTop:4 }}>{mo} {day}</div>
-          </div>
-          {/* Field — fixed 120px */}
-          <div style={{ flexShrink:0, padding:'10px 12px', borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center' }}>
-            <div style={{ fontWeight:600, fontSize:14, color:'var(--white)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{field}</div>
-          </div>
-          {/* GAMEDAY — fixed 120px */}
-          <div style={{ flexShrink:0, padding:'10px 10px', borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-            <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:12, fontWeight:700, padding:'8px 12px', whiteSpace:'nowrap' }}>GAMEDAY</button>
-          </div>
+        {/* Time + date + field — flex shrink */}
+        <div className="home-schedule-time" style={{ flexShrink:0, borderLeft:'1px solid var(--border)', padding:'10px 12px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+          <div className="time-text" style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--gold)', lineHeight:1 }}>{time}</div>
+          <div style={{ fontSize:14, fontWeight:600, color:'rgba(255,255,255,0.6)', marginTop:4 }}>{mo} {day}</div>
+          <div className="home-schedule-field" style={{ fontSize:14, color:'var(--white)', marginTop:2, fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{field}</div>
+        </div>
+
+        {/* GAMEDAY */}
+        <div className="home-schedule-gameday" style={{ flexShrink:0, borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 10px' }}>
+          <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:12, fontWeight:700, padding:'8px 12px', whiteSpace:'nowrap' }}>GAMEDAY</button>
         </div>
       </div>
     </>
   )
 }
+
 
 export default function Schedule() {
   const [activeWk, setActiveWk] = useState(UPCOMING_WK)
@@ -132,9 +126,19 @@ export default function Schedule() {
               <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)', paddingBottom:8, marginBottom:8, borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
                 {DAY_FULL[day]||day}
               </div>
-              {byDay[day].map(g => (
-                <ScheduleRow key={g.id} game={g} isNext={firstUpcoming?.id === g.id} />
-              ))}
+              {/* Finals use regular list, upcoming use grid on desktop */}
+              {byDay[day].some(g => g.status === 'final') ? (
+                byDay[day].map(g => <ScheduleRow key={g.id} game={g} isNext={firstUpcoming?.id === g.id} />)
+              ) : (
+                <>
+                  <div className="upcoming-grid-desktop upcoming-grid-3col">
+                    {byDay[day].map(g => <GameCardUpcomingGrid key={g.id} game={g} isNext={firstUpcoming?.id === g.id} showFullName={true} />)}
+                  </div>
+                  <div className="upcoming-list-mobile">
+                    {byDay[day].map(g => <ScheduleRow key={g.id} game={g} isNext={firstUpcoming?.id === g.id} />)}
+                  </div>
+                </>
+              )}
             </div>
           ))
         )}
