@@ -16,8 +16,8 @@ function parseTime(f) {
 }
 
 // Fixed column widths — header and rows must match exactly
-const TEAM_W = 150   // team name+badge column
-const STAT_W = 60    // each stat column (R, H, E)
+const TEAM_W = 110   // team name+badge column
+const STAT_W = 50    // each stat column (R, H, E)
 
 export default function GameCard({ game, isNext = false }) {
   const [modal, setModal] = useState(null)
@@ -75,7 +75,7 @@ export default function GameCard({ game, isNext = false }) {
         </div>
       ) : (
         // ── FINAL ─────────────────────────────────────────────────────────
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden', flexWrap:'wrap' }}>
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
           {/* RHE section — tight fixed widths */}
           <div style={{ padding:'12px 10px 10px', flex:'1 1 auto', minWidth:0, overflow:'hidden' }}>
             {/* Header */}
@@ -101,7 +101,7 @@ export default function GameCard({ game, isNext = false }) {
                   </div>
                 </div>
                 {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(28px,4vw,56px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
+                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(22px,4vw,52px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
                 ))}
               </div>
             ))}
@@ -110,9 +110,9 @@ export default function GameCard({ game, isNext = false }) {
             </div>
           </div>
           {/* Buttons — right next to RHE */}
-          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:6, padding:'12px 10px', borderLeft:'1px solid var(--border)', flexShrink:0, minWidth:90 }}>
-            <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:11, fontWeight:700, padding:'6px 10px', whiteSpace:'nowrap' }}>RECAP</button>
-            <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:11, fontWeight:700, padding:'6px 10px', whiteSpace:'nowrap' }}>BOX SCORE</button>
+          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:5, padding:'10px 8px', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
+            <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:11, fontWeight:700, padding:'6px 8px', whiteSpace:'nowrap' }}>RECAP</button>
+            <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:11, fontWeight:700, padding:'5px 8px', whiteSpace:'nowrap' }}>BOX SCORE</button>
           </div>
         </div>
       )}
