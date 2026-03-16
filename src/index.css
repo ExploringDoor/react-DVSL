@@ -344,3 +344,24 @@ body { overflow-x: clip; max-width: 100vw; }
     gap: 6px;
   }
 }
+
+/* ── TeamDetail mobile ── */
+@media (max-width: 768px) {
+  .team-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Stats table scroll */
+  .team-detail-grid table {
+    min-width: 500px;
+  }
+  /* GameCard on team page - ensure buttons visible */
+  .team-detail-grid .game-card-buttons {
+    flex-shrink: 0 !important;
+  }
+}
+
+/* Ensure GameCard final doesn't overflow on narrow screens */
+@media (max-width: 500px) {
+  /* Shrink RHE font on very small screens */
+  .rhe-score { font-size: 26px !important; }
+}

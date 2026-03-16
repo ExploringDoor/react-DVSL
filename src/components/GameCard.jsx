@@ -75,7 +75,7 @@ export default function GameCard({ game, isNext = false }) {
         </div>
       ) : (
         // ── FINAL ─────────────────────────────────────────────────────────
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden', flexWrap:'wrap' }}>
           {/* RHE section — tight fixed widths */}
           <div style={{ padding:'12px 10px 10px', flex:'1 1 auto', minWidth:0, overflow:'hidden' }}>
             {/* Header */}
@@ -110,7 +110,7 @@ export default function GameCard({ game, isNext = false }) {
             </div>
           </div>
           {/* Buttons — right next to RHE */}
-          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:6, padding:'12px 10px', borderLeft:'1px solid var(--border)', flexShrink:0 }}>
+          <div style={{ display:'flex', flexDirection:'column', justifyContent:'center', gap:6, padding:'12px 10px', borderLeft:'1px solid var(--border)', flexShrink:0, minWidth:90 }}>
             <button onClick={()=>setModal('recap')} className="btn-outline" style={{ fontSize:11, fontWeight:700, padding:'6px 10px', whiteSpace:'nowrap' }}>RECAP</button>
             <button onClick={()=>setModal('boxscore')} className="btn-outline" style={{ fontSize:11, fontWeight:700, padding:'6px 10px', whiteSpace:'nowrap' }}>BOX SCORE</button>
           </div>

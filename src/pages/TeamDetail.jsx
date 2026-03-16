@@ -61,7 +61,7 @@ export default function TeamDetail() {
         </div>
       </div>
 
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px clamp(16px,4vw,48px) 60px',display:'grid',gridTemplateColumns:'1fr 300px',gap:32}}>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'20px clamp(12px,4vw,48px) 60px',display:'grid',gridTemplateColumns:'1fr 300px',gap:32}}>
         {/* Left */}
         <div>
           {/* Stats */}
