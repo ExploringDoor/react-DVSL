@@ -368,12 +368,13 @@ body { overflow-x: clip; max-width: 100vw; }
 
 /* ── Upcoming game grids ── */
 .upcoming-grid-desktop {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .upcoming-grid-3col {
-  grid-template-columns: repeat(3, 1fr);
+  flex-direction: column;
+  gap: 8px;
 }
 .upcoming-list-mobile {
   display: none;
