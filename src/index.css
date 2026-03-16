@@ -319,3 +319,28 @@ body { overflow-x: clip; max-width: 100vw; }
   /* Shrink team col */
   .home-schedule-teams { width: 160px !important; }
 }
+
+/* ── Scores grid — desktop grid, mobile list ── */
+.scores-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.scores-grid-3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+.scores-list-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Switch to list on mobile */
+  .scores-grid-desktop {
+    display: none !important;
+  }
+  .scores-list-mobile {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+  }
+}

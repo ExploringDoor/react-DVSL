@@ -5,6 +5,7 @@ import { STANDINGS } from '../data/standings'
 import { getTeamByShort } from '../data/teams'
 import { getStatLeaders, fmtAvg } from '../data/stats'
 import GameCard from '../components/GameCard'
+import GameCardGrid from '../components/GameCardGrid'
 import { GamedayModal } from '../components/GameModals'
 import LeaderCard from '../components/LeaderCard'
 
@@ -108,7 +109,11 @@ export default function Home() {
                   </div>
                   <Link to="/scores" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>All Scores →</Link>
                 </div>
-                <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                {/* Desktop: 2-col grid. Mobile: list (via CSS) */}
+                <div className="scores-grid-desktop">
+                  {recentGames.map(g => <GameCardGrid key={g.id} game={g} showFullName={false} />)}
+                </div>
+                <div className="scores-list-mobile">
                   {recentGames.map(g => <GameCard key={g.id} game={g} />)}
                 </div>
               </div>

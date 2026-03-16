@@ -1,3 +1,4 @@
+import GameCardGrid from '../components/GameCardGrid'
 import { useState } from 'react'
 import { GAMES } from '../data/games'
 import GameCard from '../components/GameCard'
@@ -65,9 +66,12 @@ export default function Scores() {
               <div style={{ fontSize:13, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', borderBottom:'1px solid rgba(255,255,255,0.05)', paddingBottom:8, marginBottom:12 }}>
                 {DAY_FULL[day]||day}
               </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                {games.filter(g=>g.day===day).map(g => <GameCard key={g.id} game={g} />)}
-              </div>
+                <div className="scores-grid-desktop scores-grid-3col">
+                  {games.filter(g=>g.day===day).map(g => <GameCardGrid key={g.id} game={g} showFullName={true} />)}
+                </div>
+                <div className="scores-list-mobile">
+                  {games.filter(g=>g.day===day).map(g => <GameCard key={g.id} game={g} />)}
+                </div>
             </div>
           ))
         )}
