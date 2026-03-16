@@ -46,19 +46,19 @@ export default function GameCardGrid({ game, showFullName = false }) {
           ].map((side, i) => (
             <div key={side.t} style={{ display:'flex', alignItems:'center', marginBottom:i===0?8:0 }}>
               {/* Badge */}
-              <div style={{ width:32, height:32, borderRadius:7, background:(side.team?.color||'#6b7280')+'22', border:'2px solid '+(side.team?.color||'#6b7280'), display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginRight:8 }}>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:9, color:side.team?.color||'var(--white)', textTransform:'uppercase' }}>{side.t?.slice(0,4)}</span>
+              <div style={{ width:38, height:38, borderRadius:8, background:(side.team?.color||'#6b7280')+'22', border:'2px solid '+(side.team?.color||'#6b7280'), display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginRight:8 }}>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:11, color:side.team?.color||'var(--white)', textTransform:'uppercase' }}>{side.t?.slice(0,4)}</span>
               </div>
               {/* Name + record */}
               <div style={{ flex:1, minWidth:0 }}>
-                <Link to={'/teams/'+(side.team?.id||side.t.toLowerCase())} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:600, fontSize:showFullName?16:20, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                <Link to={'/teams/'+(side.team?.id||side.t.toLowerCase())} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:600, fontSize:showFullName?18:26, textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                   {showFullName ? (side.team?.name||side.t) : side.t}
                 </Link>
-                <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', marginTop:1 }}>({side.team?.w}-{side.team?.l})</div>
+                <div style={{ fontSize:13, color:'rgba(255,255,255,0.45)', marginTop:2 }}>({side.team?.w}-{side.team?.l})</div>
               </div>
               {/* R H E */}
               {[side.score, side.he?.h, side.he?.e].map((val,vi) => (
-                <span key={vi} style={{ width:40, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:vi===0?32:22, lineHeight:1, color:vi===2?'rgba(255,255,255,0.25)':side.won?'var(--white)':'rgba(255,255,255,0.3)' }}>{val}</span>
+                <span key={vi} style={{ width:40, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:vi===0?40:24, lineHeight:1, color:vi===2?'rgba(255,255,255,0.25)':side.won?'var(--white)':'rgba(255,255,255,0.3)' }}>{val}</span>
               ))}
             </div>
           ))}
