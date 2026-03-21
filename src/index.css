@@ -587,7 +587,7 @@ nav {
   height: 2px;
   background: linear-gradient(90deg, transparent, #00c8ff, #fff, #00c8ff, transparent);
   box-shadow: 0 0 8px #0057FF, 0 0 16px #00c8ff, 0 0 24px #00c8ff;
-  animation: neon-race-1 2s linear infinite;
+  animation: neon-race-1 4s linear infinite;
   border-radius: 2px;
 }
 .neon-border::after {
@@ -597,7 +597,7 @@ nav {
   height: 2px;
   background: linear-gradient(90deg, transparent, #00c8ff, #fff, #00c8ff, transparent);
   box-shadow: 0 0 8px #0057FF, 0 0 16px #00c8ff, 0 0 24px #00c8ff;
-  animation: neon-race-2 2s linear infinite;
+  animation: neon-race-2 4s linear infinite;
   border-radius: 2px;
 }
 
