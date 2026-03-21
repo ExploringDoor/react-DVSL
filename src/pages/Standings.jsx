@@ -50,7 +50,7 @@ export default function Standings() {
             {['2026','History'].map(t => (
               <button key={t} onClick={() => setTab(t)} style={{
                 fontFamily:"'Oswald',sans-serif", fontWeight:700, fontSize:22, textTransform:'uppercase',
-                color: tab===t ? 'var(--white)' : 'rgba(255,255,255,0.35)',
+                color: tab===t ? 'var(--white)' : 'rgba(0,0,0,0.3)',
                 padding:'12px 0', marginRight:24, background:'none', border:'none',
                 borderBottom: tab===t ? '3px solid var(--gold)' : '3px solid transparent',
                 cursor:'pointer', transition:'color .15s',
@@ -63,7 +63,7 @@ export default function Standings() {
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'24px clamp(16px,4vw,48px) 60px' }}>
         {tab === '2026' ? (
           <>
-            <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', marginBottom:12 }}>Click any column header to sort</div>
+            <div style={{ fontSize:11, color:'rgba(0,0,0,0.3)', marginBottom:12 }}>Click any column header to sort</div>
             <div style={{ overflowX:'auto', WebkitOverflowScrolling:'touch', background:'var(--card)', border:'1px solid var(--border)', borderRadius:10 }}>
               <table style={{ width:'100%', borderCollapse:'collapse', minWidth:700 }}>
                 <thead>
@@ -75,7 +75,7 @@ export default function Standings() {
                           padding:'12px 14px',
                           textAlign: col.align==='left' ? 'left' : 'center',
                           fontSize:11, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase',
-                          color: sortKey===col.sortKey ? 'var(--gold)' : 'rgba(255,255,255,0.4)',
+                          color: sortKey===col.sortKey ? 'var(--gold)' : 'rgba(0,0,0,0.35)',
                           cursor: col.sortKey ? 'pointer' : 'default',
                           userSelect:'none', whiteSpace:'nowrap',
                         }}>
@@ -89,8 +89,8 @@ export default function Standings() {
                     const origRank = STANDINGS.findIndex(r => r.id === row.id) + 1
                     const diffNum = parseFloat(String(row.diff))
                     return (
-                      <tr key={row.team} style={{ borderBottom:'1px solid rgba(255,255,255,0.04)' }}
-                        onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.03)'}
+                      <tr key={row.team} style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}
+                        onMouseEnter={e => e.currentTarget.style.background='rgba(0,0,0,0.03)'}
                         onMouseLeave={e => e.currentTarget.style.background=''}
                       >
                         {/* Rank */}
@@ -107,17 +107,17 @@ export default function Standings() {
                         {/* W */}
                         <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:18, color:'var(--white)' }}>{row.w}</td>
                         {/* L */}
-                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'rgba(255,255,255,0.55)' }}>{row.l}</td>
+                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'rgba(0,0,0,0.45)' }}>{row.l}</td>
                         {/* PCT */}
                         <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:16, color:'var(--gold)' }}>{fmtPct(row.pct)}</td>
                         {/* GB */}
-                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color: row.gb==='—' ? 'rgba(255,255,255,0.25)' : 'var(--blue)' }}>
+                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color: row.gb==='—' ? 'rgba(0,0,0,0.2)' : 'var(--blue)' }}>
                           {row.gb === '—' ? '—' : row.gb}
                         </td>
                         {/* PF */}
-                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'rgba(255,255,255,0.55)' }}>{row.rs}</td>
+                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'rgba(0,0,0,0.45)' }}>{row.rs}</td>
                         {/* PA */}
-                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'rgba(255,255,255,0.55)' }}>{row.ra}</td>
+                        <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, color:'rgba(0,0,0,0.45)' }}>{row.ra}</td>
                         {/* DIFF */}
                         <td style={{ padding:'13px 14px', textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:16, color: diffNum >= 0 ? '#22c55e' : '#ef4444' }}>{row.diff}</td>
                         {/* PTS */}
@@ -135,17 +135,17 @@ export default function Standings() {
               <thead>
                 <tr style={{ borderBottom:'1px solid var(--border)' }}>
                   {['Year','Champion','Runner-Up','Notes'].map(h => (
-                    <th key={h} style={{ padding:'12px 16px', textAlign:'left', fontSize:11, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)' }}>{h}</th>
+                    <th key={h} style={{ padding:'12px 16px', textAlign:'left', fontSize:11, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(0,0,0,0.35)' }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {LEAGUE_HISTORY.map(row => (
-                  <tr key={row.year} style={{ borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
+                  <tr key={row.year} style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}>
                     <td style={{ padding:'14px 16px', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)' }}>{row.year}</td>
                     <td style={{ padding:'14px 16px', fontSize:15, color:'var(--white)', fontWeight:600 }}>{row.champion ? `🏆 ${row.champion}` : '—'}</td>
-                    <td style={{ padding:'14px 16px', fontSize:14, color:'rgba(255,255,255,0.55)' }}>{row.runnerUp || '—'}</td>
-                    <td style={{ padding:'14px 16px', fontSize:13, color:'rgba(255,255,255,0.35)', fontStyle:'italic' }}>{row.note || ''}</td>
+                    <td style={{ padding:'14px 16px', fontSize:14, color:'rgba(0,0,0,0.45)' }}>{row.runnerUp || '—'}</td>
+                    <td style={{ padding:'14px 16px', fontSize:13, color:'rgba(0,0,0,0.3)', fontStyle:'italic' }}>{row.note || ''}</td>
                   </tr>
                 ))}
               </tbody>

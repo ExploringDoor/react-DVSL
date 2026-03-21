@@ -20,7 +20,7 @@ function NotFound() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)', display:'flex', alignItems:'center', justifyContent:'center' }}>
       <div style={{ textAlign:'center' }}>
-        <p style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:80, color:'rgba(255,255,255,0.06)' }}>404</p>
+        <p style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:80, color:'rgba(0,0,0,0.05)' }}>404</p>
         <p style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:32, color:'var(--white)' }}>Page Not Found</p>
         <a href="/" style={{ color:'var(--gold)', fontSize:14 }}>← Back to Home</a>
       </div>

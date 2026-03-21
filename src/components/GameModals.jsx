@@ -109,8 +109,8 @@ function genGamedayPreview(game) {
 
 function Modal({ onClose, children, maxWidth = 900 }) {
   return (
-    <div onClick={onClose} style={{ position:'fixed',inset:0,zIndex:1000,background:'rgba(0,0,0,0.88)',display:'flex',alignItems:'center',justifyContent:'center',padding:'env(safe-area-inset-top, 8px) 8px 8px',overflowY:'auto' }}>
-      <div onClick={e=>e.stopPropagation()} style={{ background:'#0d0d11',border:'1px solid rgba(255,255,255,0.1)',borderRadius:14,maxWidth,width:'100%',maxHeight:'90vh',overflowY:'auto',position:'relative' }}>
+    <div onClick={onClose} style={{ position:'fixed',inset:0,zIndex:1000,background:'rgba(255,255,255,0.88)',display:'flex',alignItems:'center',justifyContent:'center',padding:'env(safe-area-inset-top, 8px) 8px 8px',overflowY:'auto' }}>
+      <div onClick={e=>e.stopPropagation()} style={{ background:'#fff',border:'1px solid rgba(0,0,0,0.08)',borderRadius:14,maxWidth,width:'100%',maxHeight:'90vh',overflowY:'auto',position:'relative' }}>
         {children}
       </div>
     </div>
@@ -143,22 +143,22 @@ export function PlayerStatsModal({ player, onClose }) {
   return (
     <Modal onClose={onClose} maxWidth={700}>
       {/* Close button */}
-      <button onClick={onClose} style={{ position:'absolute',top:16,right:16,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:8,color:'var(--white)',fontSize:13,fontWeight:700,padding:'8px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:6 }}>✕ CLOSE</button>
+      <button onClick={onClose} style={{ position:'absolute',top:16,right:16,background:'rgba(0,0,0,0.07)',border:'1px solid rgba(0,0,0,0.12)',borderRadius:8,color:'var(--white)',fontSize:13,fontWeight:700,padding:'8px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:6 }}>✕ CLOSE</button>
 
       {/* Header */}
-      <div style={{ padding:'28px 28px 20px',borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+      <div style={{ padding:'28px 28px 20px',borderBottom:'1px solid rgba(0,0,0,0.07)' }}>
         <div style={{ display:'flex',alignItems:'center',gap:20 }}>
           {/* Avatar circle */}
-          <div style={{ width:80,height:80,borderRadius:'50%',background:`${color}22`,border:`2px solid ${color}`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
+          <div style={{ width:80,height:80,borderRadius:'50%',background:`${color}15`,border:`2px solid ${color}`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
             <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:28,color }}>{initials}</span>
           </div>
           <div>
             <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:40,textTransform:'uppercase',color:'var(--white)',lineHeight:1,letterSpacing:'.02em' }}>{player.name}</h1>
-            <div style={{ fontSize:14,color:'rgba(255,255,255,0.55)',marginTop:4 }}>
+            <div style={{ fontSize:14,color:'rgba(0,0,0,0.45)',marginTop:4 }}>
               <span style={{ color:team?.color||'var(--gold)',fontWeight:700 }}>{player.team}</span>
             </div>
             <div style={{ display:'flex',gap:8,marginTop:8 }}>
-              <span style={{ background:`${color}22`,border:`1px solid ${color}40`,borderRadius:6,padding:'3px 10px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color }}>{player.team} · {team?.name}</span>
+              <span style={{ background:`${color}15`,border:`1px solid ${color}40`,borderRadius:6,padding:'3px 10px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color }}>{player.team} · {team?.name}</span>
               <span style={{ background:'rgba(34,197,94,0.12)',border:'1px solid rgba(34,197,94,0.3)',borderRadius:6,padding:'3px 10px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'#22c55e' }}>2026 Season</span>
             </div>
           </div>
@@ -178,26 +178,26 @@ export function PlayerStatsModal({ player, onClose }) {
             ['BB',  player.bb],
             ['SLG', fmtAvg(player.slg)],
           ].map(([k,v])=>(
-            <div key={k} style={{ background:'rgba(255,255,255,0.05)',borderRadius:10,padding:'16px',textAlign:'center' }}>
+            <div key={k} style={{ background:'rgba(0,0,0,0.04)',borderRadius:10,padding:'16px',textAlign:'center' }}>
               <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:38,color:'var(--gold)',lineHeight:1 }}>{v}</div>
-              <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.1em',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',marginTop:6 }}>{k}</div>
+              <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.1em',color:'rgba(0,0,0,0.35)',textTransform:'uppercase',marginTop:6 }}>{k}</div>
             </div>
           ))}
         </div>
 
         {/* Game log */}
         <div style={{ fontSize:13,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:12 }}>Game Log</div>
-        <div style={{ background:'rgba(255,255,255,0.03)',borderRadius:10,overflow:'hidden' }}>
-          <div style={{ display:'grid',gridTemplateColumns:'1.2fr repeat(6,1fr) 1.4fr',padding:'8px 16px',borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ background:'rgba(0,0,0,0.03)',borderRadius:10,overflow:'hidden' }}>
+          <div style={{ display:'grid',gridTemplateColumns:'1.2fr repeat(6,1fr) 1.4fr',padding:'8px 16px',borderBottom:'1px solid rgba(0,0,0,0.05)' }}>
             {['OPPONENT','AB','H','HR','RBI','BB','R','RESULT'].map(h=>(
-              <span key={h} style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'rgba(255,255,255,0.35)',textTransform:'uppercase',textAlign:h==='OPPONENT'?'left':'center' }}>{h}</span>
+              <span key={h} style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'rgba(0,0,0,0.3)',textTransform:'uppercase',textAlign:h==='OPPONENT'?'left':'center' }}>{h}</span>
             ))}
           </div>
           {gameLog.map((g,i)=>(
-            <div key={i} style={{ display:'grid',gridTemplateColumns:'1.2fr repeat(6,1fr) 1.4fr',padding:'10px 16px',borderBottom:'1px solid rgba(255,255,255,0.04)',background:i%2===0?'transparent':'rgba(255,255,255,0.015)' }}>
+            <div key={i} style={{ display:'grid',gridTemplateColumns:'1.2fr repeat(6,1fr) 1.4fr',padding:'10px 16px',borderBottom:'1px solid rgba(0,0,0,0.04)',background:i%2===0?'transparent':'rgba(0,0,0,0.02)' }}>
               <span style={{ fontSize:13,color:'var(--white)',fontWeight:500 }}>{g.opp}</span>
               {[g.ab,g.h,g.hr,g.rbi,g.bb,g.r].map((v,vi)=>(
-                <span key={vi} style={{ fontSize:13,color:'rgba(255,255,255,0.6)',textAlign:'center',fontFamily:"'Barlow Condensed',sans-serif" }}>{v}</span>
+                <span key={vi} style={{ fontSize:13,color:'rgba(0,0,0,0.5)',textAlign:'center',fontFamily:"'Barlow Condensed',sans-serif" }}>{v}</span>
               ))}
               <span style={{ fontSize:12,fontWeight:700,textAlign:'center',color:g.won?'#22c55e':'#ef4444',background:g.won?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)',borderRadius:6,padding:'2px 8px',justifySelf:'center' }}>{g.result}</span>
             </div>
@@ -224,27 +224,27 @@ export function BoxScoreModal({ game, onClose }) {
       <div style={{ flex:'1 1 300px',minWidth:0 }}>
         <div style={{ display:'flex',alignItems:'center',gap:8,marginBottom:12 }}>
           <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:22,color,textTransform:'uppercase' }}>{teamShort}</span>
-          <span style={{ fontSize:13,color:'rgba(255,255,255,0.4)',cursor:'pointer' }}>↗</span>
+          <span style={{ fontSize:13,color:'rgba(0,0,0,0.35)',cursor:'pointer' }}>↗</span>
         </div>
-        <div style={{ background:'rgba(255,255,255,0.04)',borderRadius:8,overflow:'hidden' }}>
-          <div style={{ display:'grid',gridTemplateColumns:'1fr auto auto auto',padding:'8px 12px',borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ background:'rgba(0,0,0,0.04)',borderRadius:8,overflow:'hidden' }}>
+          <div style={{ display:'grid',gridTemplateColumns:'1fr auto auto auto',padding:'8px 12px',borderBottom:'1px solid rgba(0,0,0,0.05)' }}>
             {['PLAYER','AVG','HR','RBI'].map(h=>(
-              <span key={h} style={{ fontSize:10,fontWeight:700,letterSpacing:'.08em',color:'rgba(255,255,255,0.35)',textTransform:'uppercase',textAlign:h==='PLAYER'?'left':'right' }}>{h}</span>
+              <span key={h} style={{ fontSize:10,fontWeight:700,letterSpacing:'.08em',color:'rgba(0,0,0,0.3)',textTransform:'uppercase',textAlign:h==='PLAYER'?'left':'right' }}>{h}</span>
             ))}
           </div>
           {players.map((p,i)=>(
-            <div key={i} style={{ display:'grid',gridTemplateColumns:'1fr auto auto auto',padding:'8px 12px',borderBottom:'1px solid rgba(255,255,255,0.04)',background:i%2===0?'transparent':'rgba(255,255,255,0.01)',cursor:'pointer' }}
+            <div key={i} style={{ display:'grid',gridTemplateColumns:'1fr auto auto auto',padding:'8px 12px',borderBottom:'1px solid rgba(0,0,0,0.04)',background:i%2===0?'transparent':'rgba(0,0,0,0.01)',cursor:'pointer' }}
               onClick={() => setSelectedPlayer({...p, team: teamShort, avg: p.seasonAvg, hr: p.seasonHR, rbi: p.seasonRBI, h: Math.round(p.seasonAvg * 70), ab: 70, r: Math.round(p.seasonHR * 2 + 5), bb: 8, slg: p.seasonAvg * 1.5, doubles: 4, triples: 1, so: 5, sb: 2 })}
-              onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.05)'}
-              onMouseLeave={e=>e.currentTarget.style.background=i%2===0?'transparent':'rgba(255,255,255,0.01)'}
+              onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,0.04)'}
+              onMouseLeave={e=>e.currentTarget.style.background=i%2===0?'transparent':'rgba(0,0,0,0.01)'}
             >
               <div style={{ display:'flex',alignItems:'center',gap:6 }}>
-                <span style={{ fontWeight:600,fontSize:14,color:'var(--white)',textDecoration:'underline',textDecorationColor:'rgba(255,255,255,0.2)',textUnderlineOffset:3 }}>{p.name}</span>
-                <span style={{ fontSize:10,color:'rgba(255,255,255,0.35)' }}>{p.pos}</span>
+                <span style={{ fontWeight:600,fontSize:14,color:'var(--white)',textDecoration:'underline',textDecorationColor:'rgba(0,0,0,0.15)',textUnderlineOffset:3 }}>{p.name}</span>
+                <span style={{ fontSize:10,color:'rgba(0,0,0,0.3)' }}>{p.pos}</span>
               </div>
               <span style={{ fontSize:13,color:'var(--gold)',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,textAlign:'right' }}>{fmtA(p.seasonAvg)}</span>
-              <span style={{ fontSize:13,color:'rgba(255,255,255,0.6)',fontFamily:"'Barlow Condensed',sans-serif",textAlign:'right',paddingLeft:16 }}>{p.seasonHR}</span>
-              <span style={{ fontSize:13,color:'rgba(255,255,255,0.6)',fontFamily:"'Barlow Condensed',sans-serif",textAlign:'right',paddingLeft:16 }}>{p.seasonRBI}</span>
+              <span style={{ fontSize:13,color:'rgba(0,0,0,0.5)',fontFamily:"'Barlow Condensed',sans-serif",textAlign:'right',paddingLeft:16 }}>{p.seasonHR}</span>
+              <span style={{ fontSize:13,color:'rgba(0,0,0,0.5)',fontFamily:"'Barlow Condensed',sans-serif",textAlign:'right',paddingLeft:16 }}>{p.seasonRBI}</span>
             </div>
           ))}
         </div>
@@ -257,49 +257,49 @@ export function BoxScoreModal({ game, onClose }) {
       {selectedPlayer && <PlayerStatsModal player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />}
       <Modal onClose={onClose} maxWidth={960}>
         {/* Close */}
-        <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:8,color:'var(--white)',fontSize:18,fontWeight:400,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
+        <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(0,0,0,0.07)',border:'1px solid rgba(0,0,0,0.12)',borderRadius:8,color:'var(--white)',fontSize:18,fontWeight:400,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
 
         {/* Hero score header */}
-        <div style={{ padding:'24px clamp(12px,4vw,40px) 20px',textAlign:'center',borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ padding:'24px clamp(12px,4vw,40px) 20px',textAlign:'center',borderBottom:'1px solid rgba(0,0,0,0.07)' }}>
           <div style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:32 }}>
             {/* Away */}
             <div style={{ flex:1,textAlign:'center' }}>
               <Link to={`/teams/${awayT?.id||game.away}`} style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(32px,6vw,64px)',textTransform:'uppercase',color:awayT?.color||'var(--gold)',textDecoration:'none',lineHeight:1,display:'block' }}>{game.away}</Link>
-              <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:4,textTransform:'uppercase',letterSpacing:'.08em' }}>AWAY ↗</div>
+              <div style={{ fontSize:12,color:'rgba(0,0,0,0.35)',marginTop:4,textTransform:'uppercase',letterSpacing:'.08em' }}>AWAY ↗</div>
             </div>
             {/* Score */}
             <div style={{ textAlign:'center' }}>
               <div style={{ display:'flex',alignItems:'center',gap:12 }}>
                 <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(40px,8vw,72px)',color:'var(--gold)',lineHeight:1 }}>{game.awayScore}</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:400,fontSize:48,color:'rgba(255,255,255,0.3)',lineHeight:1 }}>-</span>
-                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(40px,8vw,72px)',color:'rgba(255,255,255,0.35)',lineHeight:1 }}>{game.homeScore}</span>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:400,fontSize:48,color:'rgba(0,0,0,0.25)',lineHeight:1 }}>-</span>
+                <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(40px,8vw,72px)',color:'rgba(0,0,0,0.3)',lineHeight:1 }}>{game.homeScore}</span>
               </div>
-              <div style={{ background:'rgba(255,255,255,0.08)',borderRadius:6,padding:'4px 16px',fontSize:11,fontWeight:700,letterSpacing:'.1em',color:'rgba(255,255,255,0.5)',textTransform:'uppercase',marginTop:8,display:'inline-block' }}>FINAL</div>
-              <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:6 }}>📍 {field}</div>
+              <div style={{ background:'rgba(0,0,0,0.07)',borderRadius:6,padding:'4px 16px',fontSize:11,fontWeight:700,letterSpacing:'.1em',color:'rgba(0,0,0,0.45)',textTransform:'uppercase',marginTop:8,display:'inline-block' }}>FINAL</div>
+              <div style={{ fontSize:12,color:'rgba(0,0,0,0.35)',marginTop:6 }}>📍 {field}</div>
             </div>
             {/* Home */}
             <div style={{ flex:1,textAlign:'center' }}>
               <Link to={`/teams/${homeT?.id||game.home}`} style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:'clamp(32px,6vw,64px)',textTransform:'uppercase',color:homeT?.color||'var(--gold)',textDecoration:'none',lineHeight:1,display:'block' }}>{game.home}</Link>
-              <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginTop:4,textTransform:'uppercase',letterSpacing:'.08em' }}>HOME ↗</div>
+              <div style={{ fontSize:12,color:'rgba(0,0,0,0.35)',marginTop:4,textTransform:'uppercase',letterSpacing:'.08em' }}>HOME ↗</div>
             </div>
           </div>
         </div>
 
         <div style={{ padding:'16px clamp(12px,4vw,32px) 24px' }}>
           {/* Line Score with innings */}
-          <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:10 }}>Line Score</div>
+          <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(0,0,0,0.35)',marginBottom:10 }}>Line Score</div>
           {(() => {
             const seed = (game.away?.charCodeAt(0)||0) + (game.home?.charCodeAt(0)||0)
             const awayInn = genInnings(game.awayScore||0, seed)
             const homeInn = genInnings(game.homeScore||0, seed+7)
             const cols = '80px repeat(7, 1fr) 1.2fr 1.2fr 1.2fr'
-            const thStyle = { fontSize:11,fontWeight:700,letterSpacing:'.08em',color:'rgba(255,255,255,0.35)',textTransform:'uppercase',textAlign:'center',padding:'8px 4px' }
-            const tdStyle = { fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,textAlign:'center',padding:'10px 4px',color:'rgba(255,255,255,0.55)' }
+            const thStyle = { fontSize:11,fontWeight:700,letterSpacing:'.08em',color:'rgba(0,0,0,0.3)',textTransform:'uppercase',textAlign:'center',padding:'8px 4px' }
+            const tdStyle = { fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,textAlign:'center',padding:'10px 4px',color:'rgba(0,0,0,0.45)' }
             return (
               <div style={{ overflowX:'auto',marginBottom:28 }}>
-                <table style={{ width:'100%',borderCollapse:'collapse',background:'rgba(255,255,255,0.04)',borderRadius:8,overflow:'hidden',minWidth:500 }}>
+                <table style={{ width:'100%',borderCollapse:'collapse',background:'rgba(0,0,0,0.04)',borderRadius:8,overflow:'hidden',minWidth:500 }}>
                   <thead>
-                    <tr style={{ borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
+                    <tr style={{ borderBottom:'1px solid rgba(0,0,0,0.05)' }}>
                       <th style={{...thStyle,textAlign:'left',paddingLeft:16}}>TEAM</th>
                       {[1,2,3,4,5,6,7].map(n=><th key={n} style={thStyle}>{n}</th>)}
                       <th style={{...thStyle,color:'var(--white)',fontWeight:800}}>R</th>
@@ -309,12 +309,12 @@ export function BoxScoreModal({ game, onClose }) {
                   </thead>
                   <tbody>
                     {[{short:game.away,t:awayT,inn:awayInn,r:game.awayScore,h:awayH},{short:game.home,t:homeT,inn:homeInn,r:game.homeScore,h:homeH}].map((row,i)=>(
-                      <tr key={i} style={{ borderBottom:i===0?'1px solid rgba(255,255,255,0.04)':'none' }}>
+                      <tr key={i} style={{ borderBottom:i===0?'1px solid rgba(0,0,0,0.04)':'none' }}>
                         <td style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:18,color:row.t?.color||'var(--gold)',textTransform:'uppercase',padding:'10px 16px' }}>{row.short}</td>
                         {row.inn.map((r,ii)=><td key={ii} style={tdStyle}>{r}</td>)}
                         <td style={{...tdStyle,color:'var(--white)',fontWeight:900,fontSize:20}}>{row.r}</td>
-                        <td style={{...tdStyle,color:'rgba(255,255,255,0.6)'}}>{row.h}</td>
-                        <td style={{...tdStyle,color:'rgba(255,255,255,0.6)'}}>0</td>
+                        <td style={{...tdStyle,color:'rgba(0,0,0,0.5)'}}>{row.h}</td>
+                        <td style={{...tdStyle,color:'rgba(0,0,0,0.5)'}}>0</td>
                       </tr>
                     ))}
                   </tbody>
@@ -324,7 +324,7 @@ export function BoxScoreModal({ game, onClose }) {
           })()}
 
           {/* Batting */}
-          <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:16 }}>Batting</div>
+          <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(0,0,0,0.35)',marginBottom:16 }}>Batting</div>
           <div style={{ display:'flex',gap:24,flexWrap:'wrap' }}>
             <TeamBattingTable players={away} teamShort={game.away} color={awayT?.color||'var(--gold)'} />
             <TeamBattingTable players={home} teamShort={game.home} color={homeT?.color||'var(--gold)'} />
@@ -349,7 +349,7 @@ export function RecapModal({ game, onClose }) {
 
   return (
     <Modal onClose={onClose} maxWidth={700}>
-      <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:8,color:'var(--white)',fontSize:18,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
+      <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(0,0,0,0.07)',border:'1px solid rgba(0,0,0,0.12)',borderRadius:8,color:'var(--white)',fontSize:18,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
       <div style={{ padding:'28px 32px' }}>
         <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:8 }}>Game Recap</div>
         <div style={{ display:'flex',gap:20,alignItems:'center',marginBottom:20 }}>
@@ -359,18 +359,18 @@ export function RecapModal({ game, onClose }) {
               <span style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:40,color:'var(--white)' }}>{s.score}</span>
             </div>
           ))}
-          <span style={{ fontSize:12,color:'rgba(255,255,255,0.4)',marginLeft:8 }}>{field}</span>
+          <span style={{ fontSize:12,color:'rgba(0,0,0,0.35)',marginLeft:8 }}>{field}</span>
         </div>
-        <div style={{ display:'flex',gap:32,marginBottom:20,paddingBottom:20,borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ display:'flex',gap:32,marginBottom:20,paddingBottom:20,borderBottom:'1px solid rgba(0,0,0,0.07)' }}>
           {[{role:'WIN',p:winP},{role:'LOSS',p:lossP}].map(({role,p})=>(
             <div key={role}>
-              <div style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'rgba(255,255,255,0.4)',marginBottom:4 }}>{role}</div>
+              <div style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'rgba(0,0,0,0.35)',marginBottom:4 }}>{role}</div>
               <div style={{ fontWeight:700,fontSize:15,color:'var(--white)' }}>{p.name}</div>
-              <div style={{ fontSize:12,color:'rgba(255,255,255,0.4)' }}>{p.wl} · {p.era} ERA</div>
+              <div style={{ fontSize:12,color:'rgba(0,0,0,0.35)' }}>{p.wl} · {p.era} ERA</div>
             </div>
           ))}
         </div>
-        <p style={{ fontSize:15,lineHeight:1.8,color:'rgba(255,255,255,0.7)' }}>{recap}</p>
+        <p style={{ fontSize:15,lineHeight:1.8,color:'rgba(0,0,0,0.6)' }}>{recap}</p>
       </div>
     </Modal>
   )
@@ -385,27 +385,27 @@ export function GamedayModal({ game, onClose }) {
 
   return (
     <Modal onClose={onClose} maxWidth={700}>
-      <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:8,color:'var(--white)',fontSize:18,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
+      <button onClick={onClose} style={{ position:'absolute',top:14,right:14,background:'rgba(0,0,0,0.07)',border:'1px solid rgba(0,0,0,0.12)',borderRadius:8,color:'var(--white)',fontSize:18,width:36,height:36,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>✕</button>
       <div style={{ padding:'28px 32px' }}>
         <div style={{ fontSize:11,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:20 }}>Gameday Preview · {field} · {time}</div>
-        <div style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:32,marginBottom:24,paddingBottom:20,borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ display:'flex',alignItems:'center',justifyContent:'center',gap:32,marginBottom:24,paddingBottom:20,borderBottom:'1px solid rgba(0,0,0,0.07)' }}>
           {[{t:game.away,team:awayT,rec:awayRecord},{t:game.home,team:homeT,rec:homeRecord}].map((s,i)=>(
             <div key={s.t} style={{ textAlign:'center' }}>
               <div style={{ fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:48,color:s.team?.color||'var(--gold)',textTransform:'uppercase',lineHeight:1 }}>{s.t}</div>
-              <div style={{ fontSize:13,color:'rgba(255,255,255,0.4)',marginTop:4 }}>{s.rec}</div>
+              <div style={{ fontSize:13,color:'rgba(0,0,0,0.35)',marginTop:4 }}>{s.rec}</div>
             </div>
           ))}
         </div>
-        <div style={{ display:'flex',gap:32,marginBottom:20,paddingBottom:20,borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ display:'flex',gap:32,marginBottom:20,paddingBottom:20,borderBottom:'1px solid rgba(0,0,0,0.07)' }}>
           {[{label:'Away Pitcher',p:awayP},{label:'Home Pitcher',p:homeP}].map(({label,p})=>(
             <div key={label}>
               <div style={{ fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'var(--gold)',textTransform:'uppercase',marginBottom:4 }}>{label}</div>
               <div style={{ fontWeight:700,fontSize:16,color:'var(--white)' }}>{p.name}</div>
-              <div style={{ fontSize:13,color:'rgba(255,255,255,0.4)' }}>{p.wl} · {p.era} ERA</div>
+              <div style={{ fontSize:13,color:'rgba(0,0,0,0.35)' }}>{p.wl} · {p.era} ERA</div>
             </div>
           ))}
         </div>
-        <p style={{ fontSize:15,lineHeight:1.8,color:'rgba(255,255,255,0.7)' }}>{storyline}</p>
+        <p style={{ fontSize:15,lineHeight:1.8,color:'rgba(0,0,0,0.6)' }}>{storyline}</p>
       </div>
     </Modal>
   )

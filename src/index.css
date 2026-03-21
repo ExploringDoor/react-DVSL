@@ -8,8 +8,8 @@
     --dark: #0d0d11;
     --card: #141418;
     --card2: #1a1a1f;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.05);
+    --border: rgba(0,0,0,0.07);
+    --border2: rgba(0,0,0,0.04);
     --gold: #F5C842;
     --gold-dim: rgba(245,200,66,0.10);
     --white: #EDEDED;
@@ -109,7 +109,7 @@
     transition: color .2s;
   }
   .nav-link:hover { color: var(--white); }
-  .nav-link.active { color: var(--gold); border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+  .nav-link.active { color: var(--gold) !important; border-bottom: 2px solid var(--gold); padding-bottom: 2px; font-weight: 700; }
 
   /* Tab bar like scores/schedule */
   .tab-btn {
@@ -228,7 +228,7 @@
   .schedule-row-right {
     width: 100% !important;
     border-left: none !important;
-    border-top: 1px solid rgba(255,255,255,0.08) !important;
+    border-top: 1px solid rgba(0,0,0,0.07) !important;
     flex-wrap: wrap !important;
   }
 

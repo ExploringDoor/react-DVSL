@@ -30,8 +30,8 @@ export default function Navbar() {
         position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 16px', height: 62,
-        background: '#ffffff', backdropFilter: 'blur(20px)', boxShadow: '0 1px 0 rgba(0,0,0,0.1)',
-        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        background: '#ffffff', borderBottom: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
       }}>
         <Link to="/" style={{ textDecoration:'none', flexShrink:0, display:'flex', alignItems:'center', gap:10 }}>
           <img src="/dvsl-logo.png" alt="DVSL" style={{ height:36, width:36, objectFit:'contain', filter:'drop-shadow(0 0 8px rgba(59,130,246,0.5))' }} />
@@ -74,12 +74,12 @@ export default function Navbar() {
           overflowY: 'auto',
         }} className="lg:hidden">
           {/* Header row */}
-          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 20px', height:62, borderBottom:'1px solid rgba(255,255,255,0.08)', flexShrink:0 }}>
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 20px', height:62, borderBottom:'1px solid rgba(0,0,0,0.07)', flexShrink:0 }}>
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
               <img src="/dvsl-logo.png" alt="DVSL" style={{ height:32, width:32, objectFit:'contain' }} />
               <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, color:'var(--gold)', letterSpacing:'.1em' }}>DVSL</span>
             </div>
-            <button onClick={() => setOpen(false)} style={{ background:'none', border:'none', color:'var(--white)', fontSize:28, cursor:'pointer', padding:8 }}>✕</button>
+            <button onClick={() => setOpen(false)} style={{ background:'none', border:'none', color:'#111', fontSize:28, cursor:'pointer', padding:8 }}>✕</button>
           </div>
 
           {/* Nav links */}
@@ -93,10 +93,10 @@ export default function Navbar() {
                   display: 'flex', alignItems: 'center',
                   fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 36,
                   textTransform: 'uppercase', letterSpacing: '.02em',
-                  color: isActive ? 'var(--gold)' : 'var(--white)',
+                  color: isActive ? 'var(--gold)' : '#111',
                   textDecoration: 'none',
                   padding: '16px 24px',
-                  borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  borderBottom: '1px solid rgba(0,0,0,0.04)',
                   background: isActive ? 'rgba(245,200,66,0.06)' : 'none',
                 })}
               >

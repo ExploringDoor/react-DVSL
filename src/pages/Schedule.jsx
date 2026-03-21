@@ -53,7 +53,7 @@ function ScheduleRow({ game, isNext }) {
                 <Link to={'/teams/'+(side.team?.id||side.t.toLowerCase())} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:'clamp(14px,2.5vw,22px)', textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                   {side.team?.name || side.t}
                 </Link>
-                <span style={{ fontSize:12, color:'rgba(255,255,255,0.4)' }}>({side.team?.w}-{side.team?.l})</span>
+                <span style={{ fontSize:12, color:'rgba(0,0,0,0.35)' }}>({side.team?.w}-{side.team?.l})</span>
               </div>
             </div>
           ))}
@@ -63,12 +63,12 @@ function ScheduleRow({ game, isNext }) {
         {/* Time + date + field — flex shrink */}
         <div className="home-schedule-time" style={{ flexShrink:0, borderLeft:'1px solid var(--border)', padding:'10px 12px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
           <div className="time-text" style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-          <div style={{ fontSize:14, fontWeight:600, color:'rgba(255,255,255,0.6)', marginTop:4 }}>{mo} {day}</div>
+          <div style={{ fontSize:14, fontWeight:600, color:'rgba(0,0,0,0.5)', marginTop:4 }}>{mo} {day}</div>
           <div className="home-schedule-field" style={{ fontSize:14, color:'var(--white)', marginTop:2, fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{field}</div>
         </div>
 
         {/* GAMEDAY */}
-        <div className="home-schedule-gameday" style={{ flexShrink:0, borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 10px' }}>
+        <div className="home-schedule-gameday" style={{ flexShrink:0, borderLeft:'1px solid rgba(0,0,0,0.05)', display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 10px' }}>
           <button onClick={()=>setShowGameday(true)} className="btn-outline" style={{ fontSize:12, fontWeight:700, padding:'8px 12px', whiteSpace:'nowrap' }}>GAMEDAY</button>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function Schedule() {
         ) : (
           sortedDays.map(day => (
             <div key={day} style={{ marginBottom:20 }}>
-              <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)', paddingBottom:8, marginBottom:8, borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
+              <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'rgba(0,0,0,0.35)', paddingBottom:8, marginBottom:8, borderBottom:'1px solid rgba(0,0,0,0.04)' }}>
                 {DAY_FULL[day]||day}
               </div>
               {/* Finals use regular list, upcoming use grid on desktop */}

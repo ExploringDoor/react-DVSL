@@ -8,7 +8,7 @@ const LINKS = [
 
 export default function Footer() {
   return (
-    <footer style={{borderTop:'1px solid rgba(255,255,255,0.08)',background:'var(--dark)',marginTop:64}}>
+    <footer style={{borderTop:'1px solid rgba(0,0,0,0.07)',background:'var(--dark)',marginTop:64}}>
       <div style={{maxWidth:1100,margin:'0 auto',padding:'40px 40px 24px'}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:24,marginBottom:32}}>
           <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:22,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)'}}>
@@ -23,7 +23,7 @@ export default function Footer() {
             ))}
           </div>
         </div>
-        <div style={{borderTop:'1px solid rgba(255,255,255,0.06)',paddingTop:20,color:'var(--muted2)',fontSize:12}}>
+        <div style={{borderTop:'1px solid rgba(0,0,0,0.05)',paddingTop:20,color:'var(--muted2)',fontSize:12}}>
           © 2026 DVSL · Delaware Valley Synagogue League
         </div>
       </div>

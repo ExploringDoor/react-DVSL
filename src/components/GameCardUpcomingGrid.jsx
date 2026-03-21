@@ -62,7 +62,7 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
                 }}>
                   {showFullName ? (side.team?.name||side.t) : side.t}
                 </Link>
-                <div style={{ fontSize:14, color:'rgba(255,255,255,0.45)', marginTop:4 }}>({side.team?.w}-{side.team?.l})</div>
+                <div style={{ fontSize:14, color:'rgba(0,0,0,0.4)', marginTop:4 }}>({side.team?.w}-{side.team?.l})</div>
               </div>
             </div>
           ))}
@@ -74,8 +74,8 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
         {/* RIGHT — time, date, field */}
         <div style={{ width:160, flexShrink:0, padding:'16px 20px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
           <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:34, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-          <div style={{ fontSize:14, color:'rgba(255,255,255,0.55)', marginTop:6 }}>{mo} {day}</div>
-          <div style={{ fontSize:13, color:'rgba(255,255,255,0.45)', marginTop:3, fontWeight:600 }}>{field}</div>
+          <div style={{ fontSize:14, color:'rgba(0,0,0,0.45)', marginTop:6 }}>{mo} {day}</div>
+          <div style={{ fontSize:13, color:'rgba(0,0,0,0.4)', marginTop:3, fontWeight:600 }}>{field}</div>
         </div>
 
         {/* CENTER divider */}

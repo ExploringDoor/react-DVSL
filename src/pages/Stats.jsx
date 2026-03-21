@@ -63,7 +63,7 @@ export default function Stats() {
                 if (!p) return null
                 const t = getTeamByShort(p.team)
                 return (
-                  <div key={key} style={{ background:'rgba(255,255,255,0.04)', border:'1px solid var(--border)', borderRadius:8, padding:'10px 16px', flexShrink:0, minWidth:120 }}>
+                  <div key={key} style={{ background:'rgba(0,0,0,0.04)', border:'1px solid var(--border)', borderRadius:8, padding:'10px 16px', flexShrink:0, minWidth:120 }}>
                     <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:3 }}>{label}</div>
                     <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', lineHeight:1 }}>{fmt(p[key])}</div>
                     <div style={{ fontSize:12, fontWeight:600, color:'var(--white)', marginTop:3, lineHeight:1.2 }}>{p.name.split(' ')[1] || p.name}</div>
@@ -94,7 +94,7 @@ export default function Stats() {
                 letterSpacing:'.05em', textTransform:'uppercase',
                 color: teamFilter===s ? 'var(--bg)' : 'var(--muted)',
                 background: teamFilter===s ? 'var(--gold)' : 'transparent',
-                border: teamFilter===s ? 'none' : '1px solid rgba(255,255,255,0.12)',
+                border: teamFilter===s ? 'none' : '1px solid rgba(0,0,0,0.1)',
                 borderRadius:6, padding:'5px 14px', cursor:'pointer',
               }}>{s==='ALL' ? 'All Teams' : s}</button>
             ))}
@@ -118,8 +118,8 @@ export default function Stats() {
                 {sorted.map(p => {
                   const t = getTeamByShort(p.team)
                   return (
-                    <tr key={p.id} style={{ borderBottom:'1px solid rgba(255,255,255,0.04)' }}
-                      onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.02)'}
+                    <tr key={p.id} style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}
+                      onMouseEnter={e => e.currentTarget.style.background='rgba(0,0,0,0.02)'}
                       onMouseLeave={e => e.currentTarget.style.background=''}
                     >
                       {TABLE_COLS.map(col => {
@@ -127,7 +127,7 @@ export default function Stats() {
                           <td key="name" style={{ padding:'10px 12px' }}>
                             <button
                               onClick={() => setSelectedPlayer(p)}
-                              style={{ background:'none', border:'none', cursor:'pointer', fontWeight:600, fontSize:14, color:'var(--white)', whiteSpace:'nowrap', padding:0, textDecoration:'underline', textDecorationColor:'rgba(255,255,255,0.25)', textUnderlineOffset:3 }}
+                              style={{ background:'none', border:'none', cursor:'pointer', fontWeight:600, fontSize:14, color:'var(--white)', whiteSpace:'nowrap', padding:0, textDecoration:'underline', textDecorationColor:'rgba(0,0,0,0.2)', textUnderlineOffset:3 }}
                             >
                               {p.name}
                             </button>

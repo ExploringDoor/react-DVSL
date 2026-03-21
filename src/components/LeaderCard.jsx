@@ -14,7 +14,7 @@ export default function LeaderCard({ catLabel, players, fmt, statKey, active = f
       {selectedPlayer && <PlayerStatsModal player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />}
       <div style={{ background:'var(--card)', border:`1px solid ${active ? 'var(--gold)' : 'var(--border)'}`, borderRadius:10, padding:'14px 16px', position:'relative', overflow:'hidden', minWidth:0 }}>
         {/* #1 watermark */}
-        <div style={{ position:'absolute', top:2, right:10, fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:52, color:'rgba(255,255,255,0.04)', lineHeight:1, userSelect:'none' }}>#1</div>
+        <div style={{ position:'absolute', top:2, right:10, fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:52, color:'rgba(0,0,0,0.04)', lineHeight:1, userSelect:'none' }}>#1</div>
 
         <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', marginBottom:6 }}>{catLabel}</div>
 

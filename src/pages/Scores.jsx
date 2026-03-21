@@ -63,7 +63,7 @@ export default function Scores() {
         ) : (
           sortedDays.map(day => (
             <div key={day} style={{ marginBottom:32 }}>
-              <div style={{ fontSize:13, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', borderBottom:'1px solid rgba(255,255,255,0.05)', paddingBottom:8, marginBottom:12 }}>
+              <div style={{ fontSize:13, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', borderBottom:'1px solid rgba(0,0,0,0.04)', paddingBottom:8, marginBottom:12 }}>
                 {DAY_FULL[day]||day}
               </div>
                 <div className="scores-grid-desktop scores-grid-3col">
