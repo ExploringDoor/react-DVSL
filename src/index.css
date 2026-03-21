@@ -4,20 +4,20 @@
 
 @layer base {
   :root {
-    --bg: #070709;
-    --dark: #0d0d11;
-    --card: #141418;
-    --card2: #1a1a1f;
-    --border: rgba(0,0,0,0.07);
-    --border2: rgba(0,0,0,0.04);
-    --gold: #F5C842;
-    --gold-dim: rgba(245,200,66,0.10);
-    --white: #EDEDED;
-    --muted: rgba(237,237,237,0.45);
-    --muted2: rgba(237,237,237,0.28);
-    --red: #E03C31;
-    --green: #22c55e;
-    --blue: #60a5fa;
+    --bg:     #f2f4f8;
+    --dark:   #ffffff;
+    --card:   #ffffff;
+    --card2:  #f8f9fb;
+    --border: rgba(0,0,0,0.09);
+    --border2:rgba(0,0,0,0.05);
+    --gold:   #0057FF;
+    --gold-dim:rgba(0,87,255,0.10);
+    --white:  #111111;
+    --muted:  rgba(0,0,0,0.5);
+    --muted2: rgba(0,0,0,0.35);
+    --red:    #dc2626;
+    --green:  #16a34a;
+    --blue:   #0057FF;
   }
   body {
     background: var(--bg);
@@ -108,7 +108,7 @@
     border-radius: 6px;
     transition: color .2s;
   }
-  .nav-link:hover { color: var(--white); }
+  .nav-link:hover { color: #000; }
   .nav-link.active { color: var(--gold) !important; border-bottom: 2px solid var(--gold); padding-bottom: 2px; font-weight: 700; }
 
   /* Tab bar like scores/schedule */
