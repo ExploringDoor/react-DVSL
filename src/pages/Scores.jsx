@@ -25,7 +25,7 @@ export default function Scores() {
     <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:0 }}>
       {/* Page header — full width, centered */}
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 0' }}>
-        <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>
+        <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:6 }}>
           2026 Season
         </div>
         <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:20 }}>

@@ -22,7 +22,7 @@ export default function GameCardGrid({ game, showFullName = false }) {
       {modal==='boxscore' && <BoxScoreModal game={game} onClose={()=>setModal(null)} />}
       {modal==='recap'    && <RecapModal    game={game} onClose={()=>setModal(null)} />}
 
-      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:12, overflow:'hidden', display:'flex', flexDirection:'column' }}>
+      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderTop:'3px solid #0057FF', borderRadius:12, overflow:'hidden', display:'flex', flexDirection:'column' }}>
         {/* FINAL badge */}
         <div style={{ padding:'10px 16px 0', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'rgba(0,0,0,0.3)' }}>FINAL</span>

@@ -13,8 +13,8 @@
     --gold:   #0057FF;
     --gold-dim:rgba(0,87,255,0.10);
     --white:  #111111;
-    --muted:  rgba(0,0,0,0.5);
-    --muted2: rgba(0,0,0,0.35);
+    --muted:  rgba(0,0,0,0.6);
+    --muted2: rgba(0,0,0,0.45);
     --red:    #dc2626;
     --green:  #16a34a;
     --blue:   #0057FF;
@@ -102,14 +102,14 @@
     font-weight: 600;
     letter-spacing: .06em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: #555;
     text-decoration: none;
     padding: 7px 13px;
     border-radius: 6px;
-    transition: color .2s;
+    transition: all .15s;
   }
-  .nav-link:hover { color: #000; }
-  .nav-link.active { color: var(--gold) !important; border-bottom: 2px solid var(--gold); padding-bottom: 2px; font-weight: 700; }
+  .nav-link:hover { color: #0057FF; background: rgba(0,87,255,0.06); }
+  .nav-link.active { color: #0057FF !important; font-weight: 700; border-bottom: 2px solid #0057FF; padding-bottom: 5px; }
 
   /* Tab bar like scores/schedule */
   .tab-btn {
@@ -393,4 +393,63 @@ body { overflow-x: clip; max-width: 100vw; }
 .page-hero {
   background: #fff !important;
   border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+
+/* ── LIGHT THEME SPICE UPS ── */
+
+/* Blue top border on all cards */
+.card-blue-top {
+  border-top: 3px solid #0057FF !important;
+}
+
+/* Section headings - blue accent line */
+.section-heading {
+  border-left: 4px solid #0057FF;
+  padding-left: 12px;
+}
+
+/* Navbar blue bottom stripe */
+nav {
+  border-bottom: 3px solid #0057FF !important;
+}
+
+/* Page hero headers - white with blue bottom border */
+.page-hero-header {
+  background: #fff;
+  border-bottom: 3px solid #0057FF;
+  padding: 28px clamp(16px,4vw,48px) 0;
+}
+
+/* Score numbers in blue */
+.score-win { color: #111 !important; }
+.score-lose { color: #aaa !important; }
+
+/* Standings rank in blue */
+.rank-num { color: #0057FF !important; }
+
+/* Hover effect on standings rows */
+.standings-row:hover { background: rgba(0,87,255,0.04) !important; }
+
+/* Active tab underline blue */
+.week-tab-active {
+  border-bottom: 3px solid #0057FF !important;
+  color: #0057FF !important;
+}
+
+/* Card subtle left accent on final scores */
+.game-card-final-accent {
+  border-left: 3px solid #0057FF !important;
+}
+
+/* Leaderboard stat number */
+.stat-number { color: #0057FF !important; }
+
+/* Blue pill badges */
+.pill-blue {
+  background: rgba(0,87,255,0.1);
+  color: #0057FF;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
 }

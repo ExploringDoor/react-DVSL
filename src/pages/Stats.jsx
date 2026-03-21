@@ -74,7 +74,7 @@ export default function Stats() {
             </div>
 
             {/* Heading */}
-            <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>Individual Leaders</div>
+            <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>Individual Leaders</div>
             <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:20 }}>
               <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:64, textTransform:'uppercase', color:'var(--white)', lineHeight:1, letterSpacing:'.01em' }}>Leaderboard</h1>
               <span style={{ fontSize:13, color:'var(--muted2)', marginBottom:8 }}>Click any player name to view full stats</span>
@@ -84,7 +84,7 @@ export default function Stats() {
 
         <div style={{ maxWidth:1300, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 60px' }}>
           {/* Full table header */}
-          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:8 }}>Full Stats · Click column to sort · Click player name for details</div>
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:8 }}>Full Stats · Click column to sort · Click player name for details</div>
 
           {/* Team filter */}
           <div style={{ display:'flex', flexWrap:'wrap', gap:8, marginBottom:16 }}>

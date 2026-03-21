@@ -105,10 +105,10 @@ export default function Home() {
               <div style={{ marginBottom:24 }}>
                 <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                   <div>
-                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>2026 Season</div>
+                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>2026 Season</div>
                     <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Recent Results</h2>
                   </div>
-                  <Link to="/scores" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>All Scores →</Link>
+                  <Link to="/scores" style={{ color:'#0057FF', fontWeight:700, fontSize:13, textDecoration:'none' }}>All Scores →</Link>
                 </div>
                 {/* Desktop: 2-col grid. Mobile: list (via CSS) */}
                 <div className="scores-grid-desktop">
@@ -125,10 +125,10 @@ export default function Home() {
               <div style={{ marginBottom:24 }}>
                 <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                   <div>
-                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>On Deck</div>
+                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>On Deck</div>
                     <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Upcoming</h2>
                   </div>
-                  <Link to="/schedule" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Schedule →</Link>
+                  <Link to="/schedule" style={{ color:'#0057FF', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Schedule →</Link>
                 </div>
                 {/* Desktop: 2-col grid */}
                 <div className="upcoming-grid-desktop">
@@ -145,10 +145,10 @@ export default function Home() {
             <div style={{ marginBottom:24 }}>
               <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                 <div>
-                  <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>Individual Leaders</div>
+                  <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>Individual Leaders</div>
                   <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Leaderboard</h2>
                 </div>
-                <Link to="/stats" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Leaders →</Link>
+                <Link to="/stats" style={{ color:'#0057FF', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Leaders →</Link>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(130px,1fr))', gap:12 }}>
                 {LEADER_CATS.map(({key,label,fmt}) => (

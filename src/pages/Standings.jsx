@@ -44,7 +44,7 @@ export default function Standings() {
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
       <div style={{ background:'var(--dark)', borderBottom:'1px solid var(--border)', padding:'32px clamp(16px,4vw,48px) 0' }}>
         <div style={{ maxWidth:1100, margin:'0 auto' }}>
-          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>DVSL · 2026 Season</div>
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:6 }}>DVSL · 2026 Season</div>
           <h1 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:52, textTransform:'uppercase', color:'var(--white)', lineHeight:1, marginBottom:0 }}>Standings</h1>
           <div style={{ display:'flex', gap:0, marginTop:16 }}>
             {['2026','History'].map(t => (
