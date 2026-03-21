@@ -549,3 +549,66 @@ nav {
 .ticker-team-link:hover {
   text-shadow: 0 0 8px rgba(255,255,255,0.8);
 }
+
+/* ═══════════════════════════════════════
+   NEON ACTIVE TAB EFFECT
+═══════════════════════════════════════ */
+
+@keyframes neon-top {
+  0%   { left: -100%; width: 0; }
+  50%  { left: 0; width: 100%; }
+  100% { left: 100%; width: 0; }
+}
+@keyframes neon-bottom {
+  0%   { right: -100%; width: 0; }
+  50%  { right: 0; width: 100%; }
+  100% { right: 100%; width: 0; }
+}
+
+.nav-link.active {
+  position: relative;
+  color: #0057FF !important;
+  font-weight: 700;
+  background: rgba(0,87,255,0.06);
+  border-radius: 6px;
+  padding-bottom: 7px !important;
+  border-bottom: none !important;
+  overflow: hidden;
+}
+
+/* Remove old underline pseudo */
+.nav-link.active::after {
+  display: none !important;
+}
+
+/* Top neon line */
+.nav-link.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, #0057FF, #00c8ff, #0057FF, transparent);
+  box-shadow: 0 0 6px #0057FF, 0 0 12px #00c8ff;
+  animation: neon-sweep-top 2s linear infinite;
+}
+
+/* Bottom neon line */
+.nav-link.active > span.neon-bottom {
+  position: absolute;
+  bottom: 0; right: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(270deg, transparent, #0057FF, #00c8ff, #0057FF, transparent);
+  box-shadow: 0 0 6px #0057FF, 0 0 12px #00c8ff;
+  animation: neon-sweep-bottom 2s linear infinite;
+}
+
+@keyframes neon-sweep-top {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes neon-sweep-bottom {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}

@@ -42,7 +42,10 @@ export default function Navbar() {
         <ul style={{ display:'flex', gap:2, listStyle:'none', margin:'0 auto' }} className="hidden lg:flex">
           {LINKS.map(l => (
             <li key={l.to}>
-              <NavLink to={l.to} end={l.to==='/'} className={({ isActive }) => `nav-link${isActive?' active':''}`}>{l.label}</NavLink>
+              <NavLink to={l.to} end={l.to==='/'} className={({ isActive }) => `nav-link${isActive?' active':''}`}>
+                {l.label}
+                <span className="neon-bottom" />
+              </NavLink>
             </li>
           ))}
         </ul>
