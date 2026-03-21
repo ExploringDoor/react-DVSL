@@ -43,8 +43,12 @@ export default function Navbar() {
           {LINKS.map(l => (
             <li key={l.to}>
               <NavLink to={l.to} end={l.to==='/'} className={({ isActive }) => `nav-link${isActive?' active':''}`}>
-                {l.label}
-                <span className="neon-border" />
+                {({ isActive }) => (
+                  <>
+                    {l.label}
+                    {isActive && <span className="neon-border" />}
+                  </>
+                )}
               </NavLink>
             </li>
           ))}
