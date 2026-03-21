@@ -44,7 +44,7 @@ export default function Navbar() {
             <li key={l.to}>
               <NavLink to={l.to} end={l.to==='/'} className={({ isActive }) => `nav-link${isActive?' active':''}`}>
                 {l.label}
-                <span className="neon-bottom" />
+                <span className="neon-border" />
               </NavLink>
             </li>
           ))}

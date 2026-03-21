@@ -551,64 +551,78 @@ nav {
 }
 
 /* ═══════════════════════════════════════
-   NEON ACTIVE TAB EFFECT
+   NEON ACTIVE TAB — BORDER RACE EFFECT
 ═══════════════════════════════════════ */
 
-@keyframes neon-top {
-  0%   { left: -100%; width: 0; }
-  50%  { left: 0; width: 100%; }
-  100% { left: 100%; width: 0; }
-}
-@keyframes neon-bottom {
-  0%   { right: -100%; width: 0; }
-  50%  { right: 0; width: 100%; }
-  100% { right: 100%; width: 0; }
-}
-
+/* The active tab wrapper */
 .nav-link.active {
   position: relative;
   color: #0057FF !important;
   font-weight: 700;
-  background: rgba(0,87,255,0.06);
+  background: rgba(0,87,255,0.05);
   border-radius: 6px;
   padding-bottom: 7px !important;
   border-bottom: none !important;
   overflow: hidden;
 }
 
-/* Remove old underline pseudo */
-.nav-link.active::after {
-  display: none !important;
+/* Hide old underline */
+.nav-link.active::after { display: none !important; }
+.nav-link.active::before { display: none !important; }
+
+/* The 4-sided neon border container */
+.neon-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-/* Top neon line */
-.nav-link.active::before {
+/* Single dot/line that races around all 4 sides */
+.neon-border::before {
   content: '';
   position: absolute;
-  top: 0; left: 0;
+  width: 40px;
   height: 2px;
-  width: 100%;
-  background: linear-gradient(90deg, transparent, #0057FF, #00c8ff, #0057FF, transparent);
-  box-shadow: 0 0 6px #0057FF, 0 0 12px #00c8ff;
-  animation: neon-sweep-top 2s linear infinite;
+  background: linear-gradient(90deg, transparent, #00c8ff, #fff, #00c8ff, transparent);
+  box-shadow: 0 0 8px #0057FF, 0 0 16px #00c8ff, 0 0 24px #00c8ff;
+  animation: neon-race-1 2s linear infinite;
+  border-radius: 2px;
 }
-
-/* Bottom neon line */
-.nav-link.active > span.neon-bottom {
+.neon-border::after {
+  content: '';
   position: absolute;
-  bottom: 0; right: 0;
+  width: 40px;
   height: 2px;
-  width: 100%;
-  background: linear-gradient(270deg, transparent, #0057FF, #00c8ff, #0057FF, transparent);
-  box-shadow: 0 0 6px #0057FF, 0 0 12px #00c8ff;
-  animation: neon-sweep-bottom 2s linear infinite;
+  background: linear-gradient(90deg, transparent, #00c8ff, #fff, #00c8ff, transparent);
+  box-shadow: 0 0 8px #0057FF, 0 0 16px #00c8ff, 0 0 24px #00c8ff;
+  animation: neon-race-2 2s linear infinite;
+  border-radius: 2px;
 }
 
-@keyframes neon-sweep-top {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+/* Line 1 races: top left→right, right top→bottom, bottom right→left, left bottom→top */
+@keyframes neon-race-1 {
+  0%   { top: 0;    left: -40px;  width: 40px; height: 2px;  transform: none; }
+  24%  { top: 0;    left: calc(100% + 0px); width: 40px; height: 2px; transform: none; }
+  25%  { top: 0;    right: 0; left: auto; width: 2px; height: 0px; transform: none; }
+  49%  { top: 100%; right: 0; left: auto; width: 2px; height: 40px; transform: none; }
+  50%  { bottom: 0; right: 0; left: auto; top: auto; width: 40px; height: 2px; transform: none; }
+  74%  { bottom: 0; left: -40px; right: auto; top: auto; width: 40px; height: 2px; transform: none; }
+  75%  { bottom: 0; left: 0; right: auto; top: auto; width: 2px; height: 0; transform: none; }
+  99%  { top: -40px; left: 0; bottom: auto; right: auto; width: 2px; height: 40px; transform: none; }
+  100% { top: 0; left: -40px; width: 40px; height: 2px; transform: none; }
 }
-@keyframes neon-sweep-bottom {
-  0%   { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+
+/* Line 2 starts halfway around (opposite) */
+@keyframes neon-race-2 {
+  0%   { bottom: 0; right: -40px; left: auto; top: auto; width: 40px; height: 2px; }
+  24%  { bottom: 0; left: -40px;  right: auto; top: auto; width: 40px; height: 2px; }
+  25%  { bottom: 0; left: 0; right: auto; top: auto; width: 2px; height: 0; }
+  49%  { top: -40px; left: 0; bottom: auto; right: auto; width: 2px; height: 40px; }
+  50%  { top: 0; left: -40px; width: 40px; height: 2px; }
+  74%  { top: 0; left: calc(100% + 0px); width: 40px; height: 2px; }
+  75%  { top: 0; right: 0; left: auto; width: 2px; height: 0; }
+  99%  { top: 100%; right: 0; left: auto; width: 2px; height: 40px; }
+  100% { bottom: 0; right: -40px; left: auto; top: auto; width: 40px; height: 2px; }
 }
