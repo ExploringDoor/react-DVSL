@@ -33,7 +33,7 @@ export default function Ticker() {
           const home = getTeamByShort(g.home)
           return (
             <div key={g.id} style={{ display:'flex', flexDirection:'column', justifyContent:'center', padding:'5px 14px', borderRight:'1px solid rgba(255,255,255,0.12)', flexShrink:0, gap:2 }}>
-              <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', color:'rgba(255,255,255,0.7)', textTransform:'uppercase' }}>
+              <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', color:'#ff4444', textTransform:'uppercase' }}>
                 {fmtTickerDate(g.date, g.field)}
               </div>
               {[{team:away, short:g.away, id:away?.id||g.away.toLowerCase()},
