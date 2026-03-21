@@ -89,7 +89,7 @@ export default function Standings() {
                     const origRank = STANDINGS.findIndex(r => r.id === row.id) + 1
                     const diffNum = parseFloat(String(row.diff))
                     return (
-                      <tr key={row.team} style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}
+                      <tr key={row.team} className='standings-row' style={{ borderBottom:'1px solid rgba(0,0,0,0.04)', transition:'all 0.15s' }}
                         onMouseEnter={e => e.currentTarget.style.background='rgba(0,0,0,0.03)'}
                         onMouseLeave={e => e.currentTarget.style.background=''}
                       >

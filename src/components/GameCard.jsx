@@ -42,7 +42,7 @@ export default function GameCard({ game, isNext = false }) {
 
       {!done ? (
         // ── UPCOMING ──────────────────────────────────────────────────────
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6 }}>
+        <div className='game-card-hover' style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid #0057FF' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6 }}>
           {isNext && <div style={{ padding:'6px 16px 0', fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)' }}>▶ NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
             {/* Teams — fixed 300px */}
@@ -75,7 +75,7 @@ export default function GameCard({ game, isNext = false }) {
         </div>
       ) : (
         // ── FINAL ─────────────────────────────────────────────────────────
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
+        <div className='game-card-hover' style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
           {/* RHE section — tight fixed widths */}
           <div style={{ padding:'12px 10px 10px', flex:'1 1 auto', minWidth:0, overflow:'hidden' }}>
             {/* Header */}

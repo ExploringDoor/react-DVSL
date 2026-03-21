@@ -39,7 +39,7 @@ export default function Ticker() {
               {[{team:away, short:g.away, id:away?.id||g.away.toLowerCase()},
                 {team:home, short:g.home, id:home?.id||g.home.toLowerCase()}].map(side => (
                 <div key={side.short} style={{ display:'flex', alignItems:'center', gap:5 }}>
-                  <Link to={'/teams/'+side.id} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:800, fontSize:13, color:'#fff', textDecoration:'none', letterSpacing:'.02em' }}>
+                  <Link to={'/teams/'+side.id} className='ticker-team-link' style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:800, fontSize:13, color:'#fff', textDecoration:'none', letterSpacing:'.02em' }}>
                     {side.short}
                   </Link>
                   <span style={{ fontSize:11, color:'rgba(255,255,255,0.6)', fontWeight:500 }}>

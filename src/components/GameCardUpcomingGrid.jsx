@@ -29,10 +29,10 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
   return (
     <>
       {showGameday && <GamedayModal game={game} onClose={() => setShowGameday(false)} />}
-      <div style={{
+      <div className='game-card-hover' style={{
         background:'var(--card)',
         border:'1px solid var(--border)',
-        borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)',
+        borderLeft: isNext ? '3px solid #0057FF' : '1px solid var(--border)',
         borderRadius:12, overflow:'hidden',
         display:'flex', alignItems:'stretch',
       }}>
@@ -46,6 +46,7 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
                 background:(side.team?.color||'#6b7280')+'22',
                 border:'2px solid '+(side.team?.color||'#6b7280'),
                 display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
+                transition:'box-shadow 0.2s ease, transform 0.2s ease',
               }}>
                 <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:13, color:side.team?.color||'var(--white)', textTransform:'uppercase', letterSpacing:'-.02em' }}>
                   {(side.t||'').slice(0,4)}

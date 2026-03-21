@@ -22,7 +22,7 @@ export default function GameCardGrid({ game, showFullName = false }) {
       {modal==='boxscore' && <BoxScoreModal game={game} onClose={()=>setModal(null)} />}
       {modal==='recap'    && <RecapModal    game={game} onClose={()=>setModal(null)} />}
 
-      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderTop:'3px solid #0057FF', borderRadius:12, overflow:'hidden', display:'flex', flexDirection:'column' }}>
+      <div className='game-card-hover' style={{ background:'var(--card)', border:'1px solid var(--border)', borderTop:'3px solid #0057FF', borderRadius:12, overflow:'hidden', display:'flex', flexDirection:'column' }}>
         {/* FINAL badge */}
         <div style={{ padding:'10px 16px 0', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'rgba(0,0,0,0.3)' }}>FINAL</span>
@@ -46,7 +46,7 @@ export default function GameCardGrid({ game, showFullName = false }) {
           ].map((side, i) => (
             <div key={side.t} style={{ display:'flex', alignItems:'center', marginBottom:i===0?8:0 }}>
               {/* Badge */}
-              <div style={{ width:38, height:38, borderRadius:8, background:(side.team?.color||'#6b7280')+'22', border:'2px solid '+(side.team?.color||'#6b7280'), display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginRight:8 }}>
+              <div style={{ width:38, height:38, borderRadius:8, transition:'box-shadow 0.2s, transform 0.2s', background:(side.team?.color||'#6b7280')+'22', border:'2px solid '+(side.team?.color||'#6b7280'), display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginRight:8 }}>
                 <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:11, color:side.team?.color||'var(--white)', textTransform:'uppercase' }}>{side.t?.slice(0,4)}</span>
               </div>
               {/* Name + record */}
