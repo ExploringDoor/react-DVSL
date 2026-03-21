@@ -69,7 +69,7 @@ export default function GameCardGrid({ game, showFullName = false }) {
 
         {/* Buttons */}
         <div style={{ display:'flex', gap:0 }}>
-          <button onClick={()=>setModal('recap')} style={{ flex:1, background:'none', border:'none', borderRight:'1px solid rgba(255,255,255,0.06)', cursor:'pointer', padding:'12px', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:13, letterSpacing:'.06em', textTransform:'uppercase', color:'var(--gold)' }}>RECAP</button>
+          <button onClick={()=>setModal('recap')} style={{ flex:1, background:'none', border:'none', borderRight:'1px solid rgba(255,255,255,0.06)', cursor:'pointer', padding:'12px', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:13, letterSpacing:'.06em', textTransform:'uppercase', color:'var(--gold)', borderTop:'1px solid rgba(0,0,0,0.06)' }}>RECAP</button>
           <button onClick={()=>setModal('boxscore')} style={{ flex:1, background:'none', border:'none', cursor:'pointer', padding:'12px', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700, fontSize:13, letterSpacing:'.06em', textTransform:'uppercase', color:'var(--gold)' }}>BOX SCORE</button>
         </div>
       </div>

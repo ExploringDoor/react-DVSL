@@ -106,7 +106,7 @@ export default function GameCard({ game, isNext = false }) {
               </div>
             ))}
             <div style={{ paddingLeft:TEAM_W+4, marginTop:4 }}>
-              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.3)' }}>FINAL</span>
+              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(0,0,0,0.3)' }}>FINAL</span>
             </div>
           </div>
           {/* Buttons — right next to RHE */}

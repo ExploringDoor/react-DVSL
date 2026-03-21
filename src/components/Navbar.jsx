@@ -30,7 +30,7 @@ export default function Navbar() {
         position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 16px', height: 62,
-        background: 'rgba(7,7,9,0.98)', backdropFilter: 'blur(20px)',
+        background: '#ffffff', backdropFilter: 'blur(20px)', boxShadow: '0 1px 0 rgba(0,0,0,0.1)',
         borderBottom: '1px solid rgba(255,255,255,0.08)',
       }}>
         <Link to="/" style={{ textDecoration:'none', flexShrink:0, display:'flex', alignItems:'center', gap:10 }}>
@@ -69,7 +69,7 @@ export default function Navbar() {
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           zIndex: 9999,
-          background: '#070709',
+          background: '#ffffff',
           display: 'flex', flexDirection: 'column',
           overflowY: 'auto',
         }} className="lg:hidden">
