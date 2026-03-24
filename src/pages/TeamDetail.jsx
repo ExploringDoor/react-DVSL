@@ -79,8 +79,8 @@ export default function TeamDetail() {
                   </thead>
                   <tbody>
                     {stats.map(p=>(
-                      <tr key={p.id} style={{borderBottom:'1px solid rgba(0,0,0,0.04)'}}
-                        onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,0.02)'}
+                      <tr key={p.id} style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}
+                        onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                         onMouseLeave={e=>e.currentTarget.style.background=''}
                       >
                         <td style={{padding:'10px',fontSize:14,fontWeight:600,color:'var(--white)',whiteSpace:'nowrap'}}>{p.name}</td>

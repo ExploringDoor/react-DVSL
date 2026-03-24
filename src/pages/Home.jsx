@@ -57,7 +57,7 @@ function HomeScheduleRow({ game, isNext }) {
                 <Link to={'/teams/'+(side.team?.id||side.t.toLowerCase())} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:22, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                   {side.t}
                 </Link>
-                <span style={{ fontSize:12, color:'rgba(0,0,0,0.35)' }}>({side.team?.w}-{side.team?.l})</span>
+                <span style={{ fontSize:12, color:'rgba(255,255,255,0.4)' }}>({side.team?.w}-{side.team?.l})</span>
               </div>
             </div>
           ))}
@@ -66,11 +66,11 @@ function HomeScheduleRow({ game, isNext }) {
         {/* Time + field */}
         <div className='home-schedule-time' style={{ flexShrink:0, borderLeft:'1px solid var(--border)', padding:'10px 12px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
           <div className='time-text' style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-          <div style={{ fontSize:12, color:'rgba(0,0,0,0.4)', marginTop:4 }}>{mo} {day}</div>
+          <div style={{ fontSize:12, color:'rgba(255,255,255,0.45)', marginTop:4 }}>{mo} {day}</div>
           <div className='home-schedule-field' style={{ fontSize:14, color:'var(--white)', marginTop:4, fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{field}</div>
         </div>
         {/* GAMEDAY */}
-        <div className='home-schedule-gameday' style={{ flexShrink:0, borderLeft:'1px solid rgba(0,0,0,0.05)', display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 12px' }}>
+        <div className='home-schedule-gameday' style={{ flexShrink:0, borderLeft:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 12px' }}>
           <button onClick={() => setShowGameday(true)} className="btn-outline" style={{ fontSize:13, fontWeight:700, padding:'9px 18px', whiteSpace:'nowrap' }}>GAMEDAY</button>
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function Home() {
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
 
       {/* Hero banner — full natural height, no cropping */}
-      <div style={{ width:'100%', background:'#1a1a2e', lineHeight:0, position:'relative' }}>
+      <div style={{ width:'100%', background:'#050608', lineHeight:0, position:'relative' }}>
         <img src="/dvsl-banner.png" alt="DVSL Softball" style={{ width:'100%', height:'auto', display:'block' }} />
         <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'30%', background:'linear-gradient(to bottom, transparent, #070709)', pointerEvents:'none' }} />
       </div>
@@ -105,10 +105,10 @@ export default function Home() {
               <div style={{ marginBottom:24 }}>
                 <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                   <div>
-                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>2026 Season</div>
+                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>2026 Season</div>
                     <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Recent Results</h2>
                   </div>
-                  <Link to="/scores" style={{ color:'#0057FF', fontWeight:700, fontSize:13, textDecoration:'none' }}>All Scores →</Link>
+                  <Link to="/scores" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>All Scores →</Link>
                 </div>
                 {/* Desktop: 2-col grid. Mobile: list (via CSS) */}
                 <div className="scores-grid-desktop">
@@ -125,10 +125,10 @@ export default function Home() {
               <div style={{ marginBottom:24 }}>
                 <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                   <div>
-                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>On Deck</div>
+                    <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>On Deck</div>
                     <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Upcoming</h2>
                   </div>
-                  <Link to="/schedule" style={{ color:'#0057FF', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Schedule →</Link>
+                  <Link to="/schedule" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Schedule →</Link>
                 </div>
                 {/* Desktop: 2-col grid */}
                 <div className="upcoming-grid-desktop">
@@ -145,10 +145,10 @@ export default function Home() {
             <div style={{ marginBottom:24 }}>
               <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:10 }}>
                 <div>
-                  <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:4 }}>Individual Leaders</div>
+                  <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:4 }}>Individual Leaders</div>
                   <h2 style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, textTransform:'uppercase', color:'var(--white)', lineHeight:1 }}>Leaderboard</h2>
                 </div>
-                <Link to="/stats" style={{ color:'#0057FF', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Leaders →</Link>
+                <Link to="/stats" style={{ color:'var(--gold)', fontWeight:700, fontSize:13, textDecoration:'none' }}>Full Leaders →</Link>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(130px,1fr))', gap:12 }}>
                 {LEADER_CATS.map(({key,label,fmt}) => (
@@ -166,7 +166,7 @@ export default function Home() {
                 <Link to="/standings" style={{ color:'var(--gold)', fontSize:13, textDecoration:'none', fontWeight:700 }}>Full →</Link>
               </div>
               {topStandings.map((row, i) => (
-                <div key={row.team} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 20px', borderBottom:'1px solid rgba(0,0,0,0.04)' }}>
+                <div key={row.team} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 20px', borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
                   <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:16, color:'var(--gold)', width:20, flexShrink:0, textAlign:'center' }}>{i+1}</span>
                   <span style={{ width:10, height:10, borderRadius:'50%', background:row.color, flexShrink:0 }} />
                   <Link to={'/teams/'+row.id} style={{ flex:1, fontSize:14, color:'var(--white)', textDecoration:'none', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{row.name}</Link>

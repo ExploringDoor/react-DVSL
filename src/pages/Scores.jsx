@@ -25,7 +25,7 @@ export default function Scores() {
     <div style={{ minHeight:'100vh', background:'var(--bg)', paddingTop:0 }}>
       {/* Page header — full width, centered */}
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'32px clamp(16px,4vw,48px) 0' }}>
-        <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'#0057FF', marginBottom:6 }}>
+        <div style={{ fontSize:11, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--gold)', marginBottom:6 }}>
           2026 Season
         </div>
         <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:20 }}>
@@ -63,7 +63,7 @@ export default function Scores() {
         ) : (
           sortedDays.map(day => (
             <div key={day} style={{ marginBottom:32 }}>
-              <div style={{ fontSize:13, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', borderBottom:'1px solid rgba(0,0,0,0.04)', paddingBottom:8, marginBottom:12 }}>
+              <div style={{ fontSize:13, fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted2)', borderBottom:'1px solid rgba(255,255,255,0.05)', paddingBottom:8, marginBottom:12 }}>
                 {DAY_FULL[day]||day}
               </div>
                 <div className="scores-grid-desktop scores-grid-3col">

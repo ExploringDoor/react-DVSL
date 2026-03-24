@@ -42,7 +42,7 @@ export default function GameCard({ game, isNext = false }) {
 
       {!done ? (
         // ── UPCOMING ──────────────────────────────────────────────────────
-        <div className='game-card-hover' style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid #0057FF' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6 }}>
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)', borderRadius:10, overflow:'hidden', marginBottom:6 }}>
           {isNext && <div style={{ padding:'6px 16px 0', fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--gold)' }}>▶ NEXT</div>}
           <div style={{ display:'flex', alignItems:'stretch' }}>
             {/* Teams — fixed 300px */}
@@ -56,7 +56,7 @@ export default function GameCard({ game, isNext = false }) {
                     <Link to={`/teams/${side.team?.id||side.t.toLowerCase()}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:18, textTransform:'uppercase', color:side.team?.color||'var(--white)', textDecoration:'none', lineHeight:1, display:'block', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                       {side.team?.name || side.t}
                     </Link>
-                    {side.team && <div style={{ fontSize:11, color:'rgba(0,0,0,0.35)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
+                    {side.team && <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
               ))}
@@ -64,8 +64,8 @@ export default function GameCard({ game, isNext = false }) {
             {/* Time — fixed 120px */}
             <div style={{ width:115, flexShrink:0, borderLeft:'1px solid var(--border)', padding:'12px 10px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
               <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:26, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-              <div style={{ fontSize:12, color:'rgba(0,0,0,0.4)', marginTop:4 }}>{mo} {day}</div>
-              <div style={{ fontSize:12, color:'rgba(0,0,0,0.45)', marginTop:2, fontWeight:600 }}>{field}</div>
+              <div style={{ fontSize:12, color:'rgba(255,255,255,0.45)', marginTop:4 }}>{mo} {day}</div>
+              <div style={{ fontSize:12, color:'rgba(255,255,255,0.55)', marginTop:2, fontWeight:600 }}>{field}</div>
             </div>
             {/* GAMEDAY — fixed 110px */}
             <div style={{ width:100, flexShrink:0, borderLeft:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', padding:'12px 10px' }}>
@@ -75,13 +75,13 @@ export default function GameCard({ game, isNext = false }) {
         </div>
       ) : (
         // ── FINAL ─────────────────────────────────────────────────────────
-        <div className='game-card-hover' style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:10, marginBottom:6, display:'flex', alignItems:'stretch', overflow:'hidden' }}>
           {/* RHE section — tight fixed widths */}
           <div style={{ padding:'12px 10px 10px', flex:'1 1 auto', minWidth:0, overflow:'hidden' }}>
             {/* Header */}
             <div style={{ display:'flex', paddingLeft:TEAM_W, marginBottom:4 }}>
               {['R','H','E'].map(l=>(
-                <span key={l} style={{ width:STAT_W, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(0,0,0,0.35)', textTransform:'uppercase' }}>{l}</span>
+                <span key={l} style={{ width:STAT_W, textAlign:'center', fontSize:11, fontWeight:700, letterSpacing:'.1em', color:'rgba(255,255,255,0.4)', textTransform:'uppercase' }}>{l}</span>
               ))}
             </div>
             {/* Rows */}
@@ -97,16 +97,16 @@ export default function GameCard({ game, isNext = false }) {
                       <Link to={`/teams/${side.team?.id||side.t}`} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:side.won?900:400, fontSize:'clamp(16px,2vw,26px)', textTransform:'uppercase', color:side.won?'var(--white)':'var(--muted)', textDecoration:'none', lineHeight:1 }}>{side.t}</Link>
                       {side.won && <span style={{ fontSize:8, color:'var(--muted)' }}>◄</span>}
                     </div>
-                    {side.team && <div style={{ fontSize:10, color:'rgba(0,0,0,0.35)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
+                    {side.team && <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:1 }}>({side.team.w}-{side.team.l})</div>}
                   </div>
                 </div>
                 {[side.score, side.he?.h, side.he?.e].map((val,vi)=>(
-                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(22px,4vw,52px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(0,0,0,0.3)' }}>{val}</span>
+                  <span key={vi} style={{ width:STAT_W, textAlign:'center', fontFamily:"'Barlow Condensed',sans-serif", fontWeight:vi===0&&side.won?900:400, fontSize:'clamp(22px,4vw,52px)', lineHeight:1, color:vi===2?'var(--muted)':side.won?'var(--white)':'rgba(255,255,255,0.35)' }}>{val}</span>
                 ))}
               </div>
             ))}
             <div style={{ paddingLeft:TEAM_W+4, marginTop:4 }}>
-              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(0,0,0,0.3)' }}>FINAL</span>
+              <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(255,255,255,0.3)' }}>FINAL</span>
             </div>
           </div>
           {/* Buttons — right next to RHE */}

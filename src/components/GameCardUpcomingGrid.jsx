@@ -29,10 +29,10 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
   return (
     <>
       {showGameday && <GamedayModal game={game} onClose={() => setShowGameday(false)} />}
-      <div className='game-card-hover' style={{
+      <div style={{
         background:'var(--card)',
         border:'1px solid var(--border)',
-        borderLeft: isNext ? '3px solid #0057FF' : '1px solid var(--border)',
+        borderLeft: isNext ? '3px solid var(--gold)' : '1px solid var(--border)',
         borderRadius:12, overflow:'hidden',
         display:'flex', alignItems:'stretch',
       }}>
@@ -46,7 +46,6 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
                 background:(side.team?.color||'#6b7280')+'22',
                 border:'2px solid '+(side.team?.color||'#6b7280'),
                 display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
-                transition:'box-shadow 0.2s ease, transform 0.2s ease',
               }}>
                 <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:13, color:side.team?.color||'var(--white)', textTransform:'uppercase', letterSpacing:'-.02em' }}>
                   {(side.t||'').slice(0,4)}
@@ -63,7 +62,7 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
                 }}>
                   {showFullName ? (side.team?.name||side.t) : side.t}
                 </Link>
-                <div style={{ fontSize:14, color:'rgba(0,0,0,0.4)', marginTop:4 }}>({side.team?.w}-{side.team?.l})</div>
+                <div style={{ fontSize:14, color:'rgba(255,255,255,0.45)', marginTop:4 }}>({side.team?.w}-{side.team?.l})</div>
               </div>
             </div>
           ))}
@@ -75,8 +74,8 @@ export default function GameCardUpcomingGrid({ game, isNext = false, showFullNam
         {/* RIGHT — time, date, field */}
         <div style={{ width:160, flexShrink:0, padding:'16px 20px', display:'flex', flexDirection:'column', justifyContent:'center' }}>
           <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:34, color:'var(--gold)', lineHeight:1 }}>{time}</div>
-          <div style={{ fontSize:14, color:'rgba(0,0,0,0.45)', marginTop:6 }}>{mo} {day}</div>
-          <div style={{ fontSize:13, color:'rgba(0,0,0,0.4)', marginTop:3, fontWeight:600 }}>{field}</div>
+          <div style={{ fontSize:14, color:'rgba(255,255,255,0.55)', marginTop:6 }}>{mo} {day}</div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,0.45)', marginTop:3, fontWeight:600 }}>{field}</div>
         </div>
 
         {/* CENTER divider */}

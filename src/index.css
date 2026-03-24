@@ -4,20 +4,20 @@
 
 @layer base {
   :root {
-    --bg:     #f2f4f8;
-    --dark:   #ffffff;
-    --card:   #ffffff;
-    --card2:  #f8f9fb;
-    --border: rgba(0,0,0,0.09);
-    --border2:rgba(0,0,0,0.05);
-    --gold:   #0057FF;
-    --gold-dim:rgba(0,87,255,0.10);
-    --white:  #111111;
-    --muted:  rgba(0,0,0,0.6);
-    --muted2: rgba(0,0,0,0.45);
-    --red:    #dc2626;
-    --green:  #16a34a;
-    --blue:   #0057FF;
+    --bg: #070709;
+    --dark: #0d0d11;
+    --card: #141418;
+    --card2: #1a1a1f;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.05);
+    --gold: #F5C842;
+    --gold-dim: rgba(245,200,66,0.10);
+    --white: #EDEDED;
+    --muted: rgba(237,237,237,0.45);
+    --muted2: rgba(237,237,237,0.28);
+    --red: #E03C31;
+    --green: #22c55e;
+    --blue: #60a5fa;
   }
   body {
     background: var(--bg);
@@ -102,14 +102,14 @@
     font-weight: 600;
     letter-spacing: .06em;
     text-transform: uppercase;
-    color: #555;
+    color: var(--muted);
     text-decoration: none;
     padding: 7px 13px;
     border-radius: 6px;
-    transition: all .15s;
+    transition: color .2s;
   }
-  .nav-link:hover { color: #0057FF; background: rgba(0,87,255,0.06); }
-  .nav-link.active { color: #0057FF !important; font-weight: 700; border-bottom: 2px solid #0057FF; padding-bottom: 5px; }
+  .nav-link:hover { color: var(--white); }
+  .nav-link.active { color: var(--gold); }
 
   /* Tab bar like scores/schedule */
   .tab-btn {
@@ -131,7 +131,7 @@
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
 
 /* ── RESPONSIVE ── */
 .home-grid {
@@ -228,7 +228,7 @@
   .schedule-row-right {
     width: 100% !important;
     border-left: none !important;
-    border-top: 1px solid rgba(0,0,0,0.07) !important;
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
     flex-wrap: wrap !important;
   }
 
@@ -383,246 +383,4 @@ body { overflow-x: clip; max-width: 100vw; }
 @media (max-width: 768px) {
   .upcoming-grid-desktop { display: none !important; }
   .upcoming-list-mobile  { display: flex !important; flex-direction: column; gap: 6px; }
-}
-
-/* Light theme card accents */
-.card-accent {
-  border-top: 3px solid var(--gold) !important;
-}
-/* Page headers on light bg */
-.page-hero {
-  background: #fff !important;
-  border-bottom: 1px solid rgba(0,0,0,0.08) !important;
-}
-
-/* ── LIGHT THEME SPICE UPS ── */
-
-/* Blue top border on all cards */
-.card-blue-top {
-  border-top: 3px solid #0057FF !important;
-}
-
-/* Section headings - blue accent line */
-.section-heading {
-  border-left: 4px solid #0057FF;
-  padding-left: 12px;
-}
-
-/* Navbar blue bottom stripe */
-nav {
-  border-bottom: 3px solid #0057FF !important;
-}
-
-/* Page hero headers - white with blue bottom border */
-.page-hero-header {
-  background: #fff;
-  border-bottom: 3px solid #0057FF;
-  padding: 28px clamp(16px,4vw,48px) 0;
-}
-
-/* Score numbers in blue */
-.score-win { color: #111 !important; }
-.score-lose { color: #aaa !important; }
-
-/* Standings rank in blue */
-.rank-num { color: #0057FF !important; }
-
-/* Hover effect on standings rows */
-.standings-row:hover { background: rgba(0,87,255,0.04) !important; }
-
-/* Active tab underline blue */
-.week-tab-active {
-  border-bottom: 3px solid #0057FF !important;
-  color: #0057FF !important;
-}
-
-/* Card subtle left accent on final scores */
-.game-card-final-accent {
-  border-left: 3px solid #0057FF !important;
-}
-
-/* Leaderboard stat number */
-.stat-number { color: #0057FF !important; }
-
-/* Blue pill badges */
-.pill-blue {
-  background: rgba(0,87,255,0.1);
-  color: #0057FF;
-  border-radius: 20px;
-  padding: 3px 10px;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-/* ═══════════════════════════════════════
-   ANIMATIONS & HOVER EFFECTS
-═══════════════════════════════════════ */
-
-/* 1. Card lift + glow on hover */
-.game-card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-  cursor: pointer;
-}
-.game-card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,87,255,0.15), 0 2px 8px rgba(0,0,0,0.08) !important;
-}
-
-/* 2. Team badge glow — uses inline style for team color via JS */
-.team-badge-glow {
-  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
-}
-.team-badge-glow:hover {
-  transform: scale(1.12);
-}
-
-/* 3. GAMEDAY pulse animation */
-@keyframes gameday-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(0,87,255,0.4); }
-  70%  { box-shadow: 0 0 0 8px rgba(0,87,255,0); }
-  100% { box-shadow: 0 0 0 0 rgba(0,87,255,0); }
-}
-.btn-gameday-pulse {
-  animation: gameday-pulse 2s infinite !important;
-}
-
-/* 4. Standings row blue accent on hover */
-.standings-row {
-  transition: background 0.15s ease, border-left 0.15s ease;
-  border-left: 3px solid transparent;
-}
-.standings-row:hover {
-  background: rgba(0,87,255,0.05) !important;
-  border-left: 3px solid #0057FF !important;
-  padding-left: 8px;
-}
-
-/* 5. Leaderboard card shimmer on hover */
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-.leader-card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-}
-.leader-card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,87,255,0.12) !important;
-}
-
-/* 6. Score number scale on hover */
-.score-num-hover {
-  display: inline-block;
-  transition: transform 0.15s ease, color 0.15s ease;
-}
-.score-num-hover:hover {
-  transform: scale(1.08);
-  color: #0057FF !important;
-}
-
-/* 7. Nav link underline slide */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 50%;
-  width: 0; height: 2px;
-  background: #0057FF;
-  transition: all 0.2s ease;
-  transform: translateX(-50%);
-}
-.nav-link:hover::after {
-  width: 80%;
-}
-
-/* 8. Button ripple feel */
-.btn-outline:active, button:active {
-  transform: scale(0.96);
-}
-
-/* 9. Ticker team name hover glow */
-.ticker-team-link {
-  transition: text-shadow 0.15s ease;
-}
-.ticker-team-link:hover {
-  text-shadow: 0 0 8px rgba(255,255,255,0.8);
-}
-
-/* ═══════════════════════════════════════
-   NEON ACTIVE TAB — BORDER RACE EFFECT
-═══════════════════════════════════════ */
-
-/* The active tab wrapper */
-.nav-link.active {
-  position: relative;
-  color: #0057FF !important;
-  font-weight: 700;
-  background: rgba(0,87,255,0.05);
-  border-radius: 6px;
-  padding-bottom: 7px !important;
-  border-bottom: none !important;
-  overflow: hidden;
-}
-
-/* Hide old underline */
-.nav-link.active::after { display: none !important; }
-.nav-link.active::before { display: none !important; }
-
-/* The 4-sided neon border container */
-.neon-border {
-  position: absolute;
-  inset: 0;
-  border-radius: 6px;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Single dot/line that races around all 4 sides */
-.neon-border::before {
-  content: '';
-  position: absolute;
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #00c8ff, #fff, #00c8ff, transparent);
-  box-shadow: 0 0 8px #0057FF, 0 0 16px #00c8ff, 0 0 24px #00c8ff;
-  animation: neon-race-1 4s linear infinite;
-  border-radius: 2px;
-}
-.neon-border::after {
-  content: '';
-  position: absolute;
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #00c8ff, #fff, #00c8ff, transparent);
-  box-shadow: 0 0 8px #0057FF, 0 0 16px #00c8ff, 0 0 24px #00c8ff;
-  animation: neon-race-2 4s linear infinite;
-  border-radius: 2px;
-}
-
-/* Line 1 races: top left→right, right top→bottom, bottom right→left, left bottom→top */
-@keyframes neon-race-1 {
-  0%   { top: 0;    left: -40px;  width: 40px; height: 2px;  transform: none; }
-  24%  { top: 0;    left: calc(100% + 0px); width: 40px; height: 2px; transform: none; }
-  25%  { top: 0;    right: 0; left: auto; width: 2px; height: 0px; transform: none; }
-  49%  { top: 100%; right: 0; left: auto; width: 2px; height: 40px; transform: none; }
-  50%  { bottom: 0; right: 0; left: auto; top: auto; width: 40px; height: 2px; transform: none; }
-  74%  { bottom: 0; left: -40px; right: auto; top: auto; width: 40px; height: 2px; transform: none; }
-  75%  { bottom: 0; left: 0; right: auto; top: auto; width: 2px; height: 0; transform: none; }
-  99%  { top: -40px; left: 0; bottom: auto; right: auto; width: 2px; height: 40px; transform: none; }
-  100% { top: 0; left: -40px; width: 40px; height: 2px; transform: none; }
-}
-
-/* Line 2 starts halfway around (opposite) */
-@keyframes neon-race-2 {
-  0%   { bottom: 0; right: -40px; left: auto; top: auto; width: 40px; height: 2px; }
-  24%  { bottom: 0; left: -40px;  right: auto; top: auto; width: 40px; height: 2px; }
-  25%  { bottom: 0; left: 0; right: auto; top: auto; width: 2px; height: 0; }
-  49%  { top: -40px; left: 0; bottom: auto; right: auto; width: 2px; height: 40px; }
-  50%  { top: 0; left: -40px; width: 40px; height: 2px; }
-  74%  { top: 0; left: calc(100% + 0px); width: 40px; height: 2px; }
-  75%  { top: 0; right: 0; left: auto; width: 2px; height: 0; }
-  99%  { top: 100%; right: 0; left: auto; width: 2px; height: 40px; }
-  100% { bottom: 0; right: -40px; left: auto; top: auto; width: 40px; height: 2px; }
 }

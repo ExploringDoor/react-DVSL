@@ -12,7 +12,7 @@ const DAY_ORDER = { mon:1, tue:2, wed:3, thu:4, fri:5, sat:6, sun:7 }
 
 // Build game list from schedule weeks
 // Weeks 1-8 have scores; weeks 9-14 are upcoming
-export const RAW_WEEKS = [
+const RAW_WEEKS = [
   { wk:'A', date:'April 3',   games:[] },
   { wk:'B', date:'April 10',  games:[] },
   { wk:1,   date:'April 17',  games:[
@@ -221,5 +221,3 @@ export function getRecentGames(n = 5) {
 export function getWeeks() {
   return RAW_WEEKS
 }
-
-export const WEEKS = RAW_WEEKS;
