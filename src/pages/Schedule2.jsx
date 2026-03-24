@@ -115,13 +115,14 @@ export default function Schedule2() {
 
   const timelineData = WEEKS.map(w => {
     const parts = (w.date || '').split(' ')
+    const games = w.games || []
     return {
       wk: w.wk,
       month: parts[0] || '',
       day: parts[1] || '',
       date: w.date,
-      games: w.games || [],
-      hasGames: (w.games || []).length > 0,
+      games,
+      hasGames: games.length > 0,
     }
   })
 
