@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Or Ami Softball — 2025 Season Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --blue:#0057FF; --navy:#002080; --bg:#f2f4f8; --card:#fff; --border:rgba(0,0,0,0.09); --text:#111; --muted:#666; --muted2:#999; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:'Barlow',sans-serif; }
+
+  /* TICKER */
+  .ticker { background:var(--navy); padding:8px 20px; display:flex; align-items:center; gap:16px; overflow-x:auto; scrollbar-width:none; }
+  .ticker-label { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:13px; color:#FFD700; letter-spacing:.1em; flex-shrink:0; }
+  .ticker-stat { font-size:11px; color:rgba(255,255,255,0.85); white-space:nowrap; flex-shrink:0; padding:0 12px; border-right:1px solid rgba(255,255,255,0.15); }
+  .ticker-stat span { color:#fff; font-weight:700; }
+
+  /* NAVBAR */
+  nav { background:#fff; border-bottom:3px solid var(--blue); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:var(--blue); letter-spacing:.08em; }
+  .nav-links { display:flex; gap:4px; }
+  .nav-link { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:#555; text-decoration:none; padding:8px 14px; border-radius:6px; transition:all .15s; cursor:pointer; border:none; background:none; }
+  .nav-link:hover, .nav-link.active { color:var(--blue); background:rgba(0,87,255,0.07); }
+  .nav-link.active { font-weight:700; }
+  .nav-badge { background:var(--blue); color:#fff; font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px; margin-left:6px; }
+
+  /* HERO */
+  .hero { background:linear-gradient(135deg, var(--navy) 0%, #0057FF 100%); padding:40px 32px 32px; color:#fff; }
+  .hero-label { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin-bottom:6px; }
+  .hero-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:52px; text-transform:uppercase; line-height:1; margin-bottom:4px; }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.7); margin-bottom:24px; }
+  .hero-stats { display:flex; gap:32px; flex-wrap:wrap; }
+  .hero-stat { text-align:center; }
+  .hero-stat-num { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:36px; color:#FFD700; line-height:1; }
+  .hero-stat-label { font-size:11px; color:rgba(255,255,255,0.6); letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
+
+  /* CONTENT */
+  .content { max-width:1200px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* LEADER BOXES */
+  .leaders-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; margin-bottom:32px; }
+  .leader-box { background:#fff; border:1px solid var(--border); border-top:3px solid var(--blue); border-radius:10px; padding:14px 16px; transition:transform .2s, box-shadow .2s; cursor:pointer; }
+  .leader-box:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,87,255,0.13); }
+  .leader-box-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted2); margin-bottom:6px; }
+  .leader-box-val { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:32px; color:var(--blue); line-height:1; }
+  .leader-box-name { font-size:13px; font-weight:600; color:var(--text); margin-top:4px; }
+  .leader-box-rest { font-size:11px; color:var(--muted); margin-top:2px; }
+
+  /* SECTION HEADER */
+  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; margin-top:28px; }
+  .section-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px; text-transform:uppercase; border-left:4px solid var(--blue); padding-left:12px; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); }
+
+  /* STATS TABLE */
+  .table-wrap { background:#fff; border:1px solid var(--border); border-radius:10px; overflow:auto; }
+  table { width:100%; border-collapse:collapse; min-width:800px; }
+  thead tr { background:#f8f9fb; border-bottom:2px solid var(--border); }
+  th { padding:10px 14px; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); text-align:center; cursor:pointer; user-select:none; white-space:nowrap; transition:color .15s; }
+  th:first-child { text-align:left; }
+  th:hover { color:var(--blue); }
+  th.sort-active { color:var(--blue); }
+  tbody tr { border-bottom:1px solid rgba(0,0,0,0.04); transition:background .15s; cursor:pointer; }
+  tbody tr:hover { background:rgba(0,87,255,0.04); }
+  tbody tr:last-child { border-bottom:none; }
+  td { padding:11px 14px; font-size:14px; text-align:center; color:var(--muted); }
+  td:first-child { text-align:left; font-weight:600; color:var(--text); }
+  td.highlight { color:var(--blue); font-weight:700; font-family:'Barlow Condensed',sans-serif; font-size:16px; }
+  .rank { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:16px; color:var(--blue); }
+
+  /* MODAL */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px; }
+  .modal { background:#fff; border-radius:14px; max-width:680px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+  .modal-header { background:linear-gradient(135deg, var(--navy), var(--blue)); padding:24px 28px; color:#fff; display:flex; align-items:center; justify-content:space-between; }
+  .modal-name { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:32px; text-transform:uppercase; }
+  .modal-close { background:rgba(255,255,255,0.15); border:none; color:#fff; width:36px; height:36px; border-radius:8px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .modal-body { padding:24px 28px; }
+  .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:24px; }
+  .stat-box { background:#f2f4f8; border-radius:10px; padding:14px; text-align:center; }
+  .stat-box-val { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:30px; color:var(--blue); line-height:1; }
+  .stat-box-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted2); margin-top:4px; }
+  .game-log-title { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--blue); margin-bottom:10px; }
+  .game-log-table { width:100%; border-collapse:collapse; }
+  .game-log-table th { padding:7px 10px; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted2); text-align:center; background:#f8f9fb; border-bottom:1px solid var(--border); }
+  .game-log-table th:first-child { text-align:left; }
+  .game-log-table td { padding:8px 10px; font-size:13px; color:var(--muted); text-align:center; border-bottom:1px solid rgba(0,0,0,0.04); }
+  .game-log-table td:first-child { text-align:left; font-weight:500; color:var(--text); }
+  .hit { color:var(--blue) !important; font-weight:700; }
+
+  /* TABS */
+  .tabs { display:flex; gap:0; border-bottom:2px solid var(--border); margin-bottom:20px; }
+  .tab { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; text-transform:uppercase; letter-spacing:.04em; padding:10px 20px; border:none; background:none; cursor:pointer; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-2px; transition:all .15s; }
+  .tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+  .tab:hover { color:var(--blue); }
+
+  /* AVG bar */
+  .avg-bar-wrap { display:flex; align-items:center; gap:8px; }
+  .avg-bar { height:6px; background:var(--blue); border-radius:3px; opacity:0.7; }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-label">OR AMI · 2025</span>
+  <div class="ticker-stat">League AVG: <span>.420</span></div>
+  <div class="ticker-stat">Team HR: <span>10</span></div>
+  <div class="ticker-stat">Team RBI: <span>116</span></div>
+  <div class="ticker-stat">Team R: <span>139</span></div>
+  <div class="ticker-stat">Team H: <span>256</span></div>
+  <div class="ticker-stat">Top AVG: <span>Alex Klein .614</span></div>
+  <div class="ticker-stat">Top HR: <span>Alex Klein 5</span></div>
+  <div class="ticker-stat">Top RBI: <span>Brandon Sherwood 12</span></div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">⚾ OR AMI</div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showTab('stats')">Stats</button>
+    <button class="nav-link" onclick="showTab('leaders')">Leaders</button>
+    <button class="nav-link" onclick="showTab('gamelog')">Game Log</button>
+  </div>
+  <div style="font-size:12px;color:var(--muted)">2025 Season · <span style="color:var(--blue);font-weight:700">18 Players</span></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Or Ami Softball · 2025 Season</div>
+  <div class="hero-title">Team Stats</div>
+  <div class="hero-sub">18 players · Full season batting statistics</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">.420</div><div class="hero-stat-label">Team AVG</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">256</div><div class="hero-stat-label">Total Hits</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">139</div><div class="hero-stat-label">Runs Scored</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">116</div><div class="hero-stat-label">Total RBI</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">10</div><div class="hero-stat-label">Home Runs</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">.474</div><div class="hero-stat-label">Team OBP</div></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- SECTION: LEADERS -->
+  <div id="tab-leaders">
+    <div class="section-header">
+      <div><div class="section-label">Individual Leaders</div><div class="section-title">Leaderboard</div></div>
+    </div>
+    <div class="leaders-grid" id="leaders-grid"></div>
+  </div>
+
+  <!-- SECTION: STATS TABLE -->
+  <div id="tab-stats">
+    <div class="section-header">
+      <div><div class="section-label">2025 Season</div><div class="section-title">Full Stats · Click player for details</div></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="sortBy('avg')">Batting AVG</button>
+      <button class="tab" onclick="sortBy('ops')">OPS</button>
+      <button class="tab" onclick="sortBy('h')">Hits</button>
+      <button class="tab" onclick="sortBy('rbi')">RBI</button>
+      <button class="tab" onclick="sortBy('r')">Runs</button>
+    </div>
+    <div class="table-wrap">
+      <table id="stats-table">
+        <thead>
+          <tr>
+            <th onclick="sortBy('name')">#</th>
+            <th onclick="sortBy('name')" style="text-align:left">Player</th>
+            <th onclick="sortBy('gp')">GP</th>
+            <th onclick="sortBy('ab')">AB</th>
+            <th onclick="sortBy('h')">H</th>
+            <th onclick="sortBy('doubles')">2B</th>
+            <th onclick="sortBy('triples')">3B</th>
+            <th onclick="sortBy('hr')">HR</th>
+            <th onclick="sortBy('bb')">BB</th>
+            <th onclick="sortBy('r')">R</th>
+            <th onclick="sortBy('rbi')">RBI</th>
+            <th onclick="sortBy('avg')" class="sort-active">AVG ↓</th>
+            <th onclick="sortBy('obp')">OBP</th>
+            <th onclick="sortBy('slg')">SLG</th>
+            <th onclick="sortBy('ops')">OPS</th>
+          </tr>
+        </thead>
+        <tbody id="stats-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" style="display:none" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px">Or Ami · 2025 Season</div>
+        <div class="modal-name" id="modal-name"></div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('modal').style.display='none'">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="stat-grid" id="modal-stats"></div>
+      <div class="game-log-title">Game Log</div>
+      <div style="overflow-x:auto">
+        <table class="game-log-table">
+          <thead><tr><th>Game</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>BB</th><th>R</th><th>RBI</th></tr></thead>
+          <tbody id="modal-log"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PLAYERS = [{"name":"Alex Klein","gp":17,"ab":57,"h":35,"doubles":7,"triples":3,"hr":5,"bb":2,"r":21,"rbi":11,"avg":0.614,"obp":0.627,"slg":1.105,"ops":1.732},{"name":"Joel Rosen","gp":8,"ab":26,"h":14,"doubles":2,"triples":0,"hr":0,"bb":1,"r":10,"rbi":3,"avg":0.538,"obp":0.536,"slg":0.615,"ops":1.151},{"name":"James Russell","gp":14,"ab":47,"h":24,"doubles":6,"triples":1,"hr":0,"bb":0,"r":9,"rbi":11,"avg":0.511,"obp":0.5,"slg":0.681,"ops":1.181},{"name":"Cam Goodell","gp":2,"ab":6,"h":3,"doubles":0,"triples":0,"hr":0,"bb":1,"r":2,"rbi":0,"avg":0.5,"obp":0.571,"slg":0.5,"ops":1.071},{"name":"Jesse Goldberg","gp":17,"ab":47,"h":23,"doubles":1,"triples":0,"hr":0,"bb":8,"r":15,"rbi":7,"avg":0.489,"obp":0.544,"slg":0.511,"ops":1.055},{"name":"Ed OBrien","gp":15,"ab":50,"h":24,"doubles":1,"triples":0,"hr":2,"bb":1,"r":12,"rbi":11,"avg":0.48,"obp":0.49,"slg":0.62,"ops":1.11},{"name":"Dan Roomberg","gp":16,"ab":51,"h":22,"doubles":1,"triples":0,"hr":1,"bb":1,"r":7,"rbi":7,"avg":0.431,"obp":0.434,"slg":0.51,"ops":0.944},{"name":"Brandon Sherwood","gp":15,"ab":50,"h":21,"doubles":4,"triples":2,"hr":0,"bb":3,"r":9,"rbi":12,"avg":0.42,"obp":0.453,"slg":0.58,"ops":1.033},{"name":"Scott Lipner","gp":14,"ab":43,"h":18,"doubles":1,"triples":1,"hr":0,"bb":1,"r":5,"rbi":5,"avg":0.419,"obp":0.422,"slg":0.488,"ops":0.91},{"name":"Adam Taylor","gp":12,"ab":37,"h":15,"doubles":1,"triples":2,"hr":0,"bb":0,"r":6,"rbi":7,"avg":0.405,"obp":0.405,"slg":0.541,"ops":0.946},{"name":"Aidan Shaw","gp":17,"ab":52,"h":20,"doubles":1,"triples":1,"hr":0,"bb":5,"r":9,"rbi":5,"avg":0.385,"obp":0.431,"slg":0.442,"ops":0.873},{"name":"Matt Tomasco","gp":13,"ab":39,"h":15,"doubles":3,"triples":0,"hr":1,"bb":3,"r":3,"rbi":8,"avg":0.385,"obp":0.419,"slg":0.538,"ops":0.957},{"name":"David Lipner","gp":1,"ab":3,"h":1,"doubles":0,"triples":0,"hr":0,"bb":0,"r":0,"rbi":0,"avg":0.333,"obp":0.333,"slg":0.333,"ops":0.666},{"name":"Corey Reinhart","gp":12,"ab":39,"h":12,"doubles":1,"triples":1,"hr":0,"bb":3,"r":7,"rbi":7,"avg":0.308,"obp":0.357,"slg":0.385,"ops":0.742},{"name":"Mike Carr","gp":9,"ab":27,"h":8,"doubles":1,"triples":0,"hr":0,"bb":1,"r":4,"rbi":1,"avg":0.296,"obp":0.321,"slg":0.333,"ops":0.654},{"name":"Adam Rothberg","gp":5,"ab":12,"h":1,"doubles":0,"triples":0,"hr":0,"bb":1,"r":2,"rbi":2,"avg":0.083,"obp":0.143,"slg":0.083,"ops":0.226},{"name":"Dan Berger","gp":1,"ab":2,"h":0,"doubles":0,"triples":0,"hr":0,"bb":1,"r":0,"rbi":0,"avg":0.0,"obp":0.333,"slg":0.0,"ops":0.333},{"name":"Brad Abramson","gp":1,"ab":3,"h":0,"doubles":0,"triples":0,"hr":0,"bb":0,"r":0,"rbi":0,"avg":0.0,"obp":0.0,"slg":0.0,"ops":0.0}];
+
+const LOGS = {"James Russell":[{"g":1,"ab":4,"h":3,"2b":2,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":2,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":4,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":5,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":10,"ab":3,"h":3,"2b":2,"3b":1,"hr":0,"bb":0,"r":2,"rbi":3},{"g":11,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":2},{"g":13,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":2},{"g":14,"ab":5,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":16,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":17,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":4,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":2},{"g":19,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0}],"Alex Klein":[{"g":1,"ab":4,"h":3,"2b":0,"3b":1,"hr":0,"bb":0,"r":2,"rbi":0},{"g":2,"ab":3,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":3,"ab":3,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":0},{"g":4,"ab":3,"h":3,"2b":0,"3b":1,"hr":1,"bb":0,"r":3,"rbi":0},{"g":5,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":7,"ab":4,"h":4,"2b":0,"3b":0,"hr":1,"bb":0,"r":3,"rbi":2},{"g":8,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":9,"ab":3,"h":3,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":10,"ab":4,"h":1,"2b":0,"3b":0,"hr":1,"bb":0,"r":1,"rbi":2},{"g":11,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":12,"ab":4,"h":3,"2b":0,"3b":1,"hr":1,"bb":0,"r":2,"rbi":3},{"g":13,"ab":4,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":1,"rbi":0},{"g":16,"ab":3,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":17,"ab":4,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":4,"h":3,"2b":2,"3b":0,"hr":1,"bb":0,"r":2,"rbi":4}],"Joel Rosen":[{"g":1,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":2},{"g":2,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":4,"ab":3,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":0},{"g":8,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":11,"ab":2,"h":2,"2b":0,"3b":0,"hr":0,"bb":1,"r":1,"rbi":0},{"g":12,"ab":4,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":0},{"g":16,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":2,"rbi":0},{"g":17,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Corey Reinhart":[{"g":1,"ab":2,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":2},{"g":5,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":1,"2b":0,"3b":1,"hr":0,"bb":0,"r":1,"rbi":1},{"g":8,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":10,"ab":4,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":11,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":2,"rbi":1},{"g":13,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":14,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":1},{"g":16,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1}],"Ed OBrien":[{"g":1,"ab":3,"h":2,"2b":1,"3b":0,"hr":1,"bb":1,"r":2,"rbi":2},{"g":2,"ab":3,"h":3,"2b":0,"3b":0,"hr":1,"bb":0,"r":2,"rbi":1},{"g":3,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":4,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":5,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":2},{"g":8,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":2},{"g":10,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":11,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":13,"ab":4,"h":4,"2b":0,"3b":0,"hr":0,"bb":0,"r":3,"rbi":0},{"g":15,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":16,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":2},{"g":17,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":4,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0}],"Mike Carr":[{"g":1,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":2,"ab":2,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":9,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":10,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":14,"ab":3,"h":2,"2b":1,"3b":0,"hr":0,"bb":1,"r":2,"rbi":0},{"g":17,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0}],"Adam Taylor":[{"g":1,"ab":4,"h":2,"2b":0,"3b":1,"hr":0,"bb":0,"r":1,"rbi":1},{"g":3,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":4,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":5,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":2,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":2},{"g":8,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":10,"ab":3,"h":2,"2b":0,"3b":1,"hr":0,"bb":0,"r":1,"rbi":0},{"g":11,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":14,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":2},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Dan Roomberg":[{"g":1,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":3},{"g":2,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":3,"ab":3,"h":1,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":4,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":5,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":1,"2b":0,"3b":0,"hr":1,"bb":0,"r":1,"rbi":2},{"g":8,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":9,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":11,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":2,"rbi":1},{"g":13,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":14,"ab":4,"h":3,"2b":0,"3b":0,"hr":0,"bb":1,"r":2,"rbi":0},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":16,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":17,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Jesse Goldberg":[{"g":1,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":1,"r":2,"rbi":2},{"g":2,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":1,"rbi":1},{"g":3,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":2,"rbi":0},{"g":4,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":1,"rbi":0},{"g":5,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":7,"ab":3,"h":3,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":8,"ab":2,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":9,"ab":3,"h":3,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":10,"ab":0,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":2},{"g":11,"ab":2,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":2,"rbi":0},{"g":13,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":14,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":2,"r":2,"rbi":0},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":16,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":4,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":2,"rbi":2}],"Brandon Sherwood":[{"g":1,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":3,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":3},{"g":4,"ab":2,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":6,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":8,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":9,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":10,"ab":4,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":3,"rbi":1},{"g":11,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":12,"ab":4,"h":3,"2b":0,"3b":2,"hr":0,"bb":0,"r":1,"rbi":3},{"g":13,"ab":4,"h":3,"2b":1,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":14,"ab":4,"h":2,"2b":1,"3b":0,"hr":0,"bb":1,"r":1,"rbi":2},{"g":15,"ab":2,"h":2,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":16,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":17,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":18,"ab":4,"h":1,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Aidan Shaw":[{"g":1,"ab":4,"h":3,"2b":1,"3b":1,"hr":0,"bb":0,"r":3,"rbi":3},{"g":2,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":3,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":4,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":5,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":8,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":9,"ab":2,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":11,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":13,"ab":4,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":14,"ab":1,"h":1,"2b":0,"3b":0,"hr":0,"bb":4,"r":2,"rbi":0},{"g":15,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":16,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":17,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":4,"h":3,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Scott Lipner":[{"g":1,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":2,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":3,"ab":3,"h":1,"2b":0,"3b":1,"hr":0,"bb":0,"r":0,"rbi":2},{"g":5,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0},{"g":8,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":12,"ab":4,"h":3,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":13,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":14,"ab":3,"h":2,"2b":1,"3b":0,"hr":0,"bb":1,"r":1,"rbi":1},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":16,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":17,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":18,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Matt Tomasco":[{"g":4,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":6,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":4,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":8,"ab":3,"h":3,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":9,"ab":3,"h":1,"2b":1,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":10,"ab":4,"h":3,"2b":1,"3b":0,"hr":1,"bb":0,"r":2,"rbi":1},{"g":11,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":12,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":13,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":15,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":2},{"g":16,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":17,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":18,"ab":2,"h":1,"2b":1,"3b":0,"hr":0,"bb":0,"r":1,"rbi":2}],"David Lipner":[{"g":2,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0}],"Adam Rothberg":[{"g":2,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":1},{"g":3,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0},{"g":7,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":1},{"g":9,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0},{"g":10,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":1,"rbi":0}],"Dan Berger":[{"g":3,"ab":2,"h":0,"2b":0,"3b":0,"hr":0,"bb":1,"r":0,"rbi":0}],"Cam Goodell":[{"g":1,"ab":3,"h":2,"2b":0,"3b":0,"hr":0,"bb":1,"r":2,"rbi":0},{"g":6,"ab":3,"h":1,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0}],"Brad Abramson":[{"g":3,"ab":3,"h":0,"2b":0,"3b":0,"hr":0,"bb":0,"r":0,"rbi":0}]};
+
+const fmt = n => n >= 1 ? '1.000' : n.toFixed(3).replace(/^0/,'.');
+
+let sortKey = 'avg', sortDir = -1;
+let data = [...PLAYERS];
+
+function sortBy(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = -1; }
+  data.sort((a,b) => {
+    if (key==='name') return sortDir * a.name.localeCompare(b.name);
+    return sortDir * ((b[key]||0) - (a[key]||0));
+  });
+  renderTable();
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('th').forEach(t => t.classList.remove('sort-active'));
+}
+
+function renderTable() {
+  const tbody = document.getElementById('stats-tbody');
+  tbody.innerHTML = data.map((p,i) => `
+    <tr onclick="openPlayer('${p.name}')">
+      <td><span class="rank">${i+1}</span></td>
+      <td style="font-weight:700;color:#111">${p.name}</td>
+      <td>${p.gp}</td>
+      <td>${p.ab}</td>
+      <td>${p.h}</td>
+      <td>${p.doubles}</td>
+      <td>${p.triples}</td>
+      <td>${p.hr}</td>
+      <td>${p.bb}</td>
+      <td>${p.r}</td>
+      <td>${p.rbi}</td>
+      <td class="highlight">${fmt(p.avg)}</td>
+      <td style="color:#0057FF">${fmt(p.obp)}</td>
+      <td>${fmt(p.slg)}</td>
+      <td style="font-weight:700;color:#333">${fmt(p.ops)}</td>
+    </tr>`).join('');
+}
+
+function renderLeaders() {
+  const cats = [
+    {key:'avg',label:'Batting AVG',fmt:fmt},
+    {key:'obp',label:'OBP',fmt:fmt},
+    {key:'ops',label:'OPS',fmt:fmt},
+    {key:'h',label:'Hits',fmt:v=>v},
+    {key:'hr',label:'Home Runs',fmt:v=>v},
+    {key:'rbi',label:'RBI',fmt:v=>v},
+    {key:'r',label:'Runs',fmt:v=>v},
+    {key:'doubles',label:'Doubles',fmt:v=>v},
+  ];
+  const grid = document.getElementById('leaders-grid');
+  grid.innerHTML = cats.map(cat => {
+    const sorted = [...PLAYERS].sort((a,b)=>(b[cat.key]||0)-(a[cat.key]||0));
+    const top = sorted[0];
+    const rest = sorted.slice(1,5);
+    return `
+      <div class="leader-box" onclick="openPlayer('${top.name}')">
+        <div class="leader-box-label">${cat.label}</div>
+        <div class="leader-box-val">${cat.fmt(top[cat.key])}</div>
+        <div class="leader-box-name">${top.name}</div>
+        <div class="leader-box-rest">${rest.map(p=>`<span style="color:#999;font-size:11px">${p.name.split(' ')[1]} ${cat.fmt(p[cat.key])}</span>`).join(' · ')}</div>
+      </div>`;
+  }).join('');
+}
+
+function openPlayer(name) {
+  const p = PLAYERS.find(x=>x.name===name);
+  const log = LOGS[name] || [];
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-stats').innerHTML = [
+    ['AVG',fmt(p.avg)],['OBP',fmt(p.obp)],['SLG',fmt(p.slg)],['OPS',fmt(p.ops)],
+    ['GP',p.gp],['AB',p.ab],['H',p.h],['HR',p.hr],
+    ['RBI',p.rbi],['R',p.r],['2B',p.doubles],['BB',p.bb]
+  ].map(([l,v])=>`<div class="stat-box"><div class="stat-box-val">${v}</div><div class="stat-box-label">${l}</div></div>`).join('');
+  document.getElementById('modal-log').innerHTML = log.map(g=>`
+    <tr>
+      <td>Game ${g.g}</td>
+      <td>${g.ab}</td>
+      <td class="${g.h>0?'hit':''}">${g.h}</td>
+      <td>${g['2b']||'—'}</td>
+      <td>${g['3b']||'—'}</td>
+      <td>${g.hr||'—'}</td>
+      <td>${g.bb||'—'}</td>
+      <td>${g.r||'—'}</td>
+      <td>${g.rbi||'—'}</td>
+    </tr>`).join('');
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal(e) {
+  if (e.target.id==='modal') document.getElementById('modal').style.display='none';
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+renderTable();
+renderLeaders();
+</script>
+</body>
+</html>

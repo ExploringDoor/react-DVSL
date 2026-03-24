@@ -66,6 +66,7 @@ export default function App() {
           <Route path="/playoffs"      element={<Playoffs />} />
           <Route path="/rules"         element={<Rules />} />
           <Route path="/photos"        element={<Photos />} />
+          <Route path="/schedule2"      element={<Schedule2 />} />
           <Route path="/index.html"         element={<Navigate to="/" replace />} />
           <Route path="/schedule.html"      element={<Navigate to="/schedule" replace />} />
           <Route path="/standings-history.html" element={<Navigate to="/standings" replace />} />
