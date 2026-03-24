@@ -30,8 +30,7 @@ export default function Navbar() {
         position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 16px', height: 62,
-        background: '#ffffff', borderBottom: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        background: '#ffffff', borderBottom: '3px solid #0057FF', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
       }}>
         <Link to="/" style={{ textDecoration:'none', flexShrink:0, display:'flex', alignItems:'center', gap:10 }}>
           <img src="/dvsl-logo.png" alt="DVSL" style={{ height:36, width:36, objectFit:'contain', filter:'drop-shadow(0 0 8px rgba(59,130,246,0.5))' }} />
